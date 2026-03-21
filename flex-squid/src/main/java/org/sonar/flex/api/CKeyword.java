@@ -14,7 +14,7 @@
  * You should have received a copy of the Sonar Source-Available License
  * along with this program; if not, see https://sonarsource.com/license/ssal/
  */
-package org.sonar.flex;
+package org.sonar.flex.api;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,7 +23,7 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 import org.sonar.sslr.grammar.GrammarRuleKey;
 
-public enum FlexKeyword implements GrammarRuleKey {
+public enum CKeyword implements GrammarRuleKey {
 
   /**
    * "as" is not keyword in ActionScript 2, so we treat it as syntactic keyword
@@ -52,6 +52,7 @@ public enum FlexKeyword implements GrammarRuleKey {
   INTERFACE,
   INTERNAL,
   IS,
+  main,
   NEW,
   NULL,
   PACKAGE,
@@ -71,34 +72,7 @@ public enum FlexKeyword implements GrammarRuleKey {
   VOID,
   WHILE,
   WITH,
-  // added by stuti
-  asm(true),
-  LONG(true),
-  AUTO(true),
 
-  ENUM(true),
-  EXTERN(true),
-
-  REGISTER(true),
-  UNION(true),
-  __FAR(true),
-  __NEAR(true),
-  unsigned(true),
-  CHAR(true),
-  FLOAT(true),
-  SHORT(true),
-  __USER_LOCK__,
-  signed(true),
-  __USER_UNLOCK__(true),
-  GOTO(true),
-  sizeof(true),
-  __STACK_NUMBER__(true),
-  VOLATILE(true),
-  inline(true),
-  TYPEDEF(true),
-  DOUBLE(true),
-  INT(true),
-  STRUCT(true),
   EACH(true),
   GET(true),
   SET(true),
@@ -106,10 +80,8 @@ public enum FlexKeyword implements GrammarRuleKey {
   INCLUDE(true),
   DYNAMIC(true),
   FINAL(true),
-  // "native" strangely appears in both the "keywords" and "syntactic keywords"
-  // lists of the language spec
-  // It seems that "native" is accepted as a valid identifier by the compiler and
-  // should be considered as a "syntactic keyword"
+  // "native" strangely appears in both the "keywords" and "syntactic keywords" lists of the language spec
+  // It seems that "native" is accepted as a valid identifier by the compiler and should be considered as a "syntactic keyword"
   NATIVE(true),
   OVERRIDE(true),
   STATIC(true),
@@ -117,28 +89,28 @@ public enum FlexKeyword implements GrammarRuleKey {
 
   private final boolean syntactic;
 
-  FlexKeyword() {
+  CKeyword() {
     this(false);
   }
 
-  FlexKeyword(boolean syntactic) {
+  CKeyword(boolean syntactic) {
     this.syntactic = syntactic;
   }
 
   public static String[] keywordValues() {
-    String[] keywordsValue = new String[FlexKeyword.values().length];
+    String[] keywordsValue = new String[CKeyword.values().length];
     int i = 0;
-    for (FlexKeyword keyword : FlexKeyword.values()) {
+    for (CKeyword keyword : CKeyword.values()) {
       keywordsValue[i] = keyword.getValue();
       i++;
     }
     return keywordsValue;
   }
 
-  public static List<FlexKeyword> keywords() {
+  public static List<CKeyword> keywords() {
     return Collections.unmodifiableList(Arrays.stream(values())
-        .filter(flexKeyword -> !flexKeyword.syntactic)
-        .collect(Collectors.toList()));
+      .filter(cKeyword -> !cKeyword.syntactic)
+      .collect(Collectors.toList()));
   }
 
   public String getValue() {
