@@ -35,6 +35,7 @@ public enum CPunctuator implements GrammarRuleKey {
   STAR("*"),
   PLUS("+"),
   MINUS("-"),
+  ARROW("->"),
   DOUBLE_PLUS("++"),
   DOUBLE_MINUS("--"),
   DIV("/"),
