@@ -44,7 +44,7 @@
 
   <modules>
     <module>c-squid</module>
-    <module>flex-checks</module>
+    <module>c-checks</module>
     <module>sonar-c-plugin</module>
     <module>sslr-c-toolkit</module>
     <module>its</module>
@@ -95,7 +95,7 @@
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>flex-checks</artifactId>
+        <artifactId>c-checks</artifactId>
         <version>${project.version}</version>
       </dependency>
 

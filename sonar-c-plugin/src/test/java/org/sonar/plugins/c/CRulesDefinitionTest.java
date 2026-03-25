@@ -22,7 +22,7 @@ import org.sonar.api.internal.SonarRuntimeImpl;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinition.Rule;
 import org.sonar.api.utils.Version;
-import org.sonar.flex.checks.CheckList;
+import org.sonar.c.checks.CheckList;
 import org.sonar.plugins.c.CRulesDefinition;
 
 import static org.assertj.core.api.Assertions.assertThat;

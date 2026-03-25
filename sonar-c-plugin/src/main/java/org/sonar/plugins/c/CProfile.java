@@ -17,13 +17,13 @@
 package org.sonar.plugins.c;
 
 import org.sonar.api.server.profile.BuiltInQualityProfilesDefinition;
-import org.sonar.flex.checks.CheckList;
+import org.sonar.c.checks.CheckList;
 import org.sonar.plugins.c.core.C;
 import org.sonarsource.analyzer.commons.BuiltInQualityProfileJsonLoader;
 
 public class CProfile implements BuiltInQualityProfilesDefinition {
 
-  public static final String SONAR_WAY_PROFILE_PATH = "org/sonar/l10n/flex/rules/flex/Sonar_way_profile.json";
+  public static final String SONAR_WAY_PROFILE_PATH = "org/sonar/l10n/c/rules/c/Sonar_way_profile.json";
 
   @Override
   public void define(Context context) {

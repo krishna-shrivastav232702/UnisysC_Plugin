@@ -1,0 +1,34 @@
+/*
+ * SonarQube Flex Plugin
+ * Copyright (C) 2010-2025 SonarSource Sàrl
+ * mailto:info AT sonarsource DOT com
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the Sonar Source-Available License Version 1, as published by SonarSource SA.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the Sonar Source-Available License for more details.
+ *
+ * You should have received a copy of the Sonar Source-Available License
+ * along with this program; if not, see https://sonarsource.com/license/ssal/
+ */
+package org.sonar.c.checks;
+
+import java.io.File;
+import org.junit.jupiter.api.Test;
+import org.sonar.c.checks.FunctionComplexityCheck;
+
+public class FunctionComplexityCheckTest {
+
+  @Test
+  public void test() {
+    FunctionComplexityCheck check = new FunctionComplexityCheck();
+    // Function complexity can't be less than 1
+    check.setMaximumFunctionComplexityThreshold(0);
+
+    FlexVerifier.verify(new File("src/test/resources/checks/FunctionComplexity.as"), check);
+  }
+
+}

@@ -1,0 +1,134 @@
+/*
+ * SonarQube Flex Plugin
+ * Copyright (C) 2010-2025 SonarSource Sàrl
+ * mailto:info AT sonarsource DOT com
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the Sonar Source-Available License Version 1, as published by SonarSource SA.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the Sonar Source-Available License for more details.
+ *
+ * You should have received a copy of the Sonar Source-Available License
+ * along with this program; if not, see https://sonarsource.com/license/ssal/
+ */
+package org.sonar.c.checks;
+
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.AstNodeType;
+import java.text.MessageFormat;
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.Nullable;
+
+import org.sonar.c.CCheck;
+import org.sonar.c.CGrammar;
+import org.sonar.c.api.CKeyword;
+import org.sonar.c.checks.utils.Clazz;
+import org.sonar.c.checks.utils.Function;
+import org.sonar.c.checks.utils.Modifiers;
+import org.sonar.c.checks.utils.Variable;
+import org.sonar.check.Rule;
+
+@Rule(key = "S1117")
+public class LocalVarShadowsFieldCheck extends CCheck {
+
+
+  private static class ClassState {
+    private final Map<String, AstNode> classFields;
+    private final String className;
+
+    public ClassState(AstNode classDef) {
+      className = Clazz.getName(classDef);
+      this.classFields = new HashMap<>();
+      initFieldsMap(classDef);
+    }
+
+    private void initFieldsMap(AstNode classDef) {
+      for (AstNode varDeclStatement : Clazz.getFields(classDef)) {
+
+        for (AstNode identifier : Variable.getDeclaredIdentifiers(varDeclStatement)) {
+          classFields.put(identifier.getTokenValue(), identifier);
+        }
+      }
+    }
+
+    public AstNode getFieldNamed(String name) {
+      return classFields.get(name);
+    }
+
+    public String getClassName() {
+      return this.className;
+    }
+  }
+
+  private Deque<ClassState> classStack = new ArrayDeque<>();
+  private int functionNestedLevel;
+  private static final String MESSAGE = "Rename \"{0}\" which hides the field declared at line {1}.";
+
+  @Override
+  public List<AstNodeType> subscribedTo() {
+    return Arrays.asList(
+      CGrammar.CLASS_DEF,
+      CGrammar.FUNCTION_DEF,
+      CGrammar.VARIABLE_DECLARATION_STATEMENT);
+  }
+
+  @Override
+  public void visitFile(@Nullable AstNode astNode) {
+    classStack.clear();
+    functionNestedLevel = 0;
+  }
+
+  @Override
+  public void visitNode(AstNode node) {
+    if (node.is(CGrammar.CLASS_DEF)) {
+      classStack.push(new ClassState(node));
+    } else if (isClassFunctionNotConstructor(node) && !isAccessor(node) && !isStatic(node)) {
+      functionNestedLevel++;
+    } else if (!classStack.isEmpty() && functionNestedLevel > 0 && node.is(CGrammar.VARIABLE_DECLARATION_STATEMENT)) {
+      checkVariableNames(node);
+    }
+  }
+
+  private boolean isClassFunctionNotConstructor(AstNode node) {
+    return !classStack.isEmpty() && node.is(CGrammar.FUNCTION_DEF)
+      && !Function.isConstructor(node, classStack.peek().getClassName());
+  }
+
+  private static boolean isStatic(AstNode functionDef) {
+    return Modifiers.getModifiers(functionDef.getParent().getPreviousAstNode()).contains(CKeyword.STATIC);
+  }
+
+  private static boolean isAccessor(AstNode functionDef) {
+    String functionName = Function.getName(functionDef);
+    return Function.isAccessor(functionDef)
+      || (functionName.length() > 2 && "set".equals(functionName.substring(0, 3)));
+  }
+
+  private void checkVariableNames(AstNode varDeclStatement) {
+    for (AstNode identifier : Variable.getDeclaredIdentifiers(varDeclStatement)) {
+      String varName = identifier.getTokenValue();
+      AstNode field = classStack.peek().getFieldNamed(varName);
+
+      if (field != null) {
+        addIssue(MessageFormat.format(MESSAGE, varName, field.getToken().getLine()), identifier);
+      }
+    }
+  }
+
+  @Override
+  public void leaveNode(AstNode astNode) {
+    if (astNode.is(CGrammar.CLASS_DEF)) {
+      classStack.pop();
+    } else if (!classStack.isEmpty() && astNode.is(CGrammar.FUNCTION_DEF) && functionNestedLevel > 0) {
+      functionNestedLevel--;
+    }
+  }
+}

@@ -21,14 +21,14 @@ import java.util.HashSet;
 import java.util.Set;
 import org.sonar.api.SonarRuntime;
 import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.flex.checks.CheckList;
+import org.sonar.c.checks.CheckList;
 import org.sonar.plugins.c.core.C;
 import org.sonarsource.analyzer.commons.RuleMetadataLoader;
 
 public final class CRulesDefinition implements RulesDefinition {
 
   private static final String REPOSITORY_NAME = "Unisys_C_Analyzer";
-  private static final String RESOURCE_BASE_PATH = "org/sonar/l10n/flex/rules/flex";
+  private static final String RESOURCE_BASE_PATH = "org/sonar/l10n/c/rules/c";
   private static final Set<String> TEMPLATE_RULE_KEYS = new HashSet<>(Arrays.asList("XPath", "CommentRegularExpression"));
 
   private final SonarRuntime sonarRuntime;

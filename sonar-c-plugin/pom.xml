@@ -45,7 +45,7 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>flex-checks</artifactId>
+      <artifactId>c-checks</artifactId>
     </dependency>
 
     <dependency>
@@ -137,6 +137,7 @@
         <configuration>
           <!-- this value is translated to Sonar-Version property in META-INF/MANIFEST.MF file inside jar. It is used at runtime
           by products to detect compatibility. We keep LTS -->
+          <pluginClass>org.sonar.plugins.c.CPlugin</pluginClass>
           <pluginApiMinVersion>9.9</pluginApiMinVersion>
           <requiredForLanguages>c</requiredForLanguages>
         </configuration>

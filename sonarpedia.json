@@ -1,5 +1,5 @@
 {
-  "rules-metadata-path": "./flex-checks/src/main/resources/org/sonar/l10n/flex/rules/flex",
+  "rules-metadata-path": "./c-checks/src/main/resources/org/sonar/l10n/c/rules/c",
   "languages": [
     "FLEX"
   ],

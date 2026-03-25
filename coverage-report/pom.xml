@@ -18,7 +18,7 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>flex-checks</artifactId>
+      <artifactId>c-checks</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
