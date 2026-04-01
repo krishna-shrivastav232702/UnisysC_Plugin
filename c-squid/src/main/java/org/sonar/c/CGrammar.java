@@ -75,7 +75,15 @@ import static org.sonar.c.api.CKeyword.VOID;
 import static org.sonar.c.api.CKeyword.WHILE;
 import static org.sonar.c.api.CKeyword.WITH;
 import static org.sonar.c.api.CKeyword.XML;
-import static org.sonar.c.api.CKeyword.main;
+import static org.sonar.c.api.CKeyword.CHAR;
+import static org.sonar.c.api.CKeyword.INT;
+import static org.sonar.c.api.CKeyword.FLOAT;
+import static org.sonar.c.api.CKeyword.DOUBLE;
+import static org.sonar.c.api.CKeyword.SIGNED;
+import static org.sonar.c.api.CKeyword.UNSIGNED;
+import static org.sonar.c.api.CKeyword.LONG;
+import static org.sonar.c.api.CKeyword.SHORT;
+import static org.sonar.c.api.CKeyword.EXTERN;
 import static org.sonar.c.api.CPunctuator.AND;
 import static org.sonar.c.api.CPunctuator.ANDAND;
 import static org.sonar.c.api.CPunctuator.ANDAND_EQU;
@@ -95,6 +103,7 @@ import static org.sonar.c.api.CPunctuator.EQUAL2;
 import static org.sonar.c.api.CPunctuator.EQUAL3;
 import static org.sonar.c.api.CPunctuator.GE;
 import static org.sonar.c.api.CPunctuator.GT;
+import static org.sonar.c.api.CPunctuator.HASH;
 import static org.sonar.c.api.CPunctuator.LBRAKET;
 import static org.sonar.c.api.CPunctuator.LCURLYBRACE;
 import static org.sonar.c.api.CPunctuator.LE;
@@ -138,6 +147,8 @@ public enum CGrammar implements GrammarRuleKey {
     // for C - 
     LABEL,
     LABEL_NAME,
+    TYPE_QUALIFIER,
+    TYPE_SPECIFIER,
 
     WHITESPACE,
     SPACING,
@@ -809,7 +820,7 @@ public enum CGrammar implements GrammarRuleKey {
 
         b.rule(IMPORT_DIRECTIVE).is(IMPORT, LABEL, b.optional(DOT, STAR));
 
-        b.rule(INCLUDE_DIRECTIVE).is(INCLUDE, /* No line break */ SPACING_NO_LB, NEXT_NOT_LB, STRING);
+        b.rule(INCLUDE_DIRECTIVE).is(HASH, INCLUDE, SPACING_NO_LB, NEXT_NOT_LB, b.firstOf(STRING, b.sequence(LT, b.regexp("[^>\\r\\n]++"), GT)));
 
         b.rule(USE_DIRECTIVE).is(USE, NAMESPACE, LIST_EXPRESSION);
 
@@ -818,7 +829,7 @@ public enum CGrammar implements GrammarRuleKey {
     }
 
     private static void definitions(LexerlessGrammarBuilder b) {
-        b.rule(VARIABLE_DEF).is(VARIABLE_DEF_KIND, VARIABLE_BINDING_LIST);
+        b.rule(VARIABLE_DEF).is(b.optional(TYPE_QUALIFIER), TYPE_SPECIFIER, VARIABLE_BINDING_LIST, EOS);
         b.rule(VARIABLE_DEF_NO_IN).is(VARIABLE_DEF_KIND, VARIABLE_BINDING_LIST_NO_IN);
 
         b.rule(VARIABLE_DEF_KIND).is(b.firstOf(VAR, CONST));
@@ -846,11 +857,22 @@ public enum CGrammar implements GrammarRuleKey {
                 b.sequence(IDENTIFIER, COLON, TYPE_EXPR_NO_IN),
                 IDENTIFIER));
 
-        b.rule(FUNCTION_DEF).is(FUNCTION, FUNCTION_NAME, FUNCTION_COMMON);
-        b.rule(FUNCTION_NAME).is(b.firstOf(
-                b.sequence(GET, /* No line break */ SPACING_NO_LB, NEXT_NOT_LB, IDENTIFIER),
-                b.sequence(SET, /* No line break */ SPACING_NO_LB, NEXT_NOT_LB, IDENTIFIER),
-                IDENTIFIER));
+        b.rule(FUNCTION_DEF).is(TYPE_SPECIFIER, FUNCTION_NAME, FUNCTION_COMMON);
+    b.rule(TYPE_SPECIFIER).is(
+      b.firstOf(
+        VOID,
+        INT,
+        CHAR,
+        FLOAT,
+        DOUBLE,
+        UNSIGNED,
+        SIGNED,
+        LONG,
+        SHORT
+      )
+    );
+    b.rule(FUNCTION_NAME).is(IDENTIFIER);
+    b.rule(TYPE_QUALIFIER).is(CONST, STATIC, EXTERN);
 
         b.rule(FUNCTION_COMMON).is(b.firstOf(
                 b.sequence(FUNCTION_SIGNATURE, BLOCK),
@@ -902,10 +924,12 @@ public enum CGrammar implements GrammarRuleKey {
          * b.token(GenericTokenType.EOF, b.endOfInput()));
          */
 
-        b.rule(PROGRAM).is(
-                b.optional(DIRECTIVES), main, LPARENTHESIS, RPARENTHESIS, LCURLYBRACE, RCURLYBRACE,
-                SPACING,
-                b.token(GenericTokenType.EOF, b.endOfInput()));
+b.rule(PROGRAM).is(
+      b.zeroOrMore(INCLUDE_DIRECTIVE),
+      b.zeroOrMore(FUNCTION_DEF),
+      SPACING,
+      b.token(GenericTokenType.EOF, b.endOfInput())
+    );
     }
 
     private static void xml(LexerlessGrammarBuilder b) {

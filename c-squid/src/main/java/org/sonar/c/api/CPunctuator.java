@@ -21,6 +21,7 @@ import org.sonar.sslr.grammar.GrammarRuleKey;
 public enum CPunctuator implements GrammarRuleKey {
 
   AT_SIGN("@"),
+  HASH("#"),
   COMMA(","),
   COLON(":"),
   DOUBLE_COLON("::"),
