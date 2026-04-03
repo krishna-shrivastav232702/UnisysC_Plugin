@@ -25,7 +25,9 @@ public class CKeywordTest {
 
   @Test
   public void test() {
-    assertThat(CKeyword.values().length).isEqualTo(40);
+    assertThat(CKeyword.values().length).isEqualTo(77
+
+    );
     assertThat(CKeyword.keywordValues().length).isEqualTo(CKeyword.values().length);
   }
 

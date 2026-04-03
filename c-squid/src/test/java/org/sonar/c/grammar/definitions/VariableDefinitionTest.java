@@ -27,8 +27,8 @@ public class VariableDefinitionTest {
 
   @Test
   public void test() {
-    Assertions.assertThat(g.rule(CGrammar.VARIABLE_DEF))
-      .matches("var a")
-      .matches("const a");
+    Assertions.assertThat(g.rule(CGrammar.DECLARATION))
+        .matches("int a;")
+        .matches("int a = 1;");
   }
 }

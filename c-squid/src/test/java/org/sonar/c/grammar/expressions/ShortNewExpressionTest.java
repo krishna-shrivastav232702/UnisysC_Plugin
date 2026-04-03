@@ -16,6 +16,7 @@
  */
 package org.sonar.c.grammar.expressions;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.sonar.c.CGrammar;
 import org.sonar.sslr.parser.LexerlessGrammar;
@@ -25,12 +26,14 @@ public class ShortNewExpressionTest {
 
   private final LexerlessGrammar g = CGrammar.createGrammar();
 
+  // there is no new keyword in C
+  @Disabled
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.SHORT_NEW_EXPR))
-      .matches("new a")
-      .matches("new new a")
+        .matches("new a")
+        .matches("new new a")
 
-      .matches("new <int>[1]");
+        .matches("new <int>[1]");
   }
 }

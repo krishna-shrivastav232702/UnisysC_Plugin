@@ -28,13 +28,8 @@ public class FunctionDefinitionTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.FUNCTION_DEF))
-      .matches("function name () {}")
-      .matches("function name () ;")
-
-      .matches("function get name ()")
-      .notMatches("function get \n name ()")
-
-      .matches("function set name ()")
-      .notMatches("function set \n name ()");
+        .matches("int main() { return 0; }")
+        .matches("void foo(int x) { }")
+        .matches("int bar() { int x = 1; return x; }");
   }
 }

@@ -5,11 +5,11 @@
 /*
 Multi-line comment
 */
-public class Foo {
+
+int foo() {
   //
   // Inline comment
   //
-  public function foo() {
-    // NOSONAR comment
-  }
+  // NOSONAR comment
+  return 0;
 }

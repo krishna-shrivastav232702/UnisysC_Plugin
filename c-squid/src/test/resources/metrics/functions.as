@@ -1,11 +1,11 @@
-public class Foo {
-  public function foo() {
-  }
+int foo() {
+  return 0;
+}
 
-  public function bar() {
-  }
+int bar() {
+  return 0;
+}
 
-  public static const TLS_CERT:Array = [
-    {defaultValue: function():Sequence{}()}
-  ];
+int baz() {
+  return 0;
 }

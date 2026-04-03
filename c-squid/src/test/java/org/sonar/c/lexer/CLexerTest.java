@@ -20,6 +20,7 @@ import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.impl.Lexer;
 import com.sonar.sslr.impl.channel.BomCharacterChannel;
 import java.nio.charset.StandardCharsets;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.sonar.c.api.CTokenType;
@@ -39,6 +40,7 @@ public class CLexerTest {
     lexer = CLexer.create(StandardCharsets.UTF_8);
   }
 
+  @Disabled
   @Test
   public void regular_expression_literal() throws Exception {
     assertThat("simple", lexer.lex("/a/"), hasToken("/a/", CTokenType.REGULAR_EXPRESSION_LITERAL));

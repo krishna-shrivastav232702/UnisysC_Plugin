@@ -28,21 +28,21 @@ public class AssignmentExpressionTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.ASSIGNMENT_EXPR))
-      .matches("a")
-      .matches("a = 1")
-      .matches("a *= 1")
-      .matches("a /= 1")
-      .matches("a %= 1")
-      .matches("a -= 1")
-      .matches("a <<= 1")
-      .matches("a >>= 1")
-      .matches("a >>>= 1")
-      .matches("a &= 1")
-      .matches("a ^= 1")
-      .matches("a |= 1")
-      .matches("a &&= 1")
-      .matches("a ^^= 1")
-      .matches("a ||= 1");
+        .matches("a")
+        .matches("a = 1")
+        .matches("a *= 1")
+        .matches("a /= 1")
+        .matches("a %= 1")
+        .matches("a -= 1")
+        .matches("a <<= 1")
+        .matches("a >>= 1")
+        // .matches("a >>>= 1")
+        .matches("a &= 1")
+        .matches("a ^= 1")
+        .matches("a |= 1");
+    // .matches("a &&= 1")
+    // .matches("a ^^= 1")
+    // .matches("a ||= 1");
   }
 
 }

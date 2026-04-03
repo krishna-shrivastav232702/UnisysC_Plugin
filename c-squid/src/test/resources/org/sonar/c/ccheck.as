@@ -1,3 +1,3 @@
-var x = foo();
+int main() {
 x = 42;
-foo();
+}

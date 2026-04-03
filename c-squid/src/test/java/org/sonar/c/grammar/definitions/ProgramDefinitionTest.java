@@ -21,16 +21,16 @@ import org.sonar.c.CGrammar;
 import org.sonar.sslr.parser.LexerlessGrammar;
 import org.sonar.sslr.tests.Assertions;
 
-public class ClassDefinitionTest {
+public class ProgramDefinitionTest {
 
   private final LexerlessGrammar g = CGrammar.createGrammar();
 
   @Test
-  public void classWithStaticAtribute() {
-    Assertions.assertThat(g.rule(CGrammar.CLASS_DEF))
-      .matches("class a {}")
-      .matches("class a extends b {}")
-      .matches("class Base { public static var test:String = \"static\";}");
-
+  public void test() {
+    Assertions.assertThat(g.rule(CGrammar.PROGRAM))
+      .matches("#include <stdio.h> int main() { return 0; }")
+      .matches("int foo() { } int main() { foo(); return 0; }");
   }
+
+
 }

@@ -21,16 +21,16 @@ import org.sonar.c.CGrammar;
 import org.sonar.sslr.parser.LexerlessGrammar;
 import org.sonar.sslr.tests.Assertions;
 
-public class ProgramDefintionTest {
+public class DeclarationTest {
 
   private final LexerlessGrammar g = CGrammar.createGrammar();
 
   @Test
-  public void test() {
-    Assertions.assertThat(g.rule(CGrammar.PROGRAM))
-      .matches("package A { function f() {} }")
-      .matches("package A { function f() {} } A.f();");
+  public void declaration() {
+    Assertions.assertThat(g.rule(CGrammar.DECLARATION))
+        .matches("int x;")
+        .matches("int x = 1;")
+        .matches("int x, y;");
+
   }
-
-
 }

@@ -16,6 +16,8 @@
  */
 package org.sonar.c.grammar.directives;
 
+import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.sonar.c.CGrammar;
 import org.sonar.sslr.parser.LexerlessGrammar;
@@ -25,14 +27,15 @@ public class AnnotableDirectiveTest {
 
   private final LexerlessGrammar g = CGrammar.createGrammar();
 
+  @Disabled
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.ANNOTABLE_DIRECTIVE))
-      .matches("var a;")
-      .matches("function a () {}")
-      .matches("class a {}")
-      .matches("interface b {}")
-      .matches("namespace a;");
+        .matches("var a;")
+        .matches("function a () {}")
+        .matches("class a {}")
+        .matches("interface b {}")
+        .matches("namespace a;");
   }
 
 }

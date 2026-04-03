@@ -28,22 +28,23 @@ public class UnaryExpressionTest {
   @Test
   public void unary() {
     Assertions.assertThat(g.rule(CGrammar.UNARY_EXPR))
-      .matches("a")
-      .matches("delete a")
-      .matches("++ a")
-      .matches("-- a")
+        .matches("a")
+        // .matches("delete a")
+        .matches("++ a")
+        .matches("-- a")
 
-      .matches("void a")
-      .matches("typeof a")
-      .matches("+ a")
-      .matches("- a")
-      .matches("! a")
-      .matches("~ a")
+        // .matches("void a")
+        // there is typedef name in C, so we cannot use void as unary operator
+        // .matches("typeof(a)")
+        .matches("+ a")
+        .matches("- a")
+        .matches("! a")
+        .matches("~ a")
 
-      .matches("void ++ a")
+    // .matches("void ++ a")
 
-      // ActionScript 2:
-//      .matches("not a")
+    // ActionScript 2:
+    // .matches("not a")
     ;
   }
 

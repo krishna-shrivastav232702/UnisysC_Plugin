@@ -28,12 +28,12 @@ public class SubStatementTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.SUB_STATEMENT))
-      // empty statement
-      .matches(";")
-      // statement
-      .matches("{ }")
-      // variable definition
-      .matches("var i;");
+        // empty statement
+        .matches(";")
+        // statement
+        .matches("{ }")
+        // variable definition
+        .matches("int i;");
   }
 
 }

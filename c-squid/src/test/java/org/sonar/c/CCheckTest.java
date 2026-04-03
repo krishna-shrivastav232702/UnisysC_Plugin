@@ -39,6 +39,7 @@ public class CCheckTest {
       public List<AstNodeType> subscribedTo() {
         return Collections.singletonList(CGrammar.ASSIGNMENT_OPERATOR);
       }
+
       @Override
       public void visitNode(AstNode node) {
         addIssue("message!", node);
@@ -55,6 +56,7 @@ public class CCheckTest {
       public List<AstNodeType> subscribedTo() {
         return Collections.singletonList(CGrammar.ASSIGNMENT_OPERATOR);
       }
+
       @Override
       public void visitNode(AstNode node) {
         addIssueWithCost("message!", node, 42.);
@@ -71,6 +73,7 @@ public class CCheckTest {
       public List<AstNodeType> subscribedTo() {
         return Collections.emptyList();
       }
+
       @Override
       public void visitFile(AstNode node) {
         addFileIssue("bad file!");
@@ -81,6 +84,6 @@ public class CCheckTest {
   }
 
   private CVisitorContext context() {
-    return TestVisitorContext.create(new File("src/test/resources/org/sonar/flex/flexcheck.as"));
+    return TestVisitorContext.create(new File("src/test/resources/org/sonar/c/ccheck.as"));
   }
 }

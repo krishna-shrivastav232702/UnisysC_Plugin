@@ -1,5 +1,7 @@
-public class Foo {
+int foo() {
+  return 0;
 }
 
-public interface Bar {
+int bar() {
+  return 0;
 }

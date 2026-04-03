@@ -27,27 +27,25 @@ public class ForStatementTest {
 
   @Test
   public void test() {
-    Assertions.assertThat(g.rule(CGrammar.FOR_INITIALISER))
-      // list expression
-      .matches("a = 1, b = 2")
-      // variable definition
-      .matches("var a = 1, b = 2");
+    // Assertions.assertThat(g.rule(CGrammar.FOR_INITIALISER))
+    // // list expression
+    // .matches("a = 1, b = 2")
+    // // variable definition
+    // .matches("var a = 1, b = 2");
+    Assertions.assertThat(g.rule(CGrammar.FOR_INIT))
+        // expression
+        .matches("i = 1");
 
-    Assertions.assertThat(g.rule(CGrammar.FOR_IN_BINDING))
-      // variable binding
-      .matches("var i")
-      // postfix expression
-      .matches("i");
+    // Assertions.assertThat(g.rule(CGrammar.FOR_IN_BINDING))
+    // // variable binding
+    // .matches("var i")
+    // postfix expression
+    // .matches("i");
 
     Assertions.assertThat(g.rule(CGrammar.FOR_STATEMENT))
-      // for
-      .matches("for ( ; ; ) { }")
-      .matches("for (var i = 0; i < 5; i++) { }")
-      // for in
-      .matches("for (var item:String in items) { }")
-      // for each
-      .matches("for each (var item:String in items) { }")
-      .notMatches("for \n each (var item:String in items) { }");
+        // for
+        .matches("for ( ; ; ) { }")
+        .matches("for (i = 0; i < 5; i++) { }");
   }
 
 }
