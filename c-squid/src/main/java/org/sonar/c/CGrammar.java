@@ -209,8 +209,12 @@ public enum CGrammar implements GrammarRuleKey {
     STRING,
     NUMBER,
     DECIMAL,
+    CONSTANT,
     HEXADECIMAL,
     OCTAL,
+    I_CONSTANT,
+    F_CONSTANT,
+    ENUMERATION_CONSTANT,
 
     /**
      * EXPRESSIONS
@@ -233,6 +237,9 @@ public enum CGrammar implements GrammarRuleKey {
     COMPOUND_ASSIGNMENT,
     LOGICAL_ASSIGNMENT,
     SUPER_EXPR,
+    GENERIC_SELECTION,
+    GENERIC_ASSOC_LIST,
+    GENERIC_ASSOCIATION,
     // Identifiers
     PROPERTY_IDENTIFIER,
     QUALIFIER,
@@ -252,6 +259,7 @@ public enum CGrammar implements GrammarRuleKey {
     QUERY_OPERATOR,
     // Call expression
     ARGUMENTS,
+    ARGUMENT_EXPRESSION_LIST,
     // Unary expression
     UNARY_EXPR,
     // Binary expression
@@ -311,6 +319,9 @@ public enum CGrammar implements GrammarRuleKey {
     XML_PI,
     KEYWORDS,
     REGULAR_EXPRESSION,
+
+    STDIO_FUNCTION_NAME,
+    MATH_FUNCTION_NAME,
     // </editor-fold>
 
     /**
@@ -427,6 +438,8 @@ public enum CGrammar implements GrammarRuleKey {
             + "])";
 
     private static final String EXPONENT_PART_REGEXP = "([eE][-+]?[0-9]++)?";
+    private static final String FLOAT_SUFFIX_REGEXP = "[fFlL]?";
+    private static final String INTEGER_SUFFIX_REGEXP = "(?:[uU](?:ll|LL|l|L)?|(?:ll|LL|l|L)[uU]?)?";
     private static final String DECIMAL_INTEGER_REGEXP = "(0|([1-9][0-9]*+))";
     private static final String DECIMAL_DIGITS_REGEXP = "([0-9]*+)";
     private static final String DECIMAL_REGEXP = DECIMAL_INTEGER_REGEXP + "\\." + DECIMAL_DIGITS_REGEXP + "?"
@@ -502,10 +515,22 @@ public enum CGrammar implements GrammarRuleKey {
     private static void literals(LexerlessGrammarBuilder b) {
         b.rule(STRING).is(SPACING, b.regexp(STRING_REGEXP));
 
+        b.rule(I_CONSTANT).is(SPACING, b.regexp(
+                "(?:0[xX][0-9a-fA-F]++|0[0-7]++|" + DECIMAL_INTEGER_REGEXP + ")" + INTEGER_SUFFIX_REGEXP));
+        b.rule(F_CONSTANT).is(SPACING, b.regexp(
+                "(?:" + DECIMAL_INTEGER_REGEXP + "\\." + DECIMAL_DIGITS_REGEXP + "|\\." + DECIMAL_DIGITS_REGEXP
+                        + "|" + DECIMAL_INTEGER_REGEXP + "[eE][-+]?[0-9]++)" + FLOAT_SUFFIX_REGEXP));
+        b.rule(ENUMERATION_CONSTANT).is(IDENTIFIER);
+
         b.rule(HEXADECIMAL).is(SPACING, b.regexp("0[xX][0-9a-fA-F]++"));
         b.rule(OCTAL).is(SPACING, b.regexp("0[0-7]++"));
         b.rule(DECIMAL).is(SPACING, b.regexp(DECIMAL_REGEXP));
         b.rule(NUMBER).is(b.firstOf(OCTAL, DECIMAL, HEXADECIMAL));
+
+        b.rule(CONSTANT).is(b.firstOf(
+                I_CONSTANT,
+                F_CONSTANT,
+                ENUMERATION_CONSTANT));
 
         // Regular expression according to ECMA 262
         b.rule(REGULAR_EXPRESSION).is(SPACING, b.regexp(
@@ -547,6 +572,18 @@ public enum CGrammar implements GrammarRuleKey {
                 b.sequence(QUALIFIER, DOUBLE_COLON, BRACKETS),
                 PROPERTY_IDENTIFIER));
 
+        b.rule(GENERIC_SELECTION).is(
+                word(b, "_Generic"),
+                LPARENTHESIS,
+                ASSIGNMENT_EXPR,
+                COMMA,
+                GENERIC_ASSOC_LIST,
+                RPARENTHESIS);
+        b.rule(GENERIC_ASSOC_LIST).is(GENERIC_ASSOCIATION, b.zeroOrMore(COMMA, GENERIC_ASSOCIATION));
+        b.rule(GENERIC_ASSOCIATION).is(b.firstOf(
+                b.sequence(TYPE_NAME, COLON, ASSIGNMENT_EXPR),
+                b.sequence(DEFAULT, COLON, ASSIGNMENT_EXPR)));
+
         b.rule(EXPR_QUALIFIED_IDENTIFIER).is(b.firstOf(
                 b.sequence(PARENTHESIZED_EXPR, DOUBLE_COLON, PROPERTY_IDENTIFIER),
                 b.sequence(PARENTHESIZED_EXPR, BRACKETS)));
@@ -564,12 +601,15 @@ public enum CGrammar implements GrammarRuleKey {
                 NULL,
                 TRUE,
                 FALSE,
+                GENERIC_SELECTION,
                 HEXADECIMAL,
                 NUMBER,
                 STRING,
                 THIS,
                 REGULAR_EXPRESSION,
                 XML_INITIALISER,
+                STDIO_FUNCTION_NAME,
+                MATH_FUNCTION_NAME,
                 QUALIFIED_IDENTIFIER,
                 RESERVED_NAMESPACE,
                 PARENTHESIZED_EXPR,
@@ -630,17 +670,16 @@ public enum CGrammar implements GrammarRuleKey {
                 b.sequence(SUPER, ARGUMENTS),
                 SUPER));
 
-        b.rule(POSTFIX_EXPR).is(b.firstOf(
-                FULL_NEW_EXPR,
-                b.sequence(SUPER_EXPR, b.optional(PROPERTY_OPERATOR)),
-                PRIMARY_EXPR,
-                SHORT_NEW_EXPR),
-                b.zeroOrMore(b.firstOf(
-                        PROPERTY_OPERATOR,
-                        ARGUMENTS,
-                        QUERY_OPERATOR,
-                        /* No line break */ b.sequence(SPACING_NO_LB, NEXT_NOT_LB, DOUBLE_PLUS),
-                        /* No line break */ b.sequence(SPACING_NO_LB, NEXT_NOT_LB, DOUBLE_MINUS))));
+        b.rule(POSTFIX_EXPR).is(
+                b.firstOf(
+                        b.sequence(LPARENTHESIS, TYPE_NAME, RPARENTHESIS, LCURLYBRACE, INITIALIZER_LIST, COMMA, RCURLYBRACE),
+                        b.sequence(LPARENTHESIS, TYPE_NAME, RPARENTHESIS, LCURLYBRACE, INITIALIZER_LIST, RCURLYBRACE),
+                        PRIMARY_EXPR),b.zeroOrMore(b.firstOf(
+                                b.sequence(LBRAKET, LIST_EXPRESSION, RBRAKET),
+                                ARGUMENTS,
+                                b.sequence(DOT, IDENTIFIER),
+                                b.sequence(SPACING_NO_LB, NEXT_NOT_LB, DOUBLE_PLUS),
+                                b.sequence(SPACING_NO_LB, NEXT_NOT_LB, DOUBLE_MINUS))));
 
         // New expressions
         b.rule(FULL_NEW_EXPR).is(NEW, b.firstOf(FULL_NEW_SUB_EXPR, VECTOR_LITERAL_EXPRESSION), ARGUMENTS);
@@ -670,14 +709,23 @@ public enum CGrammar implements GrammarRuleKey {
 
         // Call expresions
         b.rule(ARGUMENTS).is(LPARENTHESIS, b.optional(LIST_EXPRESSION), RPARENTHESIS);
+        b.rule(ARGUMENT_EXPRESSION_LIST).is(ASSIGNMENT_EXPR, b.zeroOrMore(COMMA, ASSIGNMENT_EXPR));
 
         // Unary expression
+        // b.rule(UNARY_EXPR).is(b.firstOf(
+        //         b.sequence(PLUS, UNARY_EXPR),
+        //         b.sequence(MINUS, UNARY_EXPR),
+        //         b.sequence(UNARY_OPERATOR, CAST_EXPRESSION),
+        //         b.sequence(SIZEOF, UNARY_EXPR),
+        //         b.sequence(SIZEOF, LPARENTHESIS, TYPE_NAME, RPARENTHESIS),
+        //         POSTFIX_EXPR)).skipIfOneChild();
         b.rule(UNARY_EXPR).is(b.firstOf(
-                b.sequence(PLUS, UNARY_EXPR),
-                b.sequence(MINUS, UNARY_EXPR),
+                b.sequence(DOUBLE_PLUS, UNARY_EXPR),
+                b.sequence(DOUBLE_MINUS, UNARY_EXPR),
                 b.sequence(UNARY_OPERATOR, CAST_EXPRESSION),
                 b.sequence(SIZEOF, UNARY_EXPR),
                 b.sequence(SIZEOF, LPARENTHESIS, TYPE_NAME, RPARENTHESIS),
+                b.sequence(word(b, "_Alignof"), LPARENTHESIS, TYPE_NAME, RPARENTHESIS),
                 POSTFIX_EXPR)).skipIfOneChild();
 
         b.rule(UNARY_OPERATOR).is(
@@ -730,14 +778,27 @@ public enum CGrammar implements GrammarRuleKey {
         b.rule(CONSTANT_EXPRESSION).is(CONDITIONAL_EXPR);
 
         // Binary expressions
-        b.rule(MULTIPLICATIVE_EXPR).is(UNARY_EXPR, b.zeroOrMore(b.firstOf(STAR, DIV, MOD), UNARY_EXPR))
-                .skipIfOneChild();
-        b.rule(ADDITIVE_EXPR).is(MULTIPLICATIVE_EXPR, b.zeroOrMore(ADDITIVE_OPERATOR, MULTIPLICATIVE_EXPR))
-                .skipIfOneChild();
-        b.rule(ADDITIVE_OPERATOR).is(b.firstOf(PLUS, MINUS, /* Action Script 2: */ word(b, "add")));
-        b.rule(SHIFT_EXPR).is(ADDITIVE_EXPR, b.zeroOrMore(b.firstOf(SL, SR2, SR), ADDITIVE_EXPR)).skipIfOneChild();
+        b.rule(MULTIPLICATIVE_EXPR).is(CAST_EXPRESSION, b.zeroOrMore(b.firstOf(
+                b.sequence(STAR, CAST_EXPRESSION),
+                b.sequence(DIV, CAST_EXPRESSION),
+                b.sequence(MOD, CAST_EXPRESSION)))).skipIfOneChild();
 
-        b.rule(RELATIONAL_EXPR).is(SHIFT_EXPR, b.zeroOrMore(RELATIONAL_OPERATOR, SHIFT_EXPR)).skipIfOneChild();
+        b.rule(ADDITIVE_EXPR).is(MULTIPLICATIVE_EXPR, b.zeroOrMore(b.firstOf(
+                b.sequence(PLUS, MULTIPLICATIVE_EXPR),
+                b.sequence(MINUS, MULTIPLICATIVE_EXPR)))).skipIfOneChild();
+
+        b.rule(ADDITIVE_OPERATOR).is(b.firstOf(PLUS, MINUS, /* Action Script 2: */ word(b, "add")));
+        b.rule(SHIFT_EXPR).is(ADDITIVE_EXPR, b.zeroOrMore(b.firstOf(
+                b.sequence(SL, ADDITIVE_EXPR),
+                b.sequence(SR, ADDITIVE_EXPR),
+                b.sequence(SR2, ADDITIVE_EXPR)))).skipIfOneChild();
+
+        b.rule(RELATIONAL_EXPR).is(SHIFT_EXPR, b.zeroOrMore(b.firstOf(
+                b.sequence(LT, SHIFT_EXPR),
+                b.sequence(GT, SHIFT_EXPR),
+                b.sequence(LE, SHIFT_EXPR),
+                b.sequence(GE, SHIFT_EXPR)))).skipIfOneChild();
+
         b.rule(RELATIONAL_EXPR_NO_IN).is(SHIFT_EXPR, b.zeroOrMore(RELATIONAL_OPERATOR_NO_IN, SHIFT_EXPR))
                 .skipIfOneChild();
         b.rule(RELATIONAL_OPERATOR).is(b.firstOf(LE, GE, LT, GT, IN, INSTANCEOF, IS, AS,
@@ -745,7 +806,10 @@ public enum CGrammar implements GrammarRuleKey {
         b.rule(RELATIONAL_OPERATOR_NO_IN).is(b.firstOf(LE, GE, LT, GT, INSTANCEOF, IS, AS,
                 /* Action Script 2: */ word(b, "le"), word(b, "ge"), word(b, "lt"), word(b, "gt")));
 
-        b.rule(EQUALITY_EXPR).is(RELATIONAL_EXPR, b.zeroOrMore(EQUALITY_OPERATOR, RELATIONAL_EXPR)).skipIfOneChild();
+        b.rule(EQUALITY_EXPR).is(RELATIONAL_EXPR, b.zeroOrMore(b.firstOf(
+                b.sequence(EQUAL2, RELATIONAL_EXPR),
+                b.sequence(NOTEQUAL1, RELATIONAL_EXPR)))).skipIfOneChild();
+        
         b.rule(EQUALITY_EXPR_NO_IN).is(RELATIONAL_EXPR_NO_IN, b.zeroOrMore(EQUALITY_OPERATOR, RELATIONAL_EXPR_NO_IN))
                 .skipIfOneChild();
         b.rule(EQUALITY_OPERATOR).is(b.firstOf(
@@ -770,11 +834,12 @@ public enum CGrammar implements GrammarRuleKey {
         b.rule(BITEWISE_OR_EXPR_NO_IN).is(BITEWISE_XOR_EXPR_NO_IN, b.zeroOrMore(OR, BITEWISE_XOR_EXPR_NO_IN))
                 .skipIfOneChild();
 
-        b.rule(LOGICAL_AND_EXPR).is(BITEWISE_OR_EXPR, b.zeroOrMore(LOGICAL_AND_OPERATOR, BITEWISE_XOR_EXPR))
-                .skipIfOneChild();
+        b.rule(LOGICAL_AND_EXPR).is(BITEWISE_OR_EXPR, b.zeroOrMore(LOGICAL_AND_OPERATOR, BITEWISE_OR_EXPR)).skipIfOneChild();
+       
         b.rule(LOGICAL_AND_EXPR_NO_IN)
                 .is(BITEWISE_OR_EXPR_NO_IN, b.zeroOrMore(LOGICAL_AND_OPERATOR, BITEWISE_XOR_EXPR_NO_IN))
                 .skipIfOneChild();
+        
         b.rule(LOGICAL_AND_OPERATOR).is(b.firstOf(
                 ANDAND,
                 /* ActionScript 2: */
@@ -816,6 +881,85 @@ public enum CGrammar implements GrammarRuleKey {
         b.rule(TYPE_EXPR_NO_IN).is(TYPE_EXPR);
 
         b.rule(VECTOR_LITERAL_EXPRESSION).is(LT, TYPE_EXPR, GT, BRACKETS);
+        b.rule(STDIO_FUNCTION_NAME).is(SPACING, b.firstOf(
+                b.sequence("fopen",  b.nextNot(IDENTIFIER_PART)),
+                b.sequence("fread",  b.nextNot(IDENTIFIER_PART)),
+                b.sequence("fwrite", b.nextNot(IDENTIFIER_PART)),
+                b.sequence("fclose", b.nextNot(IDENTIFIER_PART)),
+                b.sequence("printf", b.nextNot(IDENTIFIER_PART)),
+                b.sequence("scanf",  b.nextNot(IDENTIFIER_PART))
+        ));
+
+        // -------------------------------------------------------------------------
+        // math.h   predefined function names  (full C99 / POSIX set)
+        // -------------------------------------------------------------------------
+        b.rule(MATH_FUNCTION_NAME).is(SPACING, b.firstOf(
+        // Trigonometric
+                b.sequence("acos",       b.nextNot(IDENTIFIER_PART)),
+                b.sequence("acosh",      b.nextNot(IDENTIFIER_PART)),
+                b.sequence("asin",       b.nextNot(IDENTIFIER_PART)),
+                b.sequence("asinh",      b.nextNot(IDENTIFIER_PART)),
+                b.sequence("atan2",      b.nextNot(IDENTIFIER_PART)),
+                b.sequence("atan",       b.nextNot(IDENTIFIER_PART)),
+                b.sequence("atanh",      b.nextNot(IDENTIFIER_PART)),
+                b.sequence("cos",        b.nextNot(IDENTIFIER_PART)),
+                b.sequence("cosh",       b.nextNot(IDENTIFIER_PART)),
+                b.sequence("sin",        b.nextNot(IDENTIFIER_PART)),
+                b.sequence("sinh",       b.nextNot(IDENTIFIER_PART)),
+                b.sequence("tan",        b.nextNot(IDENTIFIER_PART)),
+                b.sequence("tanh",       b.nextNot(IDENTIFIER_PART)),
+                // Exponential & logarithmic
+                b.sequence("exp2",       b.nextNot(IDENTIFIER_PART)),
+                b.sequence("exp",        b.nextNot(IDENTIFIER_PART)),
+                b.sequence("expm1",      b.nextNot(IDENTIFIER_PART)),
+                b.sequence("frexp",      b.nextNot(IDENTIFIER_PART)),
+                b.sequence("ilogb",      b.nextNot(IDENTIFIER_PART)),
+                b.sequence("ldexp",      b.nextNot(IDENTIFIER_PART)),
+                b.sequence("lgamma",     b.nextNot(IDENTIFIER_PART)),
+                b.sequence("log10",      b.nextNot(IDENTIFIER_PART)),
+                b.sequence("log1p",      b.nextNot(IDENTIFIER_PART)),
+                b.sequence("log2",       b.nextNot(IDENTIFIER_PART)),
+                b.sequence("logb",       b.nextNot(IDENTIFIER_PART)),
+                b.sequence("log",        b.nextNot(IDENTIFIER_PART)),
+                b.sequence("modf",       b.nextNot(IDENTIFIER_PART)),
+                b.sequence("scalbn",     b.nextNot(IDENTIFIER_PART)),
+                b.sequence("scalbln",    b.nextNot(IDENTIFIER_PART)),
+                b.sequence("tgamma",     b.nextNot(IDENTIFIER_PART)),
+                // Power & absolute value
+                b.sequence("cbrt",       b.nextNot(IDENTIFIER_PART)),
+                b.sequence("fabs",       b.nextNot(IDENTIFIER_PART)),
+                b.sequence("hypot",      b.nextNot(IDENTIFIER_PART)),
+                b.sequence("pow",        b.nextNot(IDENTIFIER_PART)),
+                b.sequence("sqrt",       b.nextNot(IDENTIFIER_PART)),
+                // Integer variants (keep longer alternatives first to avoid partial match)
+                b.sequence("llrint",     b.nextNot(IDENTIFIER_PART)),
+                b.sequence("llround",    b.nextNot(IDENTIFIER_PART)),
+                b.sequence("lrint",      b.nextNot(IDENTIFIER_PART)),
+                b.sequence("lround",     b.nextNot(IDENTIFIER_PART)),
+                // Rounding
+                b.sequence("ceil",       b.nextNot(IDENTIFIER_PART)),
+                b.sequence("floor",      b.nextNot(IDENTIFIER_PART)),
+                b.sequence("nearbyint",  b.nextNot(IDENTIFIER_PART)),
+                b.sequence("nextafter",  b.nextNot(IDENTIFIER_PART)),
+                b.sequence("nexttoward", b.nextNot(IDENTIFIER_PART)),
+                b.sequence("rint",       b.nextNot(IDENTIFIER_PART)),
+                b.sequence("round",      b.nextNot(IDENTIFIER_PART)),
+                b.sequence("trunc",      b.nextNot(IDENTIFIER_PART)),
+                // Floating-point manipulation
+                b.sequence("copysign",   b.nextNot(IDENTIFIER_PART)),
+                b.sequence("erf",        b.nextNot(IDENTIFIER_PART)),
+                b.sequence("erfc",       b.nextNot(IDENTIFIER_PART)),
+                b.sequence("fdim",       b.nextNot(IDENTIFIER_PART)),
+                b.sequence("fma",        b.nextNot(IDENTIFIER_PART)),
+                b.sequence("fmax",       b.nextNot(IDENTIFIER_PART)),
+                b.sequence("fmin",       b.nextNot(IDENTIFIER_PART)),
+                b.sequence("fmod",       b.nextNot(IDENTIFIER_PART)),
+                b.sequence("nan",        b.nextNot(IDENTIFIER_PART)),
+                b.sequence("remainder",  b.nextNot(IDENTIFIER_PART)),
+                b.sequence("remquo",     b.nextNot(IDENTIFIER_PART)),
+                // abs is last: short name, must not steal 'acos', 'asin' etc. (those listed above first)
+                b.sequence("abs",        b.nextNot(IDENTIFIER_PART))
+        ));
     }
 
     private static void statements(LexerlessGrammarBuilder b) {
