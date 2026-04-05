@@ -28,7 +28,7 @@ import org.sonar.c.CCheck;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 
-@Rule(key = "CommentRegularExpression")
+@Rule(key = "S5639")
 public class CommentRegularExpressionCheck extends CCheck {
 
   private static final String DEFAULT_REGULAR_EXPRESSION = "";

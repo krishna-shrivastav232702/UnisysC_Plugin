@@ -1,31 +1,26 @@
 <h2>Why is this an issue?</h2>
 <p>Empty statements represented by a semicolon <code>;</code> are statements that do not perform any operation. They are often the result of a typo or
-a misunderstanding of the language syntax. It is a good practice to remove empty statements since they don’t add value and lead to confusion and
+a misunderstanding of the language syntax. It is a good practice to remove empty statements since they don't add value and lead to confusion and
 errors.</p>
 <h3>Noncompliant code example</h3>
 <pre>
-function doSomething():void {
-  ;                                                       // Noncompliant - was used as a kind of TODO marker
+void doSomething() {
+  ;                                                    /* Noncompliant - used as a kind of TODO marker */
 }
 
-function doSomethingElse():void {
-  trace("Hello, world!");;                     // Noncompliant - double ;
-  ...
-  for (var i:int = 0; i &lt; 3; trace(i), i++);       // Noncompliant - Rarely, they are used on purpose as the body of a loop. It is a bad practice to have side-effects outside of the loop body
-  ...
+void doSomethingElse() {
+  printf("Hello, world!");;                            /* Noncompliant - double ; */
+  for (int i = 0; i &lt; 3; i++);                       /* Noncompliant - empty loop body */
 }
 </pre>
 <h3>Compliant solution</h3>
 <pre>
-function doSomething():void {}
+void doSomething() {}
 
-function doSomethingElse():void {
-  trace("Hello, world!");
-  ...
-  for (var i:int = 0; i &lt; 3; i++){
-    trace(i);
+void doSomethingElse() {
+  printf("Hello, world!");
+  for (int i = 0; i &lt; 3; i++) {
+    doWork(i);
   }
-  ...
 }
 </pre>
-

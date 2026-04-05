@@ -14,8 +14,8 @@
   },
   "tags": [],
   "defaultSeverity": "Major",
-  "ruleSpecification": "RSPEC-124",
-  "sqKey": "S124",
+  "ruleSpecification": "RSPEC-5639",
+  "sqKey": "S5639",
   "scope": "Main",
   "quickfix": "unknown"
 }
