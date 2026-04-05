@@ -16,30 +16,14 @@
  */
 package org.sonar.c.checks;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.AstNodeType;
-import java.util.Arrays;
-import java.util.List;
+import java.io.File;
+import org.junit.jupiter.api.Test;
 
-import org.sonar.c.CCheck;
-import org.sonar.c.api.CPunctuator;
-import org.sonar.check.Rule;
+public class EqEqCheckTest {
 
-@Rule(key = "S1440")
-public class EqEqEqCheck extends CCheck {
+  private EqEqCheck check = new EqEqCheck();
 
-  @Override
-  public List<AstNodeType> subscribedTo() {
-    return Arrays.asList(CPunctuator.EQUAL2, CPunctuator.NOTEQUAL1);
+  @Test public void test() {
+    CVerifier.verify(new File("src/test/resources/checks/EqEq.ccc_m"), check);
   }
-
-  @Override
-  public void visitNode(AstNode astNode) {
-    if (astNode.is(CPunctuator.EQUAL2)) {
-      addIssue("Replace == with ===", astNode);
-    } else {
-      addIssue("Replace != with !==", astNode);
-    }
-  }
-
 }

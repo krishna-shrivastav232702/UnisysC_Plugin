@@ -52,7 +52,7 @@ public final class CheckList {
       EmptyStatementCheck.class,
       TooManyReturnCheck.class,
       CollapsibleIfStatementCheck.class,
-      EqEqEqCheck.class,
+      EqEqCheck.class,
       ClassNameCheck.class,
       LabelNameCheck.class,
       TooManyLinesInCaseCheck.class,

@@ -1007,7 +1007,7 @@ public enum CGrammar implements GrammarRuleKey {
                 STATEMENT,
                 VARIABLE_DECLARATION_STATEMENT));
 
-        b.rule(EXPRESSION_STATEMENT).is(EXPRESSION, EOS);
+        b.rule(EXPRESSION_STATEMENT).is(b.firstOf(SEMICOLON, b.sequence(EXPRESSION, SEMICOLON)));
 
         // Not in spec:
         b.rule(METADATA_STATEMENT).is(LBRAKET, ASSIGNMENT_EXPR, RBRAKET);
