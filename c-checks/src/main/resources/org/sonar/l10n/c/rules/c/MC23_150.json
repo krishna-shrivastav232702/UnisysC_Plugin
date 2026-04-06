@@ -1,0 +1,25 @@
+{
+  "title": "A function with non-void return type shall return a value on all paths",
+  "type": "BUG",
+  "code": {
+    "impacts": {
+      "RELIABILITY": "HIGH"
+    },
+    "attribute": "CLEAR"
+  },
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "10min"
+  },
+  "tags": [
+    "misra",
+    "return",
+    "reliability"
+  ],
+  "defaultSeverity": "Critical",
+  "ruleSpecification": "MISRA-C-2023-15.0",
+  "sqKey": "M23_150",
+  "scope": "All",
+  "quickfix": "unknown"
+}

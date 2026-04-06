@@ -52,11 +52,8 @@ public class ControlFlowStmtDepthCheck extends CCheck {
   @Override
   public List<AstNodeType> subscribedTo() {
     return Arrays.asList(
-      CGrammar.IF_STATEMENT,
-      CGrammar.DO_STATEMENT,
-      CGrammar.WHILE_STATEMENT,
-      CGrammar.FOR_STATEMENT,
-      CGrammar.SWITCH_STATEMENT);
+      CGrammar.SELECTION_STATEMENT,
+      CGrammar.ITERATION_STATEMENT);
   }
 
   @Override
@@ -82,8 +79,16 @@ public class ControlFlowStmtDepthCheck extends CCheck {
   }
 
   private static boolean isElseIf(AstNode astNode) {
-    return astNode.getParent().getParent().getPreviousSibling() != null
-      && astNode.getParent().getParent().getPreviousSibling().is(CKeyword.ELSE);
-  }
+    AstNode parent = astNode.getParent();
+    if (parent == null) return false;
+    
+    AstNode grandParent = parent.getParent();
+    if (grandParent == null || !grandParent.is(CGrammar.SELECTION_STATEMENT)) {
+        return false;
+    }
+    
+    AstNode prevSibling = parent.getPreviousSibling();
+    return prevSibling != null && prevSibling.is(CKeyword.ELSE);
+  } 
 
 }

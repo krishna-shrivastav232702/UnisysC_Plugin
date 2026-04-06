@@ -1,0 +1,42 @@
+<h2>Why is this an issue?</h2>
+<p>In C, a function declared with a non-<code>void</code> return type must return a value
+    on every possible execution path. If any path through the function reaches the closing
+    brace without a <code>return</code> statement, the behavior is undefined — the caller
+    receives a garbage value, which can cause crashes or silent data corruption.</p>
+
+<h3>Exceptions</h3>
+<ul>
+    <li>Functions with return type <code>void</code> are ignored.</li>
+    <li>Functions with an empty body are ignored (handled by a separate rule).</li>
+</ul>
+
+<h2>How to fix it</h2>
+<p>Ensure every branch of your function ends with a <code>return</code> statement
+    that provides a value.</p>
+
+<h3>Code examples</h3>
+<h4>Noncompliant code example</h4>
+<pre data-diff-id="1" data-diff-type="noncompliant">
+int getSign(int x)        /* Noncompliant — else path missing return */
+{
+    if (x > 0) {
+        return 1;
+    } else if (x < 0) {
+        return -1;
+    }
+                          /* missing return when x == 0 */
+}
+</pre>
+
+<h4>Compliant solution</h4>
+<pre data-diff-id="1" data-diff-type="compliant">
+int getSign(int x)
+{
+    if (x > 0) {
+        return 1;
+    } else if (x < 0) {
+        return -1;
+    }
+    return 0;             /* all paths now covered */
+}
+</pre>

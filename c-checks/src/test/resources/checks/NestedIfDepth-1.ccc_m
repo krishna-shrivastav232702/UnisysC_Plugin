@@ -1,4 +1,4 @@
-function sayHello() {
+void sayHelloDeepNesting() {
   if (true) { // level 1
     if (true) { // Noncompliant
       if (true) { // level 3
@@ -9,10 +9,10 @@ function sayHello() {
   }
 }
 
-function sayHello() {
+void sayHelloMixedFlow() {
   if (true) {                     // level 1
 
-    for (var i = 0; i < 7; i++) { // Noncompliant
+    for (int i = 0; i < 7; i++) { // Noncompliant
 
       if (true) {                 // level 3
 
@@ -27,10 +27,12 @@ function sayHello() {
   }
 }
 
-if (true) { // level 1
-  if (true) { // Noncompliant
-  }
-} else if (true) { // level 1
-  if (true) { // Noncompliant
+void checkElseIfDepth() {
+  if (true) { // level 1
+    if (true) { // Noncompliant
+    }
+  } else if (true) { // level 1
+    if (true) { // Noncompliant
+    }
   }
 }

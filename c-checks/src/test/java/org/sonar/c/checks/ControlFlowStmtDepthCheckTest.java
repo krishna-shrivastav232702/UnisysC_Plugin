@@ -18,7 +18,6 @@ package org.sonar.c.checks;
 
 import java.io.File;
 import org.junit.jupiter.api.Test;
-import org.sonar.c.checks.ControlFlowStmtDepthCheck;
 
 public class ControlFlowStmtDepthCheckTest {
 
@@ -26,14 +25,14 @@ public class ControlFlowStmtDepthCheckTest {
 
   @Test
   public void testDefault() {
-    CVerifier.verify(new File("src/test/resources/checks/NestedIfDepth.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/NestedIfDepth.ccc_m"), check);
   }
 
   @Test
   public void testCustomDepth() {
     check.max = 1;
 
-    CVerifier.verify(new File("src/test/resources/checks/NestedIfDepth-1.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/NestedIfDepth-1.ccc_m"), check);
   }
 
 }
