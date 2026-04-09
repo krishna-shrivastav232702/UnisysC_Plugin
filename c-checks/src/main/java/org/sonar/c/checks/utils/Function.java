@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.sonar.c.CGrammar;
-import org.sonar.c.api.CKeyword;
+import org.sonar.c.CKeyword;
 
 public class Function {
 

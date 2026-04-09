@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 
 import org.sonar.c.CCheck;
 import org.sonar.c.CCommentAnalyser;
-import org.sonar.c.api.CKeyword;
+import org.sonar.c.CKeyword;
 import org.sonar.check.Rule;
 import org.sonarsource.analyzer.commons.recognizers.CodeRecognizer;
 import org.sonarsource.analyzer.commons.recognizers.ContainsDetector;

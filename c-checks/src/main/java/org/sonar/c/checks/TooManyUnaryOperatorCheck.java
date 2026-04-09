@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
 
 import org.sonar.c.CCheck;
 import org.sonar.c.CGrammar;
-import org.sonar.c.api.CPunctuator;
+import org.sonar.c.CPunctuator;
 import org.sonar.check.Rule;
 
 

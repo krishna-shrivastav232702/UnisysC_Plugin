@@ -26,7 +26,7 @@ import java.util.Map;
 
 import org.sonar.c.CCheck;
 import org.sonar.c.CGrammar;
-import org.sonar.c.api.CKeyword;
+import org.sonar.c.CKeyword;
 import org.sonar.c.checks.utils.Expression;
 import org.sonar.check.Rule;
 

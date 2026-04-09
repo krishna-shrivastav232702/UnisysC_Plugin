@@ -16,67 +16,67 @@
  */
 package org.sonar.c.api;
 
-import org.sonar.sslr.grammar.GrammarRuleKey;
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.TokenType;
 
-public enum CPunctuator implements GrammarRuleKey {
-
-  AT_SIGN("@"),
-  HASH("#"),
-  COMMA(","),
+public enum CPunctuator implements TokenType {
+  QUESTION("?"),
+  LPAREN("("),
+  RPAREN(")"),
+  LBRACK("["),
+  RBRACK("]"),
+  LCURLY("{"),
+  RCURLY("}"),
   COLON(":"),
-  DOUBLE_COLON("::"),
-  DOT("."),
-  DOUBLE_DOT(".."),
-  LCURLYBRACE("{"),
-  RCURLYBRACE("}"),
-  LBRAKET("["),
-  RBRAKET("]"),
-  LPARENTHESIS("("),
-  RPARENTHESIS(")"),
-  STAR("*"),
-  PLUS("+"),
-  MINUS("-"),
-  ARROW("->"),
-  DOUBLE_PLUS("++"),
-  DOUBLE_MINUS("--"),
+  DBL_COLON("::"),
+  COMMA(","),
+  ASSIGN("="),
+  EQUAL("=="),
+  STRICT_EQUAL("==="),
+  LNOT("!"),
+  BNOT("~"),
+  NOT_EQUAL("!="),
+  STRICT_NOT_EQUAL("!=="),
   DIV("/"),
+  DIV_ASSIGN("/="),
+  PLUS("+"),
+  PLUS_ASSIGN("+="),
+  INC("++"),
+  MINUS("-"),
+  MINUS_ASSIGN("-="),
+  DEC("--"),
+  STAR("*"),
+  STAR_ASSIGN("*="),
   MOD("%"),
-  NOT("!"),
-  EQUAL1("="),
-  EQUAL2("=="),
-  EQUAL3("==="),
-  NOTEQUAL1("!="),
-  NOTEQUAL2("!=="),
-  SL("<<"),
+  MOD_ASSIGN("%="),
+  ARROW("->"),
   SR(">>"),
-  SR2(">>>"),
-  STAR_EQU("*="),
-  DIV_EQU("/="),
-  MOD_EQU("%="),
-  PLUS_EQU("+="),
-  MINUS_EQU("-="),
-  SL_EQU("<<="),
-  SR_EQU(">>="),
-  SR_EQU2(">>>="),
-  AND_EQU("&="),
-  XOR_EQU("^="),
-  OR_EQU("|="),
-  ANDAND_EQU("&&="),
-  XORXOR_EQU("^^="),
-  OROR_EQU("||="),
-  LT("<"),
-  GT(">"),
-  LE("<="),
+  SR_ASSIGN(">>="),
+  BSR(">>>"),
+  BSR_ASSIGN(">>>="),
   GE(">="),
-  AND("&"),
-  ANDAND("&&"),
-  XOR("^"),
-  OR("|"),
-  OROR("||"),
-  QUERY("?"),
-  TILD("~"),
-  TRIPLE_DOTS("..."),
-  SEMICOLON(";");
+  GT(">"),
+  SL("<<"),
+  SL_ASSIGN("<<="),
+  LE("<="),
+  LT("<"),
+  BXOR("^"),
+  BXOR_ASSIGN("^="),
+  BOR("|"),
+  BOR_ASSIGN("|="),
+  LOR("||"),
+  BAND("&"),
+  BAND_ASSIGN("&="),
+  LAND("&&"),
+  LAND_ASSIGN("&&="),
+  LOR_ASSIGN("||="),
+  E4X_ATTRI("@"),
+  SEMICOLON(";"),
+  DOT("."),
+  REST("..."),
+  HASH("#"),
+  HASHHASH("##"),
+  SIZEOF("sizeof");
 
   private final String value;
 
@@ -84,8 +84,19 @@ public enum CPunctuator implements GrammarRuleKey {
     this.value = value;
   }
 
+  @Override
+  public String getName() {
+    return name();
+  }
+
+  @Override
   public String getValue() {
     return value;
+  }
+
+  @Override
+  public boolean hasToBeSkippedFromAst(AstNode node) {
+    return false;
   }
 
 }

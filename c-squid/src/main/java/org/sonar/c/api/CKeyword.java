@@ -16,127 +16,121 @@
  */
 package org.sonar.c.api;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
-import org.sonar.sslr.grammar.GrammarRuleKey;
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.TokenType;
 
-public enum CKeyword implements GrammarRuleKey {
+/**
+ * Below is a list of ActionScript 3 syntactic keywords, that can be used as identifiers, but that have special meaning in certain contexts:
+ * each
+ * get
+ * set
+ * namespace
+ * include
+ * dynamic
+ * final
+ * native
+ * override
+ * static
+ */
+public enum CKeyword implements TokenType {
+  // "as" is not a keyword in ActionScript 2, so we treat it as syntactic keyword to permit usage as identifier - see SONARPLUGINS-2072
+  // AS("as"),
+  
+  ASM("asm"),
+  AUTO("auto"),
+  BREAK("break"),
+  CASE("case"),
+  CATCH("catch"),
+  CHAR("char"),
+  CLASS("class"),
+  CONST("const"),
+  CONTINUE("continue"),
+  DEFAULT("default"),
+  DELETE("delete"),
+  DO("do"),
+  DOUBLE("double"),
+  ELSE("else"),
+  ENUM("enum"),
+  EXTENDS("extends"),
+  EXTERN("extern"),
+  FALSE("false"),
+  __FAR("__far"),
+  FINALLY("finally"),
+  FLOAT("float"),
+  FOR("for"),
+  FUNCTION("function"),
+  GOTO("goto"),
+  IF("if"),
+  IMPLEMENTS("implements"),
+  IMPORT("import"),
+  IN("in"),
+  INLINE("inline"),
+  INSTANCEOF("instanceof"),
+  INT("int"),
+  INTERFACE("interface"),
+  INTERNAL("internal"),
+  IS("is"),
+  LONG("long"),
+  __NEAR("__near"),
+  NEW("new"),
+  NULL("null"),
+  PACKAGE("package"),
+  PRIVATE("private"),
+  PROTECTED("protected"),
+  PUBLIC("public"),
+  REGISTER("register"),
+  RETURN("return"),
+  SHORT("short"),
+  SIGNED("signed"),
+  SIZEOF("sizeof"),
+  __STACK_NUMBER__("__stack_number__"),
+  STATIC("static"),
+  STRUCT("struct"),
+  SWITCH("switch"),
+  THROW("throw"),
+  TRUE("true"),
+  TRY("try"),
+  TYPEDEF("typedef"),
+  TYPEOF("typeof"),
+  UNION("union"),
+  UNSIGNED("unsigned"),
+  USE("use"),
+  __USER_LOCK__("__user_lock__"),
+  __USER_UNLOCK__("__user_unlock__"),
+  VAR("var"),
+  VOID("void"),
+  VOLATILE("volatile"),
+  WHILE("while"),
+  WITH("with");
 
-  /**
-   * "as" is not keyword in ActionScript 2, so we treat it as syntactic keyword
-   */
-  AS(true),
-  ASM,
-  BREAK,
-  CASE,
-  CATCH,
-  CLASS,
-  CONST,
-  CONTINUE,
-  DEFAULT,
-  DELETE,
-  DO,
-  ELSE,
-  EXTENDS,
-  FALSE,
-  FINALLY,
-  FOR,
-  FUNCTION,
-  IF,
-  IMPLEMENTS,
-  IMPORT,
-  IN,
-  INSTANCEOF,
-  INTERFACE,
-  INTERNAL,
-  IS,
-  NEW,
-  NULL,
-  PACKAGE,
-  PRIVATE,
-  PROTECTED,
-  PUBLIC,
-  RETURN,
-  SUPER,
-  SWITCH,
-  THIS,
-  THROW,
-  TRUE,
-  TRY,
-  TYPEOF,
-  USE,
-  VAR,
-  VOID,
-  WHILE,
-  WITH,
+  private final String value;
 
-  EACH(true),
-  GET(true),
-  SET(true),
-  NAMESPACE(true),
-  INCLUDE(true),
-  DYNAMIC(true),
-  FINAL(true),
-  // "native" strangely appears in both the "keywords" and "syntactic keywords" lists of the language spec
-  // It seems that "native" is accepted as a valid identifier by the compiler and should be considered as a "syntactic keyword"
-  NATIVE(true),
-  OVERRIDE(true),
-  STATIC(true),
-  XML(true),
-  AUTO,
-  REGISTER,
-  TYPEDEF,
-  EXTERN,
-  inline,
-  asm,
-  INT,
-  INLINE,
-  CHAR,
-  SHORT,
-  LONG,
-  DOUBLE,
-  FLOAT,
-  SIGNED,
-  UNSIGNED,
-  __FAR,
-  VOLATILE,
-  SIZEOF,
-  GOTO,
-  STRUCT,
-  UNION,
-  __NEAR;
-
-  private final boolean syntactic;
-
-  CKeyword() {
-    this(false);
+  CKeyword(String value) {
+    this.value = value;
   }
 
-  CKeyword(boolean syntactic) {
-    this.syntactic = syntactic;
+  @Override
+  public String getName() {
+    return name();
+  }
+
+  @Override
+  public String getValue() {
+    return value;
+  }
+
+  @Override
+  public boolean hasToBeSkippedFromAst(AstNode node) {
+    return false;
   }
 
   public static String[] keywordValues() {
-    String[] keywordsValue = new String[CKeyword.values().length];
-    int i = 0;
-    for (CKeyword keyword : CKeyword.values()) {
-      keywordsValue[i] = keyword.getValue();
-      i++;
+    CKeyword[] keywordsEnum = CKeyword.values();
+    String[] keywords = new String[keywordsEnum.length];
+    for (int i = 0; i < keywords.length; i++) {
+      keywords[i] = keywordsEnum[i].getValue();
     }
-    return keywordsValue;
-  }
-
-  public static List<CKeyword> keywords() {
-    return Collections.unmodifiableList(Arrays.stream(values())
-      .filter(cKeyword -> !cKeyword.syntactic)
-      .collect(Collectors.toList()));
-  }
-
-  public String getValue() {
-    return toString().toLowerCase(Locale.ENGLISH);
+    return keywords;
   }
 
 }

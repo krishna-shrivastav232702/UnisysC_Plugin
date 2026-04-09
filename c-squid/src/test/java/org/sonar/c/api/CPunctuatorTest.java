@@ -17,7 +17,7 @@
 package org.sonar.c.api;
 
 import org.junit.jupiter.api.Test;
-import org.sonar.c.api.CPunctuator;
+import org.sonar.c.CPunctuator;
 
 import static org.fest.assertions.Assertions.assertThat;
 

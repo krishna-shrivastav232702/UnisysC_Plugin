@@ -24,7 +24,7 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 
 import org.sonar.c.CGrammar;
-import org.sonar.c.api.CKeyword;
+import org.sonar.c.CKeyword;
 
 import static java.util.Collections.singletonList;
 
