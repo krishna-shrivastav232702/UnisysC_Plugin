@@ -52,7 +52,7 @@ public class ControlFlowStmtDepthCheck extends CCheck {
   @Override
   public List<AstNodeType> subscribedTo() {
     return Arrays.asList(
-      CGrammar.SELECTION_STATEMENT,
+      CGrammar.CONTROL_STATEMENT,
       CGrammar.ITERATION_STATEMENT);
   }
 
@@ -83,7 +83,7 @@ public class ControlFlowStmtDepthCheck extends CCheck {
     if (parent == null) return false;
     
     AstNode grandParent = parent.getParent();
-    if (grandParent == null || !grandParent.is(CGrammar.SELECTION_STATEMENT)) {
+    if (grandParent == null || !grandParent.is(CGrammar.CONTROL_STATEMENT)) {
         return false;
     }
     

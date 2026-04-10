@@ -100,7 +100,7 @@ public class MC23_150_Check extends CCheck {
     /**
      * In the new grammar:
      * - return is inside JUMP_STATEMENT
-     * - if/switch is inside SELECTION_STATEMENT
+     * - if/switch is inside CONTROL_STATEMENT
      * - while/for/do is inside ITERATION_STATEMENT
      * - blocks are COMPOUND_STATEMENT
      */
@@ -113,8 +113,8 @@ public class MC23_150_Check extends CCheck {
             return jumpStmt.getFirstChild(CKeyword.RETURN) != null;
         }
 
-        // ── SELECTION_STATEMENT (if / switch) ────────────────────────────────
-        AstNode selectionStmt = statement.getFirstChild(CGrammar.SELECTION_STATEMENT);
+        // ── CONTROL_STATEMENT (if / switch) ────────────────────────────────
+        AstNode selectionStmt = statement.getFirstChild(CGrammar.CONTROL_STATEMENT);
         if (selectionStmt != null) {
             if (selectionStmt.getFirstChild(CKeyword.IF) != null) {
                 return ifAlwaysReturns(selectionStmt);
@@ -140,7 +140,7 @@ public class MC23_150_Check extends CCheck {
     }
 
     /**
-     * SELECTION_STATEMENT → IF ( EXPRESSION ) STATEMENT [ ELSE STATEMENT ]
+     * CONTROL_STATEMENT → IF ( EXPRESSION ) STATEMENT [ ELSE STATEMENT ]
      * Both branches must return for the if to always return.
      */
     private static boolean ifAlwaysReturns(AstNode selectionStmt) {
@@ -152,7 +152,7 @@ public class MC23_150_Check extends CCheck {
     }
 
     /**
-     * SELECTION_STATEMENT → SWITCH ( EXPRESSION ) STATEMENT
+     * CONTROL_STATEMENT → SWITCH ( EXPRESSION ) STATEMENT
      * Conservative: requires a COMPOUND_STATEMENT body where
      * all BLOCK_ITEMs that are reachable end in a JUMP_STATEMENT(return).
      */

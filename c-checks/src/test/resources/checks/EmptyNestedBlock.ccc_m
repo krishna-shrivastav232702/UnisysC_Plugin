@@ -1,0 +1,26 @@
+void test_function{
+  for (int i = 0; i < 42; i++) {}     // Noncompliant
+
+  for (int i = 0; i < 42; i++);       // OK
+
+  if (myVar == 4)  // OK
+  {
+    // Do nothing because of X and Y
+  }
+
+  switch (a) {                // OK
+    case 1:
+      break;
+    default:
+      break;
+  }
+}
+
+void f()      // OK
+{
+  doSomething();
+}
+
+void emptyFunction()      // OK
+{
+}

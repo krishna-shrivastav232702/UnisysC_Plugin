@@ -18,13 +18,12 @@ package org.sonar.c.checks;
 
 import java.io.File;
 import org.junit.jupiter.api.Test;
-import org.sonar.c.checks.EmptyNestedBlockCheck;
 
 public class EmptyNestedBlockCheckTest {
   private EmptyNestedBlockCheck check = new EmptyNestedBlockCheck();
 
   @Test
   public void test() throws Exception {
-    CVerifier.verify(new File("src/test/resources/checks/EmptyNestedBlock.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/EmptyNestedBlock.ccc_m"), check);
   }
 }

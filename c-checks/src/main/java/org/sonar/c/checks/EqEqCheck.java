@@ -44,7 +44,7 @@ public class EqEqCheck extends CCheck {
   private boolean isInsideSelectionCondition(AstNode node) {
     AstNode parent = node.getParent();
     while (parent != null) {
-      if (parent.is(CGrammar.SELECTION_STATEMENT)) {
+      if (parent.is(CGrammar.CONTROL_STATEMENT)) {
         return true;
       }
       if (parent.is(CGrammar.FUNCTION_DEF)) {

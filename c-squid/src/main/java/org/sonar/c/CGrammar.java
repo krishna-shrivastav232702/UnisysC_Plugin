@@ -179,7 +179,7 @@ public enum CGrammar implements GrammarRuleKey {
     INITIALIZER_LIST,
     ITERATION_STATEMENT,
     JUMP_STATEMENT,
-    SELECTION_STATEMENT,
+    CONTROL_STATEMENT,
     SPECIFIER_QUALIFIER_LIST,
     // STATIC_ASSERT_DECLARATION,
     STORAGE_CLASS_SPECIFIER,
@@ -976,12 +976,12 @@ public enum CGrammar implements GrammarRuleKey {
                 LABELED_STATEMENT,
                 COMPOUND_STATEMENT,
                 EXPRESSION_STATEMENT,
-                SELECTION_STATEMENT,
+                CONTROL_STATEMENT,
                 ITERATION_STATEMENT,
                 JUMP_STATEMENT
         ));
 
-        b.rule(SELECTION_STATEMENT).is(b.firstOf(
+        b.rule(CONTROL_STATEMENT).is(b.firstOf(
                 b.sequence(IF, LPARENTHESIS, EXPRESSION, RPARENTHESIS, STATEMENT, b.optional(b.sequence(ELSE, STATEMENT))),
                 b.sequence(SWITCH, LPARENTHESIS, EXPRESSION, RPARENTHESIS, STATEMENT)));
 
@@ -1021,7 +1021,8 @@ public enum CGrammar implements GrammarRuleKey {
         b.sequence(IDENTIFIER, COLON, STATEMENT),
         b.sequence(CASE, CONSTANT_EXPRESSION, COLON, STATEMENT),
         b.sequence(DEFAULT, COLON, STATEMENT)));
-
+        
+        // the following if, switch, do, while and for statements are replaced by control and iteration statements
         b.rule(IF_STATEMENT).is(IF, PARENTHESIZED_LIST_EXPR, SUB_STATEMENT, b.optional(ELSE, SUB_STATEMENT));
 
         b.rule(SWITCH_STATEMENT).is(SWITCH, PARENTHESIZED_LIST_EXPR, LCURLYBRACE, b.zeroOrMore(CASE_ELEMENT),
