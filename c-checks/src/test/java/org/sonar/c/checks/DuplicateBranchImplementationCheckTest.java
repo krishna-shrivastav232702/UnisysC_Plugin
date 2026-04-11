@@ -18,7 +18,6 @@ package org.sonar.c.checks;
 
 import java.io.File;
 import org.junit.jupiter.api.Test;
-import org.sonar.c.checks.DuplicateBranchImplementationCheck;
 
 public class DuplicateBranchImplementationCheckTest {
 
@@ -26,6 +25,6 @@ public class DuplicateBranchImplementationCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/DuplicateBranchImplementation.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/DuplicateBranchImplementation.ccc_m"), check);
   }
 }

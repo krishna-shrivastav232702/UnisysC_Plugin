@@ -26,6 +26,7 @@ import javax.annotation.Nullable;
 
 import org.sonar.c.CCheck;
 import org.sonar.c.CGrammar;
+import org.sonar.c.CKeyword;
 
 public abstract class ConditionalStructureCheckBase extends CCheck {
   private Set<AstNode> visitedIfStatements = new HashSet<>();
@@ -36,21 +37,26 @@ public abstract class ConditionalStructureCheckBase extends CCheck {
   @Override
   public List<AstNodeType> subscribedTo() {
     return Arrays.asList(
-      CGrammar.IF_STATEMENT,
-      CGrammar.SWITCH_STATEMENT);
+      CGrammar.CONTROL_STATEMENT);
   }
   @Override
   public void visitNode(AstNode node) {
-    ConditionalStructure conditionalStructure;
-    if (node.is(CGrammar.IF_STATEMENT)) {
+    if (isIfStatement(node)) {
       if (!visitedIfStatements.add(node)) {
         return;
       }
-      conditionalStructure = ConditionalStructure.ifStatement(node, visitedIfStatements);
-    } else {
-      conditionalStructure = ConditionalStructure.switchStatement(node);
+      visitConditionalStructure(ConditionalStructure.ifStatement(node, visitedIfStatements));
+    } else if (isSwitchStatement(node)) {
+      visitConditionalStructure(ConditionalStructure.switchStatement(node));
     }
-    visitConditionalStructure(conditionalStructure);
+  }
+
+  private boolean isIfStatement(AstNode node) {
+    return node.getFirstChild().is(CKeyword.IF);
+  }
+
+  private boolean isSwitchStatement(AstNode node) {
+    return node.getFirstChild().is(CKeyword.SWITCH);
   }
 
   abstract void visitConditionalStructure(ConditionalStructure cond);
