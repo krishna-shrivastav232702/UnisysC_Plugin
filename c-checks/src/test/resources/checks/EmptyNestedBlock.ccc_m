@@ -1,7 +1,8 @@
 void test_function{
-  for (int i = 0; i < 42; i++) {}     // Noncompliant
+  int i;
+  for (i = 0; i < 42; i++) {}     // Noncompliant
 
-  for (int i = 0; i < 42; i++);       // OK
+  for (i = 0; i < 42; i++);       // OK
 
   if (myVar == 4)  // OK
   {

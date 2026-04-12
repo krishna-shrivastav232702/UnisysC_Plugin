@@ -538,7 +538,7 @@ public enum CGrammar implements GrammarRuleKey {
         b.rule(IDENTIFIER).is(b.sequence(
                 SPACING,
                 b.nextNot(KEYWORDS),
-                b.regexp("[a-zA-Z]" + "[a-zA-Z0-9]*+")));
+                b.regexp("[a-zA-Z_]" + "[a-zA-Z0-9_]*+")));
 
         b.rule(IDENTIFIER_PART).is(b.regexp(IDENTIFIER_PART_REGEXP));
 
