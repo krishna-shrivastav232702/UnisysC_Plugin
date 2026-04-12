@@ -2,13 +2,13 @@
 <p>This is required by IEC 61508, under good programming style.</p>
 <h3>Noncompliant code example</h3>
 <pre>
-function func1() { // Noncompliant - there are two points of exit
-  if (false) {
+void func1() { /* Noncompliant - there are two points of exit */
+  if (0) {
     return;
   }
 }
 
-function func2() { // Noncompliant - there are two points of exit
+int func2(int a) { /* Noncompliant - there are two points of exit */
   if (a &gt; 0) {
     return 0;
   }
@@ -17,13 +17,10 @@ function func2() { // Noncompliant - there are two points of exit
 </pre>
 <h3>Compliant solution</h3>
 <pre>
-function func1() {
+void func1() {
   return;
 }
 
-function func2() {
+void func2() {
 }
-
-function func3();
 </pre>
-

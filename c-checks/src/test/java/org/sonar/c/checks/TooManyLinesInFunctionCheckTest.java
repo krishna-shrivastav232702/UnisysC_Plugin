@@ -25,12 +25,12 @@ public class TooManyLinesInFunctionCheckTest {
 
   @Test
   public void testDefault() throws Exception {
-    CVerifier.verifyNoIssueIgnoringExpected(new File("src/test/resources/checks/TooManyLinesInFunction.as"), check);
+    CVerifier.verifyNoIssueIgnoringExpected(new File("src/test/resources/checks/TooManyLinesInFunction.c"), check);
   }
 
   @Test
   public void custom() {
     check.max = 3;
-    CVerifier.verify(new File("src/test/resources/checks/TooManyLinesInFunction.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/TooManyLinesInFunction.c"), check);
   }
 }

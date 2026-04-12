@@ -5,26 +5,26 @@ belonging to an outer statement. Therefore nested <code>switch</code> statements
 the inner <code>switch</code> to another function.</p>
 <h3>Noncompliant code example</h3>
 <pre>
-public function func(foo:Number, bar:Number):void
+void func(int foo, int bar)
 {
   switch (foo)
   {
     case 1:
-      // do something
+      /* do something */
       break;
     case 2:
-      switch (bar)  // Noncompliant
+      switch (bar)  /* Noncompliant */
       {
-        case 89:  // It's easy to lose sight of what's being tested; is it foo or bar?
-          // ...
+        case 89:  /* It's easy to lose sight of what's being tested; is it foo or bar? */
+          /* ... */
           break;
         case 90:
-          // ...
+          /* ... */
           break;
       }
       break;
     case 3:
-      // do something
+      /* do something */
       break;
     default:
       break;
@@ -33,35 +33,34 @@ public function func(foo:Number, bar:Number):void
 </pre>
 <h3>Compliant solution</h3>
 <pre>
-public function func(foo:Number, bar:Number):void
+void handleBar(int bar)
+{
+  switch (bar)
+  {
+    case 89:
+      /* ... */
+      break;
+    case 90:
+      /* ... */
+      break;
+  }
+}
+
+void func(int foo, int bar)
 {
   switch (foo)
   {
     case 1:
-      // ...
+      /* ... */
       break;
     case 2:
       handleBar(bar);
       break;
     case 3:
-      // ...
+      /* ... */
       break;
     default:
       break;
   }
 }
-
-public function handleBar(bar:Number):void
-{
-  switch (bar)
-  {
-    case 89:
-      // ...
-      break;
-    case 90:
-      // ...
-      break;
-  }
-}
 </pre>
-

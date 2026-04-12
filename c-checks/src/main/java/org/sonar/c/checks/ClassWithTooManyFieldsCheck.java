@@ -60,7 +60,7 @@ public class ClassWithTooManyFieldsCheck extends CCheck {
 
     if (nbFields > maximumFieldThreshold) {
       String msg = countNonpublicFields ? String.valueOf(maximumFieldThreshold) : (maximumFieldThreshold + " public");
-      String message = MessageFormat.format("Refactor this class so it has no more than {0} fields, rather than the {1} it currently has.", msg, nbFields);
+      String message = MessageFormat.format("Refactor this struct so it has no more than {0} fields, rather than the {1} it currently has.", msg, nbFields);
       addIssue(message, astNode);
     }
   }

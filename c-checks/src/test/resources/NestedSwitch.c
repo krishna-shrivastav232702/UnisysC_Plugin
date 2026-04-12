@@ -1,0 +1,22 @@
+void test(int x, int y, int z) {
+  switch (x) {         /* OK */
+
+    case 1:
+      switch (y) {     /* Noncompliant {{Move this "switch" to a function or refactor the code to eliminate it.}} */
+        case 1:
+        default:
+          break;
+      }
+      break;
+
+    case 2:
+      break;
+  }
+
+  switch (z) {         /* OK */
+    case 1:
+      break;
+    default:
+      break;
+  }
+}
