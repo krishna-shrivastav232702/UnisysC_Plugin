@@ -1,0 +1,15 @@
+void sayHello() {
+  char *foo = "foo";int a=9; // Noncompliant {{At most one statement is allowed per line, but 2 statements were found on this line.}}
+
+  printf("Hello World!"); printf("Hello World!"); // Noncompliant
+
+  if (a) {} // OK
+
+  if (a) {} if (b) {} // Noncompliant
+
+  while (condition); // OK
+
+  while (condition) { // OK
+    break; // OK
+  }
+}

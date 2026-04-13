@@ -27,6 +27,7 @@ import javax.annotation.Nullable;
 
 import org.sonar.c.CCheck;
 import org.sonar.c.CGrammar;
+import org.sonar.c.api.CKeyword;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 
@@ -36,16 +37,15 @@ public class TooManyReturnCheck extends CCheck {
   private static final int DEFAULT = 3;
   private final Deque<Integer> returnStatementCounter = new ArrayDeque<>();
 
-  @RuleProperty(
-    key = "max",
-    description = "Maximum allowed return statements per function",
-    defaultValue = "" + DEFAULT)
+  @RuleProperty(key = "max", description = "Maximum allowed return statements per function", defaultValue = ""
+      + DEFAULT)
   int max = DEFAULT;
-
 
   @Override
   public List<AstNodeType> subscribedTo() {
-    return Arrays.asList(CGrammar.FUNCTION_COMMON, CGrammar.RETURN_STATEMENT);
+    // In your CGrammar, FUNCTION_DEF is the rule for function definitions
+    // JUMP_STATEMENT contains the return keyword
+    return Arrays.asList(CGrammar.FUNCTION_DEF, CGrammar.JUMP_STATEMENT);
   }
 
   @Override
@@ -55,28 +55,36 @@ public class TooManyReturnCheck extends CCheck {
 
   @Override
   public void visitNode(AstNode astNode) {
-    if (astNode.is(CGrammar.RETURN_STATEMENT)) {
-      setReturnStatementCounter(getReturnStatementCounter() + 1);
-    } else {
+    if (astNode.is(CGrammar.FUNCTION_DEF)) {
+      // Start counting for a new function context
       returnStatementCounter.push(0);
+    } else if (astNode.is(CGrammar.JUMP_STATEMENT) && isReturnStatement(astNode)) {
+      // Only increment if we are currently inside a function
+      if (!returnStatementCounter.isEmpty()) {
+        setReturnStatementCounter(getReturnStatementCounter() + 1);
+      }
     }
-
   }
 
   @Override
   public void leaveNode(AstNode astNode) {
-    if (astNode.is(CGrammar.FUNCTION_COMMON)) {
-      if (getReturnStatementCounter() > max) {
+    if (astNode.is(CGrammar.FUNCTION_DEF)) {
+      int count = getReturnStatementCounter();
+      if (count > max) {
         addIssue(
-          MessageFormat.format(
-            "Reduce the number of returns of this function {0,number,integer}, down to the maximum allowed {1,number,integer}.",
-            getReturnStatementCounter(),
-            max),
-          astNode);
+            MessageFormat.format(
+                "Reduce the number of returns of this function {0,number,integer}, down to the maximum allowed {1,number,integer}.",
+                count,
+                max),
+            astNode);
       }
       returnStatementCounter.pop();
     }
+  }
 
+  private boolean isReturnStatement(AstNode jumpNode) {
+    // In your JUMP_STATEMENT rule, return is one of the firstOf options
+    return jumpNode.hasDirectChildren(CKeyword.RETURN);
   }
 
   private int getReturnStatementCounter() {
