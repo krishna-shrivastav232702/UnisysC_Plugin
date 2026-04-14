@@ -1,0 +1,5 @@
+void testfunction(int a) {
+    int normalLocal = 10;        // OK
+    volatile int badLocal;       // Noncompliant 
+
+}

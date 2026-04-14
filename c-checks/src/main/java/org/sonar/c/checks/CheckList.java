@@ -104,7 +104,9 @@ public final class CheckList {
       DuplicateBranchImplementationCheck.class,
       DefaultCasePositionCheck.class,
       AllBranchesIdenticalCheck.class,
-      ParsingErrorCheck.class));
+      ParsingErrorCheck.class,
+      VolatileLocalVariableCheck.class
+    ));
   }
 
 }
