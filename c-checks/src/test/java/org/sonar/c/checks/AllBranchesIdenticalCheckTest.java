@@ -24,7 +24,7 @@ public class AllBranchesIdenticalCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/AllBranchesIdentical.as"), new AllBranchesIdenticalCheck());
+    CVerifier.verify(new File("src/test/resources/checks/AllBranchesIdentical.ccc_m"), new AllBranchesIdenticalCheck());
   }
 
 }

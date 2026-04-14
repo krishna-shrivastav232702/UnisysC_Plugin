@@ -27,6 +27,6 @@ public class PublicConstNotStaticCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/PublicConstNotStatic.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/PublicConstNotStatic.ccc_m"), check);
   }
 }

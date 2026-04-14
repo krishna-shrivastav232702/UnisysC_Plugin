@@ -6,22 +6,21 @@ introduction of errors in the future.</p>
 <p>This rule tracks three types of non-invariant stop conditions:</p>
 <ul>
   <li> When the loop counters are updated in the body of the <code>for</code> loop </li>
-  <li> When the stop condition depend upon a method call </li>
+  <li> When the stop condition depends upon a function call </li>
   <li> When the stop condition depends on an object property, since such properties could change during the execution of the loop. </li>
 </ul>
 <h3>Noncompliant code example</h3>
 <pre>
-for (var i = 0; i &lt; 10; i++) {
-  ...
-  i = i - 1; // Noncompliant
-  ...
+for (int i = 0; i &lt; 10; i++) {
+  /* ... */
+  i = i - 1; /* Noncompliant */
+  /* ... */
 }
 
-for (var i = 0; i &lt; getMaximumNumber(); i++) {...}
+for (int i = 0; i &lt; getMaximumNumber(); i++) { /* Noncompliant */ }
 </pre>
 <h3>Compliant solution</h3>
 <pre>
 int stopCondition = getMaximumNumber();
-for (var i = 0; i &lt; stopCondition; i++) {...}
+for (int i = 0; i &lt; stopCondition; i++) { /* ... */ }
 </pre>
-

@@ -18,7 +18,6 @@ package org.sonar.c.checks;
 
 import java.io.File;
 import org.junit.jupiter.api.Test;
-import org.sonar.c.checks.CommentedCodeCheck;
 
 public class CommentedCodeCheckTest {
 
@@ -26,7 +25,7 @@ public class CommentedCodeCheckTest {
   public void test() {
     CommentedCodeCheck check = new CommentedCodeCheck();
 
-    CVerifier.verify(new File("src/test/resources/checks/CommentedCode.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/CommentedCode.ccc_m"), check);
   }
 
 }

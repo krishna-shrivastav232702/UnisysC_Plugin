@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 
 import org.sonar.c.CCheck;
 import org.sonar.c.CCommentAnalyser;
-import org.sonar.c.api.CKeyword;
+import org.sonar.c.CKeyword;
 import org.sonar.check.Rule;
 import org.sonarsource.analyzer.commons.recognizers.CodeRecognizer;
 import org.sonarsource.analyzer.commons.recognizers.ContainsDetector;
@@ -37,15 +37,15 @@ import org.sonarsource.analyzer.commons.recognizers.EndWithDetector;
 import org.sonarsource.analyzer.commons.recognizers.KeywordsDetector;
 import org.sonarsource.analyzer.commons.recognizers.LanguageFootprint;
 
-@Rule(key = "CommentedCode")
+@Rule(key = "S125")
 public class CommentedCodeCheck extends CCheck {
 
   private static final double THRESHOLD = 0.9;
 
-  private final CodeRecognizer codeRecognizer = new CodeRecognizer(THRESHOLD, new FlexRecognizer());
+  private final CodeRecognizer codeRecognizer = new CodeRecognizer(THRESHOLD, new CRecognizer());
   private final Pattern regexpToDivideStringByLine = Pattern.compile("(\r?\n)|(\r)");
 
-  private static class FlexRecognizer implements LanguageFootprint {
+  private static class CRecognizer implements LanguageFootprint {
 
     @Override
     public Set<Detector> getDetectors() {

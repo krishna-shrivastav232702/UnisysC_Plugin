@@ -27,7 +27,7 @@ public class PostfixExpressionTest {
 
   @Test
   public void postfixExpression() {
-    Assertions.assertThat(g.rule(CGrammar.POSTFIX_EXPR))
+    Assertions.assertThat(g.rule(CGrammar.POSTFIX_EXPRESSION))
       .matches("new a()")
       .matches("new a")
 

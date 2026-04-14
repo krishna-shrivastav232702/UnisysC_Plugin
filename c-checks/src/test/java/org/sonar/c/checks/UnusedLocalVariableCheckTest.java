@@ -26,6 +26,6 @@ public class UnusedLocalVariableCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/UnusedLocalVariable.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/UnusedLocalVariable.ccc_m"), check);
   }
 }

@@ -27,7 +27,7 @@ public class AssignmentExpressionTest {
 
   @Test
   public void test() {
-    Assertions.assertThat(g.rule(CGrammar.ASSIGNMENT_EXPR))
+    Assertions.assertThat(g.rule(CGrammar.ASSIGNMENT_EXPRESSION))
         .matches("a")
         .matches("a = 1")
         .matches("a *= 1")

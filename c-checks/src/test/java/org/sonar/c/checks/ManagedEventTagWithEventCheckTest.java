@@ -26,6 +26,6 @@ public class ManagedEventTagWithEventCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/ManagedEventTagWithEvent.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/ManagedEventTagWithEvent.ccc_m"), check);
   }
 }

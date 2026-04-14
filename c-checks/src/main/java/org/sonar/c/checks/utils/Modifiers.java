@@ -23,7 +23,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import org.sonar.c.CGrammar;
-import org.sonar.c.api.CKeyword;
+import org.sonar.c.CKeyword;
 
 public final class Modifiers {
 

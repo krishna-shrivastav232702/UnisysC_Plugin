@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.sonar.c.CCheck;
 import org.sonar.c.CGrammar;
-import org.sonar.c.api.CKeyword;
+import org.sonar.c.CKeyword;
 import org.sonar.check.Rule;
 
 @Rule(key = "S1125")
@@ -31,7 +31,7 @@ public class BooleanEqualityComparisonCheck extends CCheck {
 
   @Override
   public List<AstNodeType> subscribedTo() {
-    return Collections.singletonList(CGrammar.EQUALITY_EXPR);
+    return Collections.singletonList(CGrammar.EQUALITY_EXPRESSION);
   }
 
   @Override
@@ -42,8 +42,8 @@ public class BooleanEqualityComparisonCheck extends CCheck {
   }
 
   private static boolean hasBooleanLiteralOperand(AstNode astNode) {
-    return astNode.is(CGrammar.POSTFIX_EXPR)
-      && astNode.getFirstChild().is(CGrammar.PRIMARY_EXPR)
+    return astNode.is(CGrammar.POSTFIX_EXPRESSION)
+      && astNode.getFirstChild().is(CGrammar.PRIMARY_EXPRESSION)
       && astNode.getFirstChild().getFirstChild().is(CKeyword.TRUE, CKeyword.FALSE);
   }
 }

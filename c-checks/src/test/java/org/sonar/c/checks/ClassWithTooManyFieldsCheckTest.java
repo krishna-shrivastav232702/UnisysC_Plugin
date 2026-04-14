@@ -26,13 +26,13 @@ public class ClassWithTooManyFieldsCheckTest {
 
   @Test
   public void testDefault() {
-    CVerifier.verifyNoIssue(new File("src/test/resources/checks/ClassWithTooManyFields.as"), check);
+    CVerifier.verifyNoIssue(new File("src/test/resources/checks/ClassWithTooManyFields.ccc_m"), check);
   }
 
   @Test
   public void custom_maximum_field_threshold() {
     check.maximumFieldThreshold = 5;
-    CVerifier.verify(new File("src/test/resources/checks/ClassWithTooManyFields-5.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/ClassWithTooManyFields-5.ccc_m"), check);
   }
 
   @Test
@@ -40,7 +40,7 @@ public class ClassWithTooManyFieldsCheckTest {
     check.maximumFieldThreshold = 2;
     check.countNonpublicFields = false;
 
-    CVerifier.verify(new File("src/test/resources/checks/ClassWithTooManyFields-2.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/ClassWithTooManyFields-2.ccc_m"), check);
   }
 
 }

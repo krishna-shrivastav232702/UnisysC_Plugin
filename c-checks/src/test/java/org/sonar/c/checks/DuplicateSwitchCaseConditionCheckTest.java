@@ -26,6 +26,6 @@ public class DuplicateSwitchCaseConditionCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/DuplicateSwitchCaseCondition.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/DuplicateSwitchCaseCondition.ccc_m"), check);
   }
 }

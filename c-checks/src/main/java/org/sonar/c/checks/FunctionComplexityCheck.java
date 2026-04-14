@@ -27,7 +27,7 @@ import org.sonar.c.metrics.ComplexityVisitor;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 
-@Rule(key = "FunctionComplexity")
+@Rule(key = "S1541")
 public class FunctionComplexityCheck extends CCheck {
 
   private static final int DEFAULT_MAXIMUM_FUNCTION_COMPLEXITY_THRESHOLD = 10;

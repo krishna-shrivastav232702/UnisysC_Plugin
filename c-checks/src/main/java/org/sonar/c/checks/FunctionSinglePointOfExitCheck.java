@@ -25,7 +25,7 @@ import org.sonar.c.CCheck;
 import org.sonar.c.CGrammar;
 import org.sonar.check.Rule;
 
-@Rule(key = "FunctionSinglePointOfExit")
+@Rule(key = "S1005")
 public class FunctionSinglePointOfExitCheck extends CCheck {
 
   private int returnStatements;

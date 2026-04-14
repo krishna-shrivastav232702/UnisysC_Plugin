@@ -36,11 +36,9 @@ public final class CheckList {
       ControlFlowStmtDepthCheck.class,
       XPathCheck.class,
       FunctionComplexityCheck.class,
-      ClassComplexityCheck.class,
       OneStatementPerLineCheck.class,
       CommentedCodeCheck.class,
       SwitchWithoutDefaultCheck.class,
-      WithStatementCheck.class,
       NonEmptyCaseWithoutBreakCheck.class,
       FunctionSinglePointOfExitCheck.class,
       ActionScript2Check.class,
@@ -106,7 +104,9 @@ public final class CheckList {
       DuplicateBranchImplementationCheck.class,
       DefaultCasePositionCheck.class,
       AllBranchesIdenticalCheck.class,
-      ParsingErrorCheck.class));
+      ParsingErrorCheck.class,
+      VolatileLocalVariableCheck.class
+    ));
   }
 
 }

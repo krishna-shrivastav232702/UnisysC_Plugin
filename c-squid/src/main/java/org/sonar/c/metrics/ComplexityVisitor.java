@@ -24,8 +24,8 @@ import javax.annotation.Nullable;
 
 import org.sonar.c.CGrammar;
 import org.sonar.c.CVisitor;
-import org.sonar.c.api.CKeyword;
-import org.sonar.c.api.CPunctuator;
+import org.sonar.c.CKeyword;
+import org.sonar.c.CPunctuator;
 
 public class ComplexityVisitor extends CVisitor {
 

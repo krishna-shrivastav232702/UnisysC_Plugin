@@ -26,6 +26,6 @@ public class LocalVarShadowsFieldCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/LocalVarShadowsField.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/LocalVarShadowsField.ccc_m"), check);
   }
 }

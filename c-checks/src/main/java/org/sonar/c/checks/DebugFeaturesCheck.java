@@ -62,7 +62,7 @@ public class DebugFeaturesCheck extends CCheck {
 
   @Override
   public List<AstNodeType> subscribedTo() {
-    return Collections.singletonList(CGrammar.POSTFIX_EXPR);
+    return Collections.singletonList(CGrammar.POSTFIX_EXPRESSION);
   }
 
   @Override
@@ -88,7 +88,7 @@ public class DebugFeaturesCheck extends CCheck {
   }
 
   private static boolean isFunctionCall(AstNode postfixExpr) {
-    return postfixExpr.getFirstChild().is(CGrammar.PRIMARY_EXPR) && postfixExpr.getLastChild().is(CGrammar.ARGUMENTS);
+    return postfixExpr.getFirstChild().is(CGrammar.PRIMARY_EXPRESSION) && postfixExpr.getLastChild().is(CGrammar.ARGUMENTS);
   }
 
   private static Symbol getSymbol(String value) {

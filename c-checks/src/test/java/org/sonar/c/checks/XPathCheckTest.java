@@ -31,7 +31,7 @@ public class XPathCheckTest {
     check.xpathQuery = "//IDENTIFIER[string-length(@tokenValue) >= 10]";
     check.message = "Avoid identifiers which are too long!";
 
-    CVerifier.verify(new File("src/test/resources/checks/Xpath.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/Xpath.ccc_m"), check);
   }
 
   @Test
@@ -40,7 +40,7 @@ public class XPathCheckTest {
     check.xpathQuery = "count(//IDENTIFIER) > 0";
     check.message = "message!";
 
-    CVerifier.verify(new File("src/test/resources/checks/Xpath-count.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/Xpath-count.ccc_m"), check);
   }
 
   @Test
@@ -48,14 +48,14 @@ public class XPathCheckTest {
     XPathCheck check = new XPathCheck();
     check.xpathQuery = "//IDENTIFIER[string-length(@tokenValue) >= 10]";
     check.message = "message!";
-    CVerifier.verifyNoIssueIgnoringExpected(new File("src/test/resources/checks/ParsingError.as"), check);
+    CVerifier.verifyNoIssueIgnoringExpected(new File("src/test/resources/checks/ParsingError.ccc_m"), check);
   }
 
   @Test
   public void test_bad_regex() {
     XPathCheck check = new XPathCheck();
     check.xpathQuery = "[a-";
-    final File file = new File("src/test/resources/checks/ParsingError.as");
+    final File file = new File("src/test/resources/checks/ParsingError.ccc_m");
     RuntimeException e = assertThrows(RuntimeException.class, () -> CVerifier.verifyNoIssueIgnoringExpected(file, check));
     assertEquals("Unable to initialize the XPath engine, perhaps because of an invalid query: [a-", e.getMessage());
   }
@@ -65,6 +65,6 @@ public class XPathCheckTest {
     XPathCheck check = new XPathCheck();
     check.xpathQuery = "count(//IDENTIFIER)";
     check.message = "message!";
-    CVerifier.verifyNoIssue(new File("src/test/resources/checks/Xpath-noissue.as"), check);
+    CVerifier.verifyNoIssue(new File("src/test/resources/checks/Xpath-noissue.ccc_m"), check);
   }
 }

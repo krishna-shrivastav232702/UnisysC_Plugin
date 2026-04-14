@@ -41,7 +41,7 @@ public class CheckListTest {
    */
   @Test
   public void count() throws IOException {
-    Path path = FileSystems.getDefault().getPath("src/main/java/org/sonar/flex/checks/");
+    Path path = FileSystems.getDefault().getPath("src/main/java/org/sonar/c/checks/");
     try (Stream<Path> stream = Files.list(path).filter(file -> file.getFileName().toString().endsWith("Check.java"))) {
       assertThat(CheckList.getChecks()).hasSize((int) stream.count());
     }

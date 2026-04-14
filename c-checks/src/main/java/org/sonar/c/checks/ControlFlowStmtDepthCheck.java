@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
 
 import org.sonar.c.CCheck;
 import org.sonar.c.CGrammar;
-import org.sonar.c.api.CKeyword;
+import org.sonar.c.CKeyword;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 
@@ -52,7 +52,7 @@ public class ControlFlowStmtDepthCheck extends CCheck {
   @Override
   public List<AstNodeType> subscribedTo() {
     return Arrays.asList(
-      CGrammar.SELECTION_STATEMENT,
+      CGrammar.CONTROL_STATEMENT,
       CGrammar.ITERATION_STATEMENT);
   }
 
@@ -83,7 +83,7 @@ public class ControlFlowStmtDepthCheck extends CCheck {
     if (parent == null) return false;
     
     AstNode grandParent = parent.getParent();
-    if (grandParent == null || !grandParent.is(CGrammar.SELECTION_STATEMENT)) {
+    if (grandParent == null || !grandParent.is(CGrammar.CONTROL_STATEMENT)) {
         return false;
     }
     

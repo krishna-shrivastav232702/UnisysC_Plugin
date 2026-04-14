@@ -51,7 +51,7 @@ public class ConstructorCallsDispatchEventCheck extends CCheck {
     return Arrays.asList(
       CGrammar.CLASS_DEF,
       CGrammar.FUNCTION_DEF,
-      CGrammar.PRIMARY_EXPR);
+      CGrammar.PRIMARY_EXPRESSION);
   }
 
   @Override
@@ -77,7 +77,7 @@ public class ConstructorCallsDispatchEventCheck extends CCheck {
   }
 
   private boolean isCallToDispatchEventInConstructor(AstNode astNode) {
-    return isInClass && classStack.peek().isInConstructor && astNode.is(CGrammar.PRIMARY_EXPR) && isCallToDispatchEvent(astNode);
+    return isInClass && classStack.peek().isInConstructor && astNode.is(CGrammar.PRIMARY_EXPRESSION) && isCallToDispatchEvent(astNode);
   }
 
   private static boolean isCallToDispatchEvent(AstNode primaryExpr) {

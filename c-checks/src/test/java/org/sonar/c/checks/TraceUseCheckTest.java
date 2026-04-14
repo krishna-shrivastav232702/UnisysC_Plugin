@@ -26,7 +26,7 @@ public class TraceUseCheckTest {
   public void test() {
     TraceUseCheck check = new TraceUseCheck();
 
-    CVerifier.verify(new File("src/test/resources/checks/TraceUse.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/TraceUse.ccc_m"), check);
   }
 
 }

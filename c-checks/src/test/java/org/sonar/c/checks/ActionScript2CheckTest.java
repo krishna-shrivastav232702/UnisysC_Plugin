@@ -26,7 +26,7 @@ public class ActionScript2CheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/ActionScript2.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/ActionScript2.ccc_m"), check);
   }
 
 }

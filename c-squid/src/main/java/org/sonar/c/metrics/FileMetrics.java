@@ -44,13 +44,9 @@ public class FileMetrics {
       CGrammar.FOR_STATEMENT,
       CGrammar.WHILE_STATEMENT,
       CGrammar.DO_STATEMENT,
-      CGrammar.WITH_STATEMENT,
       CGrammar.SWITCH_STATEMENT,
-      CGrammar.BREAK_STATEMENT,
-      CGrammar.CONTINUE_STATEMENT,
+      CGrammar.JUMP_STATEMENT,
       CGrammar.RETURN_STATEMENT,
-      CGrammar.THROW_STATEMENT,
-      CGrammar.TRY_STATEMENT,
       CGrammar.EMPTY_STATEMENT);
 
     Set<Integer> alreadyMarked = new HashSet<>();

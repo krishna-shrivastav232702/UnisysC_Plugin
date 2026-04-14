@@ -1,0 +1,12 @@
+<h2>Why is this an issue?</h2>
+<p>Declaring a local variable with the <code>volatile</code> keyword is almost always unnecessary and prevents the compiler from performing crucial optimizations.</p>
+<p>The <code>volatile</code> qualifier tells the compiler that a variable's value may be changed by something outside the control of the code (like a hardware interrupt or a different thread). However, local variables are stored on the stack and are not visible to external hardware or other threads unless their address is explicitly shared.</p>
+
+<p>In the following code:</p>
+<pre>
+void compute() {
+  volatile int status = 0;  // Noncompliant 
+  
+  /* ... */
+}
+</pre>

@@ -26,6 +26,6 @@ public class HardcodedEventNameCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/HardcodedEventName.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/HardcodedEventName.ccc_m"), check);
   }
 }

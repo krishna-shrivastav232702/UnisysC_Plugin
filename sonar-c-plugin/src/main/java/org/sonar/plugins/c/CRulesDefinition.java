@@ -29,7 +29,7 @@ public final class CRulesDefinition implements RulesDefinition {
 
   private static final String REPOSITORY_NAME = "Unisys_C_Analyzer";
   private static final String RESOURCE_BASE_PATH = "org/sonar/l10n/c/rules/c";
-  private static final Set<String> TEMPLATE_RULE_KEYS = new HashSet<>(Arrays.asList("XPath", "CommentRegularExpression"));
+  private static final Set<String> TEMPLATE_RULE_KEYS = new HashSet<>();
 
   private final SonarRuntime sonarRuntime;
 

@@ -26,7 +26,7 @@ public class OnEnterFrameUseCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/OnEnterFrameUse.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/OnEnterFrameUse.ccc_m"), check);
   }
 
 }

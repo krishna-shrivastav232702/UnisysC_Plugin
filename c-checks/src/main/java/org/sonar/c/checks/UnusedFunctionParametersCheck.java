@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
 
 import org.sonar.c.CCheck;
 import org.sonar.c.CGrammar;
-import org.sonar.c.api.CKeyword;
+import org.sonar.c.CKeyword;
 import org.sonar.c.checks.utils.Function;
 import org.sonar.c.checks.utils.Preconditions;
 import org.sonar.check.Rule;
@@ -79,7 +79,7 @@ public class UnusedFunctionParametersCheck extends CCheck {
   @Override
   public List<AstNodeType> subscribedTo() {
     List<AstNodeType> types = new ArrayList<>();
-    types.add(CGrammar.POSTFIX_EXPR);
+    types.add(CGrammar.POSTFIX_EXPRESSION);
     types.add(CGrammar.PARAMETERS);
     types.add(CGrammar.CLASS_DEF);
     Collections.addAll(types, FUNCTION_NODES);
@@ -103,10 +103,10 @@ public class UnusedFunctionParametersCheck extends CCheck {
     } else if (currentScope != null && astNode.is(CGrammar.PARAMETERS) && astNode.getParent().is(CGrammar.FUNCTION_SIGNATURE)) {
       declareInCurrentScope(Function.getParametersIdentifiers(currentScope.functionDec));
 
-    } else if (currentScope != null && astNode.is(CGrammar.POSTFIX_EXPR)) {
+    } else if (currentScope != null && astNode.is(CGrammar.POSTFIX_EXPRESSION)) {
       AstNode postfixExprChild = astNode.getFirstChild();
       // check if it is not a call to function with same name than the parameter
-      if (postfixExprChild.is(CGrammar.PRIMARY_EXPR) && postfixExprChild.getNextAstNode().isNot(CGrammar.ARGUMENTS)) {
+      if (postfixExprChild.is(CGrammar.PRIMARY_EXPRESSION) && postfixExprChild.getNextAstNode().isNot(CGrammar.ARGUMENTS)) {
         currentScope.use(getPrimaryExpressionStringValue(postfixExprChild));
       }
     }
@@ -150,7 +150,7 @@ public class UnusedFunctionParametersCheck extends CCheck {
       .getFirstChild(CGrammar.DIRECTIVES);
 
     return isExcludedFunctionDeclaration(functionDec) || isEmpty(directives)
-      || containsOnlyThrowStmt(directives) || isInClassImplementingInterface();
+       || isInClassImplementingInterface();
   }
 
   private static Boolean implementsAnInterface(AstNode classDef) {
@@ -160,16 +160,6 @@ public class UnusedFunctionParametersCheck extends CCheck {
 
   private boolean isInClassImplementingInterface() {
     return !classes.isEmpty() && classes.peek();
-  }
-
-  private static boolean containsOnlyThrowStmt(AstNode directives) {
-    List<AstNode> directiveList = directives.getChildren();
-
-    if (directiveList.size() == 1) {
-      AstNode directiveKind = directiveList.get(0).getFirstChild().getFirstChild();
-      return directiveKind.is(CGrammar.THROW_STATEMENT);
-    }
-    return false;
   }
 
   private static boolean isEmpty(AstNode directives) {

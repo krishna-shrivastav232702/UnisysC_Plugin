@@ -26,13 +26,13 @@ public class ConstantNameCheckTest {
 
   @Test
   public void defaults(){
-    CVerifier.verify(new File("src/test/resources/checks/ConstantName.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/ConstantName.ccc_m"), check);
   }
 
   @Test
   public void custom() {
     check.format = "[A-Z]+[0-9]+";
 
-    CVerifier.verify(new File("src/test/resources/checks/ConstantName-custom.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/ConstantName-custom.ccc_m"), check);
   }
 }

@@ -27,7 +27,7 @@ import org.sonar.c.metrics.ComplexityVisitor;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 
-@Rule(key = "ClassComplexity")
+@Rule(key = "S1311")
 @Deprecated
 public class ClassComplexityCheck extends CCheck {
 
@@ -48,7 +48,7 @@ public class ClassComplexityCheck extends CCheck {
   public void visitNode(AstNode node) {
     int complexity = ComplexityVisitor.complexity(node);
     if (complexity > maximumClassComplexityThreshold) {
-      String message = String.format("Class has a complexity of %s which is greater than %s authorized.", complexity, maximumClassComplexityThreshold);
+      String message = String.format("Function has a complexity of %s which is greater than %s authorized.", complexity, maximumClassComplexityThreshold);
       addIssueWithCost(message, node, (double)complexity - maximumClassComplexityThreshold);
     }
   }

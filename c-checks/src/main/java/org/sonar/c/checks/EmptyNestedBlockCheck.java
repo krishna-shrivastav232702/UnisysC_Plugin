@@ -23,34 +23,48 @@ import java.util.List;
 
 import org.sonar.c.CCheck;
 import org.sonar.c.CGrammar;
-import org.sonar.c.api.CPunctuator;
+import org.sonar.c.CPunctuator;
 import org.sonar.check.Rule;
 
 @Rule(key = "S108")
 public class EmptyNestedBlockCheck extends CCheck {
-
+  
   @Override
   public List<AstNodeType> subscribedTo() {
-    return Collections.singletonList(CGrammar.BLOCK);
+    return Collections.singletonList(CGrammar.COMPOUND_STATEMENT);
   }
 
   @Override
   public void visitNode(AstNode astNode) {
-    if (!astNode.getFirstChild(CGrammar.DIRECTIVES).hasChildren() && isNested(astNode) && !hasComment(astNode)) {
+    if (isEmpty(astNode) && isNested(astNode) && !hasComment(astNode)) {
       addIssue("Either remove or fill this block of code.", astNode);
     }
   }
 
+  private static boolean isEmpty(AstNode blockNode) {
+    AstNode declarationList = blockNode.getFirstChild(CGrammar.DECLARATION_LIST);
+    AstNode statementList = blockNode.getFirstChild(CGrammar.STATEMENT_LIST);
+    return (declarationList == null || !declarationList.hasChildren())
+      && (statementList == null || !statementList.hasChildren());
+  }
+
   private static boolean isNested(AstNode blockNode) {
-    return !blockNode.getParent().is(
-      CGrammar.CLASS_DEF,
-      CGrammar.INTERFACE_DEF,
-      CGrammar.PACKAGE_DEF,
-      CGrammar.FUNCTION_COMMON);
+    AstNode parent = blockNode.getParent();
+    // Direct child of FUNCTION_DEF = top-level function body, not nested
+    if (parent.is(CGrammar.FUNCTION_DEF)) {
+      return false;
+    }
+    // COMPOUND_STATEMENT used as a STATEMENT is wrapped:
+    // ITERATION_STATEMENT/CONTROL_STATEMENT -> STATEMENT -> COMPOUND_STATEMENT
+    // So check grandparent too
+    if (parent.is(CGrammar.STATEMENT)) {
+      AstNode grandParent = parent.getParent();
+      return !grandParent.is(CGrammar.FUNCTION_DEF);
+    }
+    return true;
   }
 
   private static boolean hasComment(AstNode blockNode) {
     return blockNode.getFirstChild(CPunctuator.RCURLYBRACE).getToken().hasTrivia();
   }
-
 }

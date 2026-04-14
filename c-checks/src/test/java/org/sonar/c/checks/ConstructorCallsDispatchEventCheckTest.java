@@ -26,7 +26,7 @@ public class ConstructorCallsDispatchEventCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/ConstructorCallsDispatchEvent.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/ConstructorCallsDispatchEvent.ccc_m"), check);
   }
 
 }

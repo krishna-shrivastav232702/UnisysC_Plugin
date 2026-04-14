@@ -26,6 +26,6 @@ public class EmptyStatementCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/EmptyStatement.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/EmptyStatement.ccc_m"), check);
   }
 }

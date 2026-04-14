@@ -65,11 +65,7 @@ public class ConstructorNotLightweightCheck extends CCheck {
     AstNode astNode = directive.getFirstChild();
     return astNode.is(CGrammar.STATEMENT)
       && astNode.getFirstChild().is(
-      CGrammar.IF_STATEMENT,
-      CGrammar.SWITCH_STATEMENT,
-      CGrammar.DO_STATEMENT,
-      CGrammar.WHILE_STATEMENT,
-      CGrammar.FOR_STATEMENT);
+      CGrammar.ITERATION_STATEMENT);
   }
 
 }

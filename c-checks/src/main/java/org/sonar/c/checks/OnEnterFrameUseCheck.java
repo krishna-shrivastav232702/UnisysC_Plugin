@@ -31,7 +31,7 @@ public class OnEnterFrameUseCheck extends CCheck {
 
   @Override
   public List<AstNodeType> subscribedTo() {
-    return Collections.singletonList(CGrammar.ASSIGNMENT_EXPR);
+    return Collections.singletonList(CGrammar.ASSIGNMENT_EXPRESSION);
   }
 
   @Override
@@ -43,7 +43,7 @@ public class OnEnterFrameUseCheck extends CCheck {
 
   private static boolean isFunctionExpr(AstNode assignementExpr) {
     AstNode assignmentExprChild = assignementExpr.getFirstChild();
-    return assignmentExprChild.is(CGrammar.POSTFIX_EXPR) && assignmentExprChild.getFirstChild().getFirstChild().is(CGrammar.FUNCTION_EXPR);
+    return assignmentExprChild.is(CGrammar.POSTFIX_EXPRESSION) && assignmentExprChild.getFirstChild().getFirstChild().is(CGrammar.FUNCTION_EXPR);
   }
 
   private static boolean isOnEnterFrame(AstNode postfixExpr) {

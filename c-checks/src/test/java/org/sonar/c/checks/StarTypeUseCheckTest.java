@@ -26,6 +26,6 @@ public class StarTypeUseCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/StarTypeUse.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/StarTypeUse.ccc_m"), check);
   }
 }

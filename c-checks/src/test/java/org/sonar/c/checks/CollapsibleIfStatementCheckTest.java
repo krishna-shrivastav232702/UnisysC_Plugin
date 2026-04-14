@@ -26,7 +26,7 @@ public class CollapsibleIfStatementCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/CollapsibleIfStatement.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/CollapsibleIfStatement.ccc_m"), check);
   }
 
 }

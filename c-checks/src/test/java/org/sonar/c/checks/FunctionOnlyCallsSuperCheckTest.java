@@ -26,6 +26,6 @@ public class FunctionOnlyCallsSuperCheckTest {
 
   @Test
   public void test() throws Exception {
-    CVerifier.verify(new File("src/test/resources/checks/FunctionOnlyCallsSuper.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/FunctionOnlyCallsSuper.ccc_m"), check);
   }
 }

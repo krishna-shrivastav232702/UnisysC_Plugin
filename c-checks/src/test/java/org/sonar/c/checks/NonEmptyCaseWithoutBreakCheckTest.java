@@ -18,7 +18,6 @@ package org.sonar.c.checks;
 
 import java.io.File;
 import org.junit.jupiter.api.Test;
-import org.sonar.c.checks.NonEmptyCaseWithoutBreakCheck;
 
 public class NonEmptyCaseWithoutBreakCheckTest {
 
@@ -26,7 +25,7 @@ public class NonEmptyCaseWithoutBreakCheckTest {
   public void test() {
     NonEmptyCaseWithoutBreakCheck check = new NonEmptyCaseWithoutBreakCheck();
 
-    CVerifier.verify(new File("src/test/resources/checks/NonEmptyCaseWithoutBreak.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/NonEmptyCaseWithoutBreak.ccc_m"), check);
   }
 
 }

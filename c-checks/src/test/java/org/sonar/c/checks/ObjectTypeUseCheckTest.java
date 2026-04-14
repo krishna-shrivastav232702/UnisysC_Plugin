@@ -26,6 +26,6 @@ public class ObjectTypeUseCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/ObjectTypeUse.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/ObjectTypeUse.ccc_m"), check);
   }
 }

@@ -2,8 +2,8 @@
   "name": "Sonar way",
   "ruleKeys": [
     "ActionScript2",
-    "CommentedCode",
-    "NonEmptyCaseWithoutBreak",
+    "S125",
+    "S128",
     "S100",
     "S101",
     "S107",
@@ -43,10 +43,10 @@
     "S1481",
     "S1871",
     "S1952",
+    "S3687",
     "S3923",
     "S4507",
     "S4524",
-    "SwitchWithoutDefault",
-    "WithStatement"
+    "S131"
   ]
 }

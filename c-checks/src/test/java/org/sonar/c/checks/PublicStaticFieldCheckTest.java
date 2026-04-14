@@ -26,6 +26,6 @@ public class PublicStaticFieldCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/PublicStaticField.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/PublicStaticField.ccc_m"), check);
   }
 }

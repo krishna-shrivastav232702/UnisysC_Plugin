@@ -24,7 +24,7 @@ public class ParsingErrorCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/ParsingError.as"), new ParsingErrorCheck());
+    CVerifier.verify(new File("src/test/resources/checks/ParsingError.ccc_m"), new ParsingErrorCheck());
   }
 
 }

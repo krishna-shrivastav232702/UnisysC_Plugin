@@ -26,6 +26,6 @@ public class EventMetadataShouldBeTypedCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/EventMetadataShouldBeTyped.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/EventMetadataShouldBeTyped.ccc_m"), check);
   }
 }

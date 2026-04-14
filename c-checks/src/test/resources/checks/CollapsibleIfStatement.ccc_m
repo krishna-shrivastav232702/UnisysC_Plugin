@@ -1,0 +1,65 @@
+void function f() {
+  if (0) { // OK
+  }
+
+  if (0) { // OK
+  } else {
+  }
+
+  if (0) { // OK
+    if (0) {     // Noncompliant
+    }
+  }
+
+  if (0) { // OK
+    if (0) { // OK
+    }
+    doSomething();
+  }
+
+  if (0) { // Compliant
+    int a;
+    if (a) { // Compliant
+    }
+  }
+
+  if (0) { // Compliant
+    if (0) { // Compliant
+    }
+  } else {
+  }
+
+  if (0) { // Compliant
+    if (0) { // Compliant
+    } else {
+    }
+  }
+
+  if (0) { // Compliant
+  } else if (0) { // Compliant
+    if (0) { // Noncompliant
+    }
+  }
+
+  if (0) // Compliant
+    if (true) { // Noncompliant
+    }
+
+  if (0) { // Compliant
+    while (true) {
+      if (true) { // Compliant
+      }
+    }
+
+    while (true)
+      if(true) { // Compliant
+      }
+  }
+}
+
+    if (0) { // Compliant
+    }
+
+    if (0) { // Compliant
+      doSomething();
+    }

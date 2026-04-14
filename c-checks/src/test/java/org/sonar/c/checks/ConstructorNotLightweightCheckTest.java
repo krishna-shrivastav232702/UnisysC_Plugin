@@ -26,6 +26,6 @@ public class ConstructorNotLightweightCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/ConstructorNotLightweight.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/ConstructorNotLightweight.ccc_m"), check);
   }
 }

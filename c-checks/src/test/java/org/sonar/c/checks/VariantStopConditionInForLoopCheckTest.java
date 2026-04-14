@@ -26,7 +26,7 @@ public class VariantStopConditionInForLoopCheckTest {
 
   @Test
   public void defaults() {
-    CVerifier.verify(new File("src/test/resources/checks/VariantStopConditionInForLoop.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/VariantStopConditionInForLoop.ccc_m"), check);
   }
 
 }

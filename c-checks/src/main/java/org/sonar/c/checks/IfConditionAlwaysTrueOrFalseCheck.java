@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.sonar.c.CCheck;
 import org.sonar.c.CGrammar;
-import org.sonar.c.api.CKeyword;
+import org.sonar.c.CKeyword;
 import org.sonar.check.Rule;
 
 @Rule(key = "S1145")
@@ -41,8 +41,8 @@ public class IfConditionAlwaysTrueOrFalseCheck extends CCheck {
     if (conditionalExpr.getChildren().size() == 1) {
 
       AstNode condition = conditionalExpr.getFirstChild().getFirstChild();
-      if ((condition.is(CGrammar.POSTFIX_EXPR)
-        && condition.getFirstChild().is(CGrammar.PRIMARY_EXPR)
+      if ((condition.is(CGrammar.POSTFIX_EXPRESSION)
+        && condition.getFirstChild().is(CGrammar.PRIMARY_EXPRESSION)
         && condition.getFirstChild().getFirstChild().is(CKeyword.TRUE))
         || condition.getFirstChild().getFirstChild().is(CKeyword.FALSE)) {
 

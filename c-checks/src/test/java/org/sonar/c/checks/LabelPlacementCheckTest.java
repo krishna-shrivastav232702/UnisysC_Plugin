@@ -25,6 +25,6 @@ public class LabelPlacementCheckTest {
   private LabelPlacementCheck check = new LabelPlacementCheck();
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/LabelPlacement.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/LabelPlacement.ccc_m"), check);
   }
 }

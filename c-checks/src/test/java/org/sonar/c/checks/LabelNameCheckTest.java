@@ -28,13 +28,13 @@ public class LabelNameCheckTest {
   @Ignore
   @Test
   public void defaults() {
-    CVerifier.verify(new File("src/test/resources/checks/PackageName.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/LabelName.ccc_m"), check);
   }
   @Ignore
   @Test
   public void custom() {
     check.format = "^[a-z]+(\\.[A-Z][a-z0-9]*)*$";
-    CVerifier.verify(new File("src/test/resources/checks/PackageName-custom.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/LabelName-custom.ccc_m"), check);
   }
 
 }

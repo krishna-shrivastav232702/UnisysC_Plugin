@@ -26,7 +26,7 @@ public class OneStatementPerLineCheckTest {
   public void test() {
     OneStatementPerLineCheck check = new OneStatementPerLineCheck();
 
-    CVerifier.verify(new File("src/test/resources/checks/OneStatementPerLine.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/OneStatementPerLine.ccc_m"), check);
   }
 
 }

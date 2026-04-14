@@ -53,11 +53,11 @@ public class MC23_150_Check extends CCheck {
         if (body == null)
             return;
 
-        AstNode blockItemList = body.getFirstChild(CGrammar.BLOCK_ITEM_LIST);
-        if (blockItemList == null || blockItemList.getNumberOfChildren() == 0)
+        AstNode statementList = body.getFirstChild(CGrammar.STATEMENT_LIST);
+        if (statementList == null || statementList.getNumberOfChildren() == 0)
             return;
 
-        if (!allPathsReturn(blockItemList)) {
+        if (!allPathsReturn(statementList)) {
             addIssue(MESSAGE, functionDef);
         }
     }
@@ -81,26 +81,21 @@ public class MC23_150_Check extends CCheck {
         return false;
     }
 
-    private static boolean allPathsReturn(AstNode blockItemList) {
-        if (blockItemList == null)
+    private static boolean allPathsReturn(AstNode statementList) {
+        if (statementList == null)
             return false;
-        List<AstNode> items = blockItemList.getChildren(CGrammar.BLOCK_ITEM);
-        for (AstNode item : items) {
-            if (blockItemAlwaysReturns(item))
+        List<AstNode> statements = statementList.getChildren(CGrammar.STATEMENT);
+        for (AstNode statement : statements) {
+            if (statementAlwaysReturns(statement))
                 return true;
         }
         return false;
     }
 
-    private static boolean blockItemAlwaysReturns(AstNode blockItem) {
-        AstNode statement = blockItem.getFirstChild(CGrammar.STATEMENT);
-        return statement != null && statementAlwaysReturns(statement);
-    }
-
     /**
      * In the new grammar:
      * - return is inside JUMP_STATEMENT
-     * - if/switch is inside SELECTION_STATEMENT
+     * - if/switch is inside CONTROL_STATEMENT
      * - while/for/do is inside ITERATION_STATEMENT
      * - blocks are COMPOUND_STATEMENT
      */
@@ -113,8 +108,8 @@ public class MC23_150_Check extends CCheck {
             return jumpStmt.getFirstChild(CKeyword.RETURN) != null;
         }
 
-        // ── SELECTION_STATEMENT (if / switch) ────────────────────────────────
-        AstNode selectionStmt = statement.getFirstChild(CGrammar.SELECTION_STATEMENT);
+        // ── CONTROL_STATEMENT (if / switch) ────────────────────────────────
+        AstNode selectionStmt = statement.getFirstChild(CGrammar.CONTROL_STATEMENT);
         if (selectionStmt != null) {
             if (selectionStmt.getFirstChild(CKeyword.IF) != null) {
                 return ifAlwaysReturns(selectionStmt);
@@ -127,7 +122,7 @@ public class MC23_150_Check extends CCheck {
         // ── COMPOUND_STATEMENT { } ────────────────────────────────────────────
         AstNode compoundStmt = statement.getFirstChild(CGrammar.COMPOUND_STATEMENT);
         if (compoundStmt != null) {
-            AstNode innerList = compoundStmt.getFirstChild(CGrammar.BLOCK_ITEM_LIST);
+            AstNode innerList = compoundStmt.getFirstChild(CGrammar.STATEMENT_LIST);
             return allPathsReturn(innerList);
         }
 
@@ -140,7 +135,7 @@ public class MC23_150_Check extends CCheck {
     }
 
     /**
-     * SELECTION_STATEMENT → IF ( EXPRESSION ) STATEMENT [ ELSE STATEMENT ]
+     * CONTROL_STATEMENT → IF ( EXPRESSION ) STATEMENT [ ELSE STATEMENT ]
      * Both branches must return for the if to always return.
      */
     private static boolean ifAlwaysReturns(AstNode selectionStmt) {
@@ -152,9 +147,9 @@ public class MC23_150_Check extends CCheck {
     }
 
     /**
-     * SELECTION_STATEMENT → SWITCH ( EXPRESSION ) STATEMENT
-     * Conservative: requires a COMPOUND_STATEMENT body where
-     * all BLOCK_ITEMs that are reachable end in a JUMP_STATEMENT(return).
+     * CONTROL_STATEMENT → SWITCH ( EXPRESSION ) STATEMENT
+    * Conservative: requires a COMPOUND_STATEMENT body where
+    * all statements that are reachable end in a JUMP_STATEMENT(return).
      */
     private static boolean switchAlwaysReturns(AstNode selectionStmt) {
         AstNode bodyStmt = selectionStmt.getFirstChild(CGrammar.STATEMENT);
@@ -164,16 +159,13 @@ public class MC23_150_Check extends CCheck {
         if (compoundStmt == null)
             return false;
 
-        AstNode blockItemList = compoundStmt.getFirstChild(CGrammar.BLOCK_ITEM_LIST);
-        if (blockItemList == null)
+        AstNode statementList = compoundStmt.getFirstChild(CGrammar.STATEMENT_LIST);
+        if (statementList == null)
             return false;
 
         // Must have a default label and all items must return
         boolean hasDefault = false;
-        for (AstNode item : blockItemList.getChildren(CGrammar.BLOCK_ITEM)) {
-            AstNode stmt = item.getFirstChild(CGrammar.STATEMENT);
-            if (stmt == null)
-                continue;
+        for (AstNode stmt : statementList.getChildren(CGrammar.STATEMENT)) {
             // Check for default label via LABELED_STATEMENT
             AstNode labeledStmt = stmt.getFirstChild(CGrammar.LABELED_STATEMENT);
             if (labeledStmt != null && labeledStmt.getFirstChild(CKeyword.DEFAULT) != null) {

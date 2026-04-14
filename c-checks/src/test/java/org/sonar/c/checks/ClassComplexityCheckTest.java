@@ -27,7 +27,7 @@ public class ClassComplexityCheckTest {
     ClassComplexityCheck check = new ClassComplexityCheck();
     check.setMaximumClassComplexityThreshold(1);
 
-    CVerifier.verify(new File("src/test/resources/checks/ClassComplexity.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/ClassComplexity.ccc_m"), check);
   }
 
 }

@@ -26,6 +26,6 @@ public class ExactSettingsSetToFalseCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/ExactSettingsSetToFalse.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/ExactSettingsSetToFalse.ccc_m"), check);
   }
 }

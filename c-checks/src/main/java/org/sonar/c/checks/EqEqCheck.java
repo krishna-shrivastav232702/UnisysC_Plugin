@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.sonar.c.CCheck;
 import org.sonar.c.CGrammar;
-import org.sonar.c.api.CPunctuator;
+import org.sonar.c.CPunctuator;
 import org.sonar.check.Rule;
 
 @Rule(key = "S1440")
@@ -44,7 +44,7 @@ public class EqEqCheck extends CCheck {
   private boolean isInsideSelectionCondition(AstNode node) {
     AstNode parent = node.getParent();
     while (parent != null) {
-      if (parent.is(CGrammar.SELECTION_STATEMENT)) {
+      if (parent.is(CGrammar.CONTROL_STATEMENT)) {
         return true;
       }
       if (parent.is(CGrammar.FUNCTION_DEF)) {

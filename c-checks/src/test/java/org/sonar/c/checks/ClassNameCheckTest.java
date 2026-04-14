@@ -26,14 +26,14 @@ public class ClassNameCheckTest {
 
   @Test
   public void defaults() {
-    CVerifier.verify(new File("src/test/resources/checks/ClassName.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/ClassName.ccc_m"), check);
   }
 
   @Test
   public void custom() {
     check.format = "^[a-z][a-zA-Z]*$";
 
-    CVerifier.verify(new File("src/test/resources/checks/ClassName2.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/ClassName2.ccc_m"), check);
   }
 
 }

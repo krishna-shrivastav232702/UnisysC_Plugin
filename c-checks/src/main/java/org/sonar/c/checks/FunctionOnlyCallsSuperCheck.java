@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
 
 import org.sonar.c.CCheck;
 import org.sonar.c.CGrammar;
-import org.sonar.c.api.CKeyword;
+import org.sonar.c.CKeyword;
 import org.sonar.c.checks.utils.Function;
 import org.sonar.check.Rule;
 
@@ -77,7 +77,7 @@ public class FunctionOnlyCallsSuperCheck extends CCheck {
   }
 
   private static boolean isSuperExpression(AstNode listExpression) {
-    AstNode postfixExpr = listExpression.getFirstChild(CGrammar.ASSIGNMENT_EXPR).getFirstChild(CGrammar.POSTFIX_EXPR);
+    AstNode postfixExpr = listExpression.getFirstChild(CGrammar.ASSIGNMENT_EXPRESSION).getFirstChild(CGrammar.POSTFIX_EXPRESSION);
 
     return postfixExpr != null && postfixExpr.getFirstChild(CGrammar.SUPER_EXPR) != null;
   }

@@ -24,7 +24,7 @@ import org.sonar.c.checks.ASDocCheck;
 
 public class ASDocCheckTest {
 
-  protected static final File TEST_FILE = new File("src/test/resources/checks/ASDoc.as");
+  protected static final File TEST_FILE = new File("src/test/resources/checks/ASDoc.ccc_m");
   protected ASDocCheck check = new ASDocCheck();
 
   @Test

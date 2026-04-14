@@ -26,6 +26,6 @@ public class PackageDefInClassDefCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/PackageDefInClassDef.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/PackageDefInClassDef.ccc_m"), check);
   }
 }

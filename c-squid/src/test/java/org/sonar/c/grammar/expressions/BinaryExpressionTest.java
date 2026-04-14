@@ -27,7 +27,7 @@ public class BinaryExpressionTest {
 
   @Test
   public void multiplicative() {
-    Assertions.assertThat(g.rule(CGrammar.MULTIPLICATIVE_EXPR))
+    Assertions.assertThat(g.rule(CGrammar.MULTIPLICATIVE_EXPRESSION))
       .matches("a * b")
       .matches("a / b")
       .matches("a % b");
@@ -35,7 +35,7 @@ public class BinaryExpressionTest {
 
   @Test
   public void additive() {
-    Assertions.assertThat(g.rule(CGrammar.ADDITIVE_EXPR))
+    Assertions.assertThat(g.rule(CGrammar.ADDITIVE_EXPRESSION))
       .matches("a + b")
       .matches("a - b")
       // ActionScript 2:
@@ -44,7 +44,7 @@ public class BinaryExpressionTest {
 
   @Test
   public void shift() {
-    Assertions.assertThat(g.rule(CGrammar.SHIFT_EXPR))
+    Assertions.assertThat(g.rule(CGrammar.SHIFT_EXPRESSION))
       .matches("a << b")
       .matches("a >> b")
       .matches("a >>> b");
@@ -52,7 +52,7 @@ public class BinaryExpressionTest {
 
   @Test
   public void relational() {
-    Assertions.assertThat(g.rule(CGrammar.RELATIONAL_EXPR))
+    Assertions.assertThat(g.rule(CGrammar.RELATIONAL_EXPRESSION))
       .matches("a <= b")
       .matches("a >= b")
       .matches("a < b")
@@ -70,7 +70,7 @@ public class BinaryExpressionTest {
 
   @Test
   public void equality() {
-    Assertions.assertThat(g.rule(CGrammar.EQUALITY_EXPR))
+    Assertions.assertThat(g.rule(CGrammar.EQUALITY_EXPRESSION))
       .matches("a !== b")
       .matches("a === b")
       .matches("a == b")
@@ -83,10 +83,10 @@ public class BinaryExpressionTest {
 
   @Test
   public void bitewise() {
-    Assertions.assertThat(g.rule(CGrammar.BITEWISE_AND_EXPR))
+    Assertions.assertThat(g.rule(CGrammar.AND_EXPRESSION))
       .matches("a & b");
 
-    Assertions.assertThat(g.rule(CGrammar.BITEWISE_XOR_EXPR))
+    Assertions.assertThat(g.rule(CGrammar.EXCLUSIVE_OR_EXPRESSION))
       .matches("a ^ b");
 
     Assertions.assertThat(g.rule(CGrammar.BITEWISE_OR_EXPR))
@@ -95,11 +95,11 @@ public class BinaryExpressionTest {
 
   @Test
   public void logical() {
-    Assertions.assertThat(g.rule(CGrammar.LOGICAL_AND_EXPR))
+    Assertions.assertThat(g.rule(CGrammar.LOGICAL_AND_EXPRESSION))
       .matches("a && b")
       .matches("a and b");
 
-    Assertions.assertThat(g.rule(CGrammar.LOGICAL_OR_EXPR))
+    Assertions.assertThat(g.rule(CGrammar.LOGICAL_OR_EXPRESSION))
       .matches("a || b")
       .matches("a or b");
   }

@@ -26,7 +26,7 @@ public class IfConditionAlwaysTrueOrFalseCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/IfConditionAlwaysTrueOrFalse.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/IfConditionAlwaysTrueOrFalse.ccc_m"), check);
   }
 
 }

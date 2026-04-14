@@ -24,6 +24,6 @@ public class DebugFeaturesCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/DebugFeatures.as"), new DebugFeaturesCheck());
+    CVerifier.verify(new File("src/test/resources/checks/DebugFeatures.ccc_m"), new DebugFeaturesCheck());
   }
 }

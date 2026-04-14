@@ -26,6 +26,6 @@ public class NotEnoughCaseForSwitchCheckTest {
 
   @Test
   public void test(){
-    CVerifier.verify(new File("src/test/resources/checks/NotEnoughCaseForSwitch.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/NotEnoughCaseForSwitch.ccc_m"), check);
   }
 }

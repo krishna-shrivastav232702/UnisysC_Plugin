@@ -27,15 +27,13 @@ import org.sonar.c.CCheck;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 
-@Rule(key = "LineLength")
+@Rule(key = "S103")
 public class LineLengthCheck extends CCheck {
 
   private static final int DEFAULT_MAXIMUM_LINE_LENHGTH = 80;
 
-  @RuleProperty(
-    key = "maximumLineLength",
-    description = "The maximum authorized line length.",
-    defaultValue = "" + DEFAULT_MAXIMUM_LINE_LENHGTH)
+  @RuleProperty(key = "maximumLineLength", description = "The maximum authorized line length.", defaultValue = ""
+      + DEFAULT_MAXIMUM_LINE_LENHGTH)
   public int maximumLineLength = DEFAULT_MAXIMUM_LINE_LENHGTH;
 
   @Override
@@ -52,8 +50,9 @@ public class LineLengthCheck extends CCheck {
       String line = lines[i];
       if (line.length() > maximumLineLength) {
         addIssueAtLine(
-          MessageFormat.format("Split this {0} characters long line (which is greater than {1} authorized).", line.length(), maximumLineLength),
-          i + 1);
+            MessageFormat.format("Split this {0} characters long line (which is greater than {1} authorized).",
+                line.length(), maximumLineLength),
+            i + 1);
       }
     }
   }

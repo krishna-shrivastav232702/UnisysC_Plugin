@@ -26,6 +26,6 @@ public class PrivateStaticConstLoggerCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/PrivateStaticConstLogger.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/PrivateStaticConstLogger.ccc_m"), check);
   }
 }

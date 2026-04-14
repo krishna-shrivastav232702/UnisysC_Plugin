@@ -26,6 +26,6 @@ public class OverrideEventCloneFunctionCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/OverrideEventCloneFunction.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/OverrideEventCloneFunction.ccc_m"), check);
   }
 }

@@ -2,8 +2,8 @@
 <p>Functions with a long parameter list are difficult to use because maintainers must figure out the role of each parameter and keep track of their
 position.</p>
 <pre>
-function setCoordinates(var x1, var y1, var z1, var x2, var y2, var z2) { // Noncompliant
-    // ...
+int setCoordinates(int x1, int y1, int z1, int x2, int y2, int z2) { /* Noncompliant */
+    /* ... */
 }
 </pre>
 <p>The solution can be to:</p>
@@ -11,28 +11,27 @@ function setCoordinates(var x1, var y1, var z1, var x2, var y2, var z2) { // Non
   <li> Split the function into smaller ones </li>
 </ul>
 <pre>
-// Each function does a part of what the original setCoordinates function was doing, so confusion risks are lower
-void setOrigin(var x, var y, var z) {
-   // ...
+/* Each function does a part of what the original setCoordinates function was doing, so confusion risks are lower */
+void setOrigin(int x, int y, int z) {
+   /* ... */
 }
 
-void setSize(var width, var height, var depth) {
-   // ...
+void setSize(int width, int height, int depth) {
+   /* ... */
 }
 </pre>
 <ul>
   <li> Find a better data structure for the parameters that group data in a way that makes sense for the specific application domain </li>
 </ul>
 <pre>
-struct Point { // In geometry, Point is a logical structure to group data
-    var x;
-    var y;
-    var z;
+struct Point { /* In geometry, Point is a logical structure to group data */
+    int x;
+    int y;
+    int z;
 };
 
-function setCoordinates(var p1, var p2) {
-    // ...
+int setCoordinates(struct Point p1, struct Point p2) {
+    /* ... */
 }
 </pre>
 <p>This rule raises an issue when a function has more parameters than the provided threshold.</p>
-

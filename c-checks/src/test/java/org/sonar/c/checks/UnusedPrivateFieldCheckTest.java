@@ -26,6 +26,6 @@ public class UnusedPrivateFieldCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/UnusedPrivateField.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/UnusedPrivateField.ccc_m"), check);
   }
 }

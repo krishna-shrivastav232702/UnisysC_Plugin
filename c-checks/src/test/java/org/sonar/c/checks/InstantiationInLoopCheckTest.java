@@ -26,6 +26,6 @@ public class InstantiationInLoopCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/InstantiationInLoop.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/InstantiationInLoop.ccc_m"), check);
   }
 }

@@ -26,7 +26,7 @@ public class EmptyMethodCheckTest {
 
   @Test
   public void defaults() {
-    CVerifier.verify(new File("src/test/resources/checks/EmptyMethod.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/EmptyMethod.ccc_m"), check);
   }
 
 }

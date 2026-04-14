@@ -26,7 +26,7 @@ public class NestedSwitchCheckTest {
 
   @Test
   public void defaultFormat() {
-    CVerifier.verify(new File("src/test/resources/checks/NestedSwitch.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/NestedSwitch.ccc_m"), check);
   }
 
 }

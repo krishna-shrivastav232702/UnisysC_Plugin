@@ -26,6 +26,6 @@ public class UnusedPrivateFunctionCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/UnusedPrivateFunction.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/UnusedPrivateFunction.ccc_m"), check);
   }
 }

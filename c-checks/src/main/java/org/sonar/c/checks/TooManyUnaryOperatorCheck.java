@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
 
 import org.sonar.c.CCheck;
 import org.sonar.c.CGrammar;
-import org.sonar.c.api.CPunctuator;
+import org.sonar.c.CPunctuator;
 import org.sonar.check.Rule;
 
 
@@ -37,7 +37,7 @@ public class TooManyUnaryOperatorCheck extends CCheck {
   @Override
   public List<AstNodeType> subscribedTo() {
     return Arrays.asList(
-      CGrammar.ASSIGNMENT_EXPR,
+      CGrammar.ASSIGNMENT_EXPRESSION,
       CPunctuator.DOUBLE_MINUS,
       CPunctuator.DOUBLE_PLUS);
   }
@@ -49,7 +49,7 @@ public class TooManyUnaryOperatorCheck extends CCheck {
 
   @Override
   public void visitNode(AstNode astNode) {
-    if (astNode.is(CGrammar.ASSIGNMENT_EXPR)) {
+    if (astNode.is(CGrammar.ASSIGNMENT_EXPRESSION)) {
       assignmentExpression = true;
     } else if (assignmentExpression && (astNode.is(CPunctuator.DOUBLE_MINUS) || astNode.is(CPunctuator.DOUBLE_PLUS))) {
       counter++;
@@ -58,7 +58,7 @@ public class TooManyUnaryOperatorCheck extends CCheck {
 
   @Override
   public void leaveNode(AstNode astNode) {
-    if (astNode.is(CGrammar.ASSIGNMENT_EXPR)) {
+    if (astNode.is(CGrammar.ASSIGNMENT_EXPRESSION)) {
       if (counter > 1) {
         addIssue("Split this expression into multiple expressions so that each one contains no more than a single \"++\" or \"--\" unary operator",
           astNode);

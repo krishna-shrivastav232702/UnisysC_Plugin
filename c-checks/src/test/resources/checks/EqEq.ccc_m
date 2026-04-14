@@ -1,4 +1,4 @@
-void test_function() {
+void testfunction() {
   if (x == y); // OK
   if (x != y); // OK
 

@@ -88,4 +88,4 @@ The grammar in `FlexGrammar.java` defines all ActionScript 3 constructs. Key ent
 - `CLASS_DEF`, `INTERFACE_DEF` - Type definitions
 - `FUNCTION_DEF` - Function declarations
 - `STATEMENT` - All statement types
-- `ASSIGNMENT_EXPR` - Expression hierarchy root
+- `ASSIGNMENT_EXPRESSION` - Expression hierarchy root

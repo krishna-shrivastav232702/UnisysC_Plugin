@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
 
 import org.sonar.c.CCheck;
 import org.sonar.c.CGrammar;
-import org.sonar.c.api.CKeyword;
+import org.sonar.c.CKeyword;
 import org.sonar.c.checks.utils.Clazz;
 import org.sonar.c.checks.utils.Modifiers;
 import org.sonar.c.checks.utils.Variable;

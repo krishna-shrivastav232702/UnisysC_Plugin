@@ -26,7 +26,7 @@ public class UnusedFunctionParametersCheckTest {
   public void test() {
     UnusedFunctionParametersCheck check = new UnusedFunctionParametersCheck();
 
-    CVerifier.verify(new File("src/test/resources/checks/UnusedFunctionParameters.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/UnusedFunctionParameters.ccc_m"), check);
   }
 
 }

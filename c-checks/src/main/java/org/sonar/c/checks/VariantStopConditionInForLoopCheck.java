@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
 
 import org.sonar.c.CCheck;
 import org.sonar.c.CGrammar;
-import org.sonar.c.api.CPunctuator;
+import org.sonar.c.CPunctuator;
 import org.sonar.c.checks.utils.Expression;
 import org.sonar.check.Rule;
 
@@ -44,7 +44,7 @@ public class VariantStopConditionInForLoopCheck extends CCheck {
       CGrammar.FOR_STATEMENT,
       CGrammar.SUB_STATEMENT,
 
-      CGrammar.ASSIGNMENT_EXPR,
+      CGrammar.ASSIGNMENT_EXPRESSION,
       CPunctuator.DOUBLE_PLUS,
       CPunctuator.DOUBLE_MINUS);
   }
@@ -65,7 +65,7 @@ public class VariantStopConditionInForLoopCheck extends CCheck {
       counters.addAll(pendingCounters);
       pendingCounters.clear();
 
-    } else if (!counters.isEmpty() && astNode.is(CGrammar.ASSIGNMENT_EXPR, CPunctuator.DOUBLE_PLUS, CPunctuator.DOUBLE_MINUS)) {
+    } else if (!counters.isEmpty() && astNode.is(CGrammar.ASSIGNMENT_EXPRESSION, CPunctuator.DOUBLE_PLUS, CPunctuator.DOUBLE_MINUS)) {
       checkIfModifyingCounter(astNode);
     }
   }
@@ -76,7 +76,7 @@ public class VariantStopConditionInForLoopCheck extends CCheck {
       return;
     }
 
-    for (AstNode assignmentExpr : stopConditionExpr.getChildren(CGrammar.ASSIGNMENT_EXPR)) {
+    for (AstNode assignmentExpr : stopConditionExpr.getChildren(CGrammar.ASSIGNMENT_EXPRESSION)) {
       for (Token t : assignmentExpr.getTokens()) {
 
         String tokenValue = t.getValue();
@@ -104,7 +104,7 @@ public class VariantStopConditionInForLoopCheck extends CCheck {
 
   private void checkIfModifyingCounter(AstNode expression) {
     AstNode varNode = null;
-    if (expression.is(CGrammar.ASSIGNMENT_EXPR) && expression.hasDirectChildren(CGrammar.ASSIGNMENT_OPERATOR)) {
+    if (expression.is(CGrammar.ASSIGNMENT_EXPRESSION) && expression.hasDirectChildren(CGrammar.ASSIGNMENT_OPERATOR)) {
       varNode = expression.getFirstChild();
     } else if (expression.is(CPunctuator.DOUBLE_PLUS, CPunctuator.DOUBLE_MINUS)) {
       AstNode exprParent = expression.getParent();
@@ -151,7 +151,7 @@ public class VariantStopConditionInForLoopCheck extends CCheck {
         counters.add(Expression.exprToString(exprFirstChild));
       } else if (exprFirstChild.is(CGrammar.UNARY_EXPR)) {
         counters.add(Expression.exprToString(exprFirstChild.getLastChild()));
-      } else if (exprFirstChild.is(CGrammar.POSTFIX_EXPR)) {
+      } else if (exprFirstChild.is(CGrammar.POSTFIX_EXPRESSION)) {
         counters.add(Expression.exprToString(exprFirstChild.getFirstChild()));
       }
     }

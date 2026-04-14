@@ -24,7 +24,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import org.sonar.c.CCheck;
-import org.sonar.c.api.CKeyword;
+import org.sonar.c.CKeyword;
 import org.sonar.check.Rule;
 
 @Rule(key = "S1466")

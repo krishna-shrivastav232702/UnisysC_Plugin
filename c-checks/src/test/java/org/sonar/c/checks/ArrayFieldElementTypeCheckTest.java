@@ -26,6 +26,6 @@ public class ArrayFieldElementTypeCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/ArrayFieldElementType.as"), check);
+    CVerifier.verify(new File("src/test/resources/checks/ArrayFieldElementType.ccc_m"), check);
   }
 }
