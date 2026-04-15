@@ -1,0 +1,6 @@
+void func() {
+  int a;              // OK
+  int b, c;           // Noncompliant
+
+  int y = 0, z = 0; // Noncompliant
+}

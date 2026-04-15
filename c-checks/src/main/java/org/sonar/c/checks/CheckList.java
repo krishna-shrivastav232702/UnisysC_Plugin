@@ -106,7 +106,8 @@ public final class CheckList {
         AllBranchesIdenticalCheck.class,
         ParsingErrorCheck.class,
         VolatileLocalVariableCheck.class,
-        PointerIndirectionLevelCheck.class
+        PointerIndirectionLevelCheck.class,
+        MultipleVariableDeclarationCheck.class
       ));
   }
 

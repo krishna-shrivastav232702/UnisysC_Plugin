@@ -1,0 +1,17 @@
+<h2>Why is this an issue?</h2>
+<p>Declaring multiple variables in a single statement (e.g., <code>int a, b;</code>) reduces code readability and can lead to confusion, especially when pointers or initializations are involved.</p>
+
+<p>For example, in <code>int* a, b;</code>, <code>a</code> is a pointer to an integer, but <code>b</code> is a regular integer. This subtle distinction is a frequent source of bugs.</p>
+
+<p>In the following code:</p>
+<pre>
+int a, b; // Noncompliant
+</pre>
+
+<h3>How to fix it</h3>
+<p>Break the declaration into multiple lines. This makes the code clearer and allows for better commenting of each variable.</p>
+
+<pre>
+int a;
+int b;
+</pre>

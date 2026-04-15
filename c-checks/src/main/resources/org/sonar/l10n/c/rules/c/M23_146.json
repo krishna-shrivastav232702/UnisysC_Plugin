@@ -1,0 +1,24 @@
+{
+  "title": "A 'declaration' should not declare more than one variable",
+  "type": "CODE_SMELL",
+  "code": {
+    "impacts": {
+      "MAINTAINABILITY": "LOW"
+    },
+    "attribute": "READABILITY"
+  },
+  "status": "ready",
+  "remediation": {
+    "func": "Constant/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "style",
+    "clutter"
+  ],
+  "defaultSeverity": "Minor",
+  "ruleSpecification": "RSPEC-23_146",
+  "sqKey": "M23_146",
+  "scope": "All",
+  "quickfix": "unknown"
+}
