@@ -1,0 +1,24 @@
+{
+  "title": "All variables should be initialized",
+  "type": "CODE_SMELL",
+  "code": {
+    "impacts": {
+      "RELIABILITY": "MEDIUM"
+    },
+    "attribute": "CORRECTNESS"
+  },
+  "status": "ready",
+  "remediation": {
+    "func": "Constant/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "bad-practice",
+    "safety"
+  ],
+  "defaultSeverity": "Major",
+  "ruleSpecification": "RSPEC-23_321",
+  "sqKey": "M23_321",
+  "scope": "All",
+  "quickfix": "unknown"
+}

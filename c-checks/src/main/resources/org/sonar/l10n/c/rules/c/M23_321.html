@@ -1,0 +1,10 @@
+<h2>Why is this an issue?</h2>
+<p>
+    In C, local variables (automatic variables) are not initialized to zero by default. 
+    Instead, they contain "garbage" values left over from previous stack operations. 
+</p>
+<p>
+    Failing to initialize a variable at its declaration point is a leading cause of 
+    undefined behavior and security vulnerabilities. Explicit initialization makes 
+    the programmer's intent clear and ensures the program behaves predictably.
+</p>

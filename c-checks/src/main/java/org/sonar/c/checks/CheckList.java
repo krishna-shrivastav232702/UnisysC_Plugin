@@ -108,7 +108,8 @@ public final class CheckList {
         VolatileLocalVariableCheck.class,
         PointerIndirectionLevelCheck.class,
         MultipleVariableDeclarationCheck.class,
-        IfElseIfHasElseCheck.class
+        IfElseIfHasElseCheck.class,
+        AllVariablesInitializedCheck.class
       ));
   }
 
