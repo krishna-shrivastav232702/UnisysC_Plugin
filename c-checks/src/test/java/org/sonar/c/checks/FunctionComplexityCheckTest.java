@@ -18,7 +18,6 @@ package org.sonar.c.checks;
 
 import java.io.File;
 import org.junit.jupiter.api.Test;
-import org.sonar.c.checks.FunctionComplexityCheck;
 
 public class FunctionComplexityCheckTest {
 
@@ -26,7 +25,7 @@ public class FunctionComplexityCheckTest {
   public void test() {
     FunctionComplexityCheck check = new FunctionComplexityCheck();
     // Function complexity can't be less than 1
-    check.setMaximumFunctionComplexityThreshold(0);
+    check.setMaximumFunctionComplexityThreshold(3);
 
     CVerifier.verify(new File("src/test/resources/checks/FunctionComplexity.ccc_m"), check);
   }

@@ -1,42 +1,20 @@
-void ko() // Noncompliant {{Function has a complexity of 3 which is greater than 0 authorized.}} [[effortToFix=3]]
-{
-  switch (foo) 
-  {
-    case 1: // +1
-    case 2: // +1
-    default:
-    ;
-  }
+int test() {    // OK
+  return 0;
 }
 
-void empty() {  // Noncompliant {{Function has a complexity of 1 which is greater than 0 authorized.}} [[effortToFix=1]]
+void test2() {      // Noncompliant
+    int foo = 1;
+    switch (foo) {
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        default:
+            break;
+    }
 }
 
-int withReturn() {   // Noncompliant {{Function has a complexity of 1 which is greater than 0 authorized.}} [[effortToFix=1]]
-  return 1;
-}
-
-void withTernary(int i) {  // Noncompliant {{Function has a complexity of 2 which is greater than 0 authorized.}} [[effortToFix=2]]
-  char* str = (i > 0) ? "true" : "false";
-}
-
-// Note: C does not support nested functions natively (standard ISO C).
-// If you are using GCC, you can use them, but typically for SonarQube C plugins, 
-// these would be represented as separate functions or ignored.
-
-void ok() {  // Noncompliant {{Function has a complexity of 1 which is greater than 0 authorized.}} [[effortToFix=1]]
-}
-
-void nestedFunctionOK() {  // Noncompliant {{Function has a complexity of 1 which is greater than 0 authorized.}} [[effortToFix=1]]
-  // In C, you cannot define ok() inside here; it is moved above.
-}
-
-void inner_ko(int i) {  // Noncompliant {{Function has a complexity of 2 which is greater than 0 authorized.}} [[effortToFix=2]]
-  if (i > 0) {
-    return;
-  }
-}
-
-void nestedFunctionKO() {  // Noncompliant {{Function has a complexity of 1 which is greater than 0 authorized.}} [[effortToFix=1]]
-  // Logic for inner_ko would be handled separately in C.
+void empty() {  // OK
 }

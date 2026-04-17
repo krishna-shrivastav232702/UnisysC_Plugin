@@ -38,7 +38,7 @@ public class FunctionComplexityCheck extends CCheck {
 
   @Override
   public List<AstNodeType> subscribedTo() {
-    return Arrays.asList(CGrammar.FUNCTION_DEF, CGrammar.FUNCTION_EXPR);
+    return Arrays.asList(CGrammar.FUNCTION_DEF);
   }
 
   @Override
