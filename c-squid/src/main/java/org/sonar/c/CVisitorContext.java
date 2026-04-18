@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -35,8 +35,7 @@ public class CVisitorContext {
     this(fileContent, null, parsingException);
   }
 
-  private CVisitorContext(String fileContent, @Nullable AstNode rootTree,
-      @Nullable RecognitionException parsingException) {
+  private CVisitorContext(String fileContent, @Nullable AstNode rootTree, @Nullable RecognitionException parsingException) {
     this.fileContent = fileContent;
     this.rootTree = rootTree;
     this.parsingException = parsingException;

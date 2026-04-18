@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -51,7 +51,7 @@ public class FunctionOnlyCallsSuperCheck extends CCheck {
       String methodName = Function.getName(astNode);
 
       if (isUselessCallToSuper(singleDirectiveNode.getFirstChild(CGrammar.STATEMENT), methodName, parameters)
-          && !hasMetadataTag(astNode.getParent().getParent().getPreviousAstNode())) {
+        && !hasMetadataTag(astNode.getParent().getParent().getPreviousAstNode())) {
         addIssue(MessageFormat.format("Remove this method \"{0}\" to simply inherit it.", methodName), astNode);
       }
     }
@@ -59,7 +59,7 @@ public class FunctionOnlyCallsSuperCheck extends CCheck {
 
   private static boolean hasMetadataTag(AstNode directive) {
     return directive.getFirstChild().is(CGrammar.STATEMENT)
-        && directive.getFirstChild().getFirstChild().is(CGrammar.METADATA_STATEMENT);
+      && directive.getFirstChild().getFirstChild().is(CGrammar.METADATA_STATEMENT);
   }
 
   private static AstNode getSingleStatementBlock(AstNode functionDef) {
@@ -73,25 +73,24 @@ public class FunctionOnlyCallsSuperCheck extends CCheck {
 
   private static boolean isSuperReference(AstNode statement) {
     return statement.getFirstChild(CGrammar.EXPRESSION_STATEMENT) != null
-        && isSuperExpression(statement.getFirstChild().getFirstChild().getFirstChild());
+      && isSuperExpression(statement.getFirstChild().getFirstChild().getFirstChild());
   }
 
   private static boolean isSuperExpression(AstNode listExpression) {
-    AstNode postfixExpr = listExpression.getFirstChild(CGrammar.ASSIGNMENT_EXPRESSION)
-        .getFirstChild(CGrammar.POSTFIX_EXPRESSION);
+    AstNode postfixExpr = listExpression.getFirstChild(CGrammar.ASSIGNMENT_EXPRESSION).getFirstChild(CGrammar.POSTFIX_EXPRESSION);
 
     return postfixExpr != null && postfixExpr.getFirstChild(CGrammar.SUPER_EXPR) != null;
   }
 
   private static boolean isReturnOfSuperReference(AstNode statement) {
     return statement.getFirstChild().is(CGrammar.RETURN_STATEMENT)
-        && statement.getFirstChild().getFirstChild(CGrammar.LIST_EXPRESSION) != null
-        && isSuperExpression(statement.getFirstChild().getFirstChild(CGrammar.LIST_EXPRESSION));
+      && statement.getFirstChild().getFirstChild(CGrammar.LIST_EXPRESSION) != null
+      && isSuperExpression(statement.getFirstChild().getFirstChild(CGrammar.LIST_EXPRESSION));
   }
 
   private static boolean isSuperOrReturnOfSuperReference(AstNode directiveChild) {
-    return directiveChild.is(CGrammar.STATEMENT)
-        && (isSuperReference(directiveChild) || isReturnOfSuperReference(directiveChild));
+    return directiveChild.is(CGrammar.STATEMENT) && (isSuperReference(directiveChild) || isReturnOfSuperReference(directiveChild));
+
 
   }
 
@@ -108,9 +107,8 @@ public class FunctionOnlyCallsSuperCheck extends CCheck {
 
       for (AstNode attribute : attributesNode.getChildren()) {
         if (attribute.getFirstChild().is(CGrammar.ATTRIBUTE_EXPR)
-            && attribute.getFirstChild().getNumberOfChildren() == 1
-            && attribute.getFirstChild().getFirstChild(CGrammar.IDENTIFIER).getTokenValue()
-                .equals(CKeyword.OVERRIDE.getValue())) {
+          && attribute.getFirstChild().getNumberOfChildren() == 1
+          && attribute.getFirstChild().getFirstChild(CGrammar.IDENTIFIER).getTokenValue().equals(CKeyword.OVERRIDE.getValue())) {
           return true;
         }
       }

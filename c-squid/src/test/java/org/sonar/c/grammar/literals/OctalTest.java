@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,7 +28,7 @@ public class OctalTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.OCTAL))
-        .matches("010");
+      .matches("010");
 
   }
 }

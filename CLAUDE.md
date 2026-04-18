@@ -4,11 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-SonarSource Unisys C Plugin - a static code analyzer for Unisys C language that integrates with SonarQube. The plugin parses Unisys C source files, computes metrics, and reports code quality issues.
+SonarSource Flex Plugin - a static code analyzer for ActionScript/Flex language that integrates with SonarQube. The plugin parses Flex/ActionScript source files, computes metrics, and reports code quality issues.
 
 ## Build Commands
 
-````bash
+```bash
 # Build entire project (skip tests)
 mvn clean install -DskipTests
 
@@ -16,37 +16,45 @@ mvn clean install -DskipTests
 mvn clean install
 
 # Run unit tests for a specific module
-mvn test -pl c-checks
+mvn test -pl flex-checks
 
 # Run a single test class
-mvn test -pl c-checks -Dtest=EmptyStatementCheckTest
+mvn test -pl flex-checks -Dtest=EmptyStatementCheckTest
+
+# Run integration tests (requires QA environment)
+mvn verify -Pit-ruling -pl its/ruling
+```
 
 ## Module Structure
 
-- **c-squid**: Core parsing library using SonarSource SSLR (SonarSource Language Recognizer)
-  - `CGrammar.java` - Complete Unisys C grammar definition
-  - `CVisitor.java` - AST visitor base class for traversing parsed trees
-  - `CCheck.java` - Base interface for implementing code checks
+- **flex-squid**: Core parsing library using SonarSource SSLR (SonarSource Language Recognizer)
+  - `FlexGrammar.java` - Complete ActionScript 3 grammar definition
+  - `FlexVisitor.java` - AST visitor base class for traversing parsed trees
+  - `FlexCheck.java` - Base interface for implementing code checks
 
-- **c-checks**: All code quality rules (~80 checks)
+- **flex-checks**: All code quality rules (~80 checks)
   - `CheckList.java` - Registry of all available checks
-  - Each check extends `CVisitor` and implements `CCheck`
+  - Each check extends `FlexVisitor` and implements `FlexCheck`
 
-- **sonar-c-plugin**: SonarQube plugin assembly
-  - `CPlugin.java` - Plugin entry point, registers extensions
-  - `CSquidSensor.java` - Main sensor that orchestrates file analysis
+- **sonar-flex-plugin**: SonarQube plugin assembly
+  - `FlexPlugin.java` - Plugin entry point, registers extensions
+  - `FlexSquidSensor.java` - Main sensor that orchestrates file analysis
 
 - **sslr-c-toolkit**: Development tool for testing grammar
+
+- **its/**: Integration tests (skipped by default)
+  - `its/plugin` - Plugin integration tests
+  - `its/ruling` - Rule regression tests against sample projects
 
 ## Writing Checks
 
 Checks are AST visitors that subscribe to specific grammar nodes:
 
 ```java
-public class MyCheck extends CVisitor implements CCheck {
+public class MyCheck extends FlexVisitor implements FlexCheck {
   @Override
   public List<AstNodeType> subscribedTo() {
-    return Collections.singletonList(CGrammar.IF_STATEMENT);
+    return Collections.singletonList(FlexGrammar.IF_STATEMENT);
   }
 
   @Override
@@ -55,18 +63,16 @@ public class MyCheck extends CVisitor implements CCheck {
     addIssue("Message", node);
   }
 }
-````
+```
 
 Test files use comment annotations for expected issues:
-
 ```actionscript
 if (true) { } // Noncompliant {{Expected message}}
 ```
 
-Testing uses `CVerifier`:
-
+Testing uses `FlexVerifier`:
 ```java
-CVerifier.verify(new File("src/test/resources/checks/MyCheck.as"), new MyCheck());
+FlexVerifier.verify(new File("src/test/resources/checks/MyCheck.as"), new MyCheck());
 ```
 
 ## Key Dependencies
@@ -77,9 +83,9 @@ CVerifier.verify(new File("src/test/resources/checks/MyCheck.as"), new MyCheck()
 
 ## Grammar Reference
 
-The grammar in `CGrammar.java` defines all Unisys C constructs. Key entry points:
-
+The grammar in `FlexGrammar.java` defines all ActionScript 3 constructs. Key entry points:
 - `PROGRAM` - Root rule
+- `CLASS_DEF`, `INTERFACE_DEF` - Type definitions
 - `FUNCTION_DEF` - Function declarations
 - `STATEMENT` - All statement types
-- `ASSIGNMENT_EXPR` - Expression hierarchy root
+- `ASSIGNMENT_EXPRESSION` - Expression hierarchy root

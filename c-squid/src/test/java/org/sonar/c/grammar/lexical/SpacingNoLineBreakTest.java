@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -29,29 +29,29 @@ public class SpacingNoLineBreakTest {
   @Test
   public void empty() {
     assertThat(g.rule(CGrammar.SPACING_NO_LB))
-        .matches("");
+      .matches("");
   }
 
   @Test
   public void whitespace() {
     assertThat(g.rule(CGrammar.SPACING_NO_LB))
-        .matches(" ")
-        .notMatches("\n")
-        .notMatches("\r")
-        .notMatches("\r\n");
+      .matches(" ")
+      .notMatches("\n")
+      .notMatches("\r")
+      .notMatches("\r\n");
   }
 
   @Test
   public void single_line_comment() {
     assertThat(g.rule(CGrammar.SPACING_NO_LB))
-        .matchesPrefix(" // comment", "\n");
+      .matchesPrefix(" // comment", "\n");
   }
 
   @Test
   public void multi_line_comment() {
     assertThat(g.rule(CGrammar.SPACING_NO_LB))
-        .matches(" /* comment */ /* comment */ ")
-        .notMatches("/* comment \n */");
+      .matches(" /* comment */ /* comment */ ")
+      .notMatches("/* comment \n */");
   }
 
 }

@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,16 +28,17 @@ public class DuplicateBranchImplementationCheck extends ConditionalStructureChec
   public void visitConditionalStructure(ConditionalStructure cond) {
     prevBranch1 = null;
     cond.forEachBranchDuplication(
-        (branch1, branch2) -> {
-          if (branch1 == prevBranch1) {
-            return;
-          }
-          prevBranch1 = branch1;
-          String message = MessageFormat.format(
-              "Either merge this case with the identical one on line \"{0}\" or change one of the implementations.",
-              branch2.getTokenLine());
-          addIssue(message, branch1);
-        });
+      (branch1, branch2) -> {
+        if (branch1 == prevBranch1) {
+          return;
+        }
+        prevBranch1 = branch1;
+        String message = MessageFormat.format(
+          "Either merge this case with the identical one on line \"{0}\" or change one of the implementations.",
+          branch2.getTokenLine());
+        addIssue(message, branch1);
+      }
+    );
   }
 
 }

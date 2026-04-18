@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,8 +28,8 @@ public class InterfaceDefinitionTest {
   @Test
   public void bsaicInterface() {
     Assertions.assertThat(g.rule(CGrammar.INTERFACE_DEF))
-        .matches("interface a {}")
-        .matches("interface a extends b {}")
-        .matches("interface a extends b, c {}");
+      .matches("interface a {}")
+      .matches("interface a extends b {}")
+      .matches("interface a extends b, c {}");
   }
 }

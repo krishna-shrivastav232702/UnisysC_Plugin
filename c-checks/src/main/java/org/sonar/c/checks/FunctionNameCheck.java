@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -36,18 +36,23 @@ import org.sonar.check.RuleProperty;
 @Rule(key = "S100")
 public class FunctionNameCheck extends CCheck {
 
+
   private static final String DEFAULT = "^[a-z][a-zA-Z0-9]*$";
   private Pattern pattern = null;
   private Deque<String> classes = new ArrayDeque<>();
 
-  @RuleProperty(key = "format", description = "Regular expression used to check the function names against", defaultValue = DEFAULT)
+  @RuleProperty(
+    key = "format",
+    description = "Regular expression used to check the function names against",
+    defaultValue = DEFAULT)
   String format = DEFAULT;
+
 
   @Override
   public List<AstNodeType> subscribedTo() {
     return Arrays.asList(
-        CGrammar.FUNCTION_DEF,
-        CGrammar.CLASS_DEF);
+      CGrammar.FUNCTION_DEF,
+      CGrammar.CLASS_DEF);
   }
 
   @Override
@@ -66,8 +71,7 @@ public class FunctionNameCheck extends CCheck {
       String functionName = Function.getName(astNode);
 
       if (!isConstructor(astNode) && !pattern.matcher(functionName).matches()) {
-        addIssue(MessageFormat.format("Rename this \"{0}\" function to match the regular expression {1}", functionName,
-            format), astNode);
+        addIssue(MessageFormat.format("Rename this \"{0}\" function to match the regular expression {1}", functionName, format), astNode);
       }
     }
   }

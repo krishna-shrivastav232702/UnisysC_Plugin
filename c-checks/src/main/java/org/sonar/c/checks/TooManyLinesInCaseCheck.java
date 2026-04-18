@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -33,8 +33,12 @@ public class TooManyLinesInCaseCheck extends CCheck {
 
   private static final int DEFAULT = 5;
 
-  @RuleProperty(key = "max", description = "Maximum number of lines", defaultValue = "" + DEFAULT)
+  @RuleProperty(
+    key = "max",
+    description = "Maximum number of lines",
+    defaultValue = "" + DEFAULT)
   int max = DEFAULT;
+
 
   @Override
   public List<AstNodeType> subscribedTo() {
@@ -55,10 +59,8 @@ public class TooManyLinesInCaseCheck extends CCheck {
     int lines = linesVisitor.linesOfCode().size() - caseLabelLines;
     if (lines > max) {
       addIssue(
-          MessageFormat.format(
-              "Reduce this switch case number of lines of code from {0} to at most {1}, for example by extracting code into methods.",
-              lines, max),
-          lastLabelNode);
+        MessageFormat.format("Reduce this switch case number of lines of code from {0} to at most {1}, for example by extracting code into methods.", lines, max),
+        lastLabelNode);
     }
   }
 

@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,23 +28,23 @@ public class PostfixExpressionTest {
   @Test
   public void postfixExpression() {
     Assertions.assertThat(g.rule(CGrammar.POSTFIX_EXPRESSION))
-        .matches("new a()")
-        .matches("new a")
+      .matches("new a()")
+      .matches("new a")
 
-        .matches("super().f.c.a")
-        .matches("super.field")
-        .matches("super().field")
-        .matches("super()")
-        .matches("super")
+      .matches("super().f.c.a")
+      .matches("super.field")
+      .matches("super().field")
+      .matches("super()")
+      .matches("super")
 
-        .matches("a ().a")
+      .matches("a ().a")
 
-        .matches("a++")
-        .notMatches("a\n++")
+      .matches("a++")
+      .notMatches("a\n++")
 
-        .matches("a--")
-        .notMatches("a\n--")
+      .matches("a--")
+      .notMatches("a\n--")
 
-        .matches("a..n..z");
+      .matches("a..n..z");
   }
 }

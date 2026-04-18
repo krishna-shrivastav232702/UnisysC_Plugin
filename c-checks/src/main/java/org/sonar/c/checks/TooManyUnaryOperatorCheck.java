@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -27,6 +27,7 @@ import org.sonar.c.CGrammar;
 import org.sonar.c.CPunctuator;
 import org.sonar.check.Rule;
 
+
 @Rule(key = "S1454")
 public class TooManyUnaryOperatorCheck extends CCheck {
 
@@ -36,9 +37,9 @@ public class TooManyUnaryOperatorCheck extends CCheck {
   @Override
   public List<AstNodeType> subscribedTo() {
     return Arrays.asList(
-        CGrammar.ASSIGNMENT_EXPRESSION,
-        CPunctuator.DOUBLE_MINUS,
-        CPunctuator.DOUBLE_PLUS);
+      CGrammar.ASSIGNMENT_EXPRESSION,
+      CPunctuator.DOUBLE_MINUS,
+      CPunctuator.DOUBLE_PLUS);
   }
 
   @Override
@@ -59,9 +60,8 @@ public class TooManyUnaryOperatorCheck extends CCheck {
   public void leaveNode(AstNode astNode) {
     if (astNode.is(CGrammar.ASSIGNMENT_EXPRESSION)) {
       if (counter > 1) {
-        addIssue(
-            "Split this expression into multiple expressions so that each one contains no more than a single \"++\" or \"--\" unary operator",
-            astNode);
+        addIssue("Split this expression into multiple expressions so that each one contains no more than a single \"++\" or \"--\" unary operator",
+          astNode);
       }
       assignmentExpression = false;
       counter = 0;

@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -80,10 +80,10 @@ public class CheckListTest {
       ruleKeys.add(rule.key());
     }
     Set<String> nonLinkedFiles = Files.list(Paths.get("src/main/resources/org/sonar/l10n/c/rules/c"))
-        .filter(path -> path.endsWith(".html"))
-        .map(path -> path.getFileName().toString().replace(".html", ""))
-        .filter(s -> !ruleKeys.contains(s))
-        .collect(Collectors.toSet());
+      .filter(path -> path.endsWith(".html"))
+      .map(path -> path.getFileName().toString().replace(".html", ""))
+      .filter(s -> !ruleKeys.contains(s))
+      .collect(Collectors.toSet());
     assertThat(nonLinkedFiles).as("Unexpected html description files found").isEmpty();
   }
 

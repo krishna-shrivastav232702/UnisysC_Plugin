@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -29,6 +29,7 @@ import org.sonar.check.Rule;
 @Rule(key = "S1145")
 public class IfConditionAlwaysTrueOrFalseCheck extends CCheck {
 
+
   @Override
   public List<AstNodeType> subscribedTo() {
     return Collections.singletonList(CGrammar.IF_STATEMENT);
@@ -36,18 +37,18 @@ public class IfConditionAlwaysTrueOrFalseCheck extends CCheck {
 
   @Override
   public void visitNode(AstNode astNode) {
-    AstNode conditionalExpr = astNode.getFirstChild(CGrammar.PARENTHESIZED_LIST_EXPR)
-        .getFirstChild(CGrammar.LIST_EXPRESSION);
+    AstNode conditionalExpr = astNode.getFirstChild(CGrammar.PARENTHESIZED_LIST_EXPR).getFirstChild(CGrammar.LIST_EXPRESSION);
     if (conditionalExpr.getChildren().size() == 1) {
 
       AstNode condition = conditionalExpr.getFirstChild().getFirstChild();
       if ((condition.is(CGrammar.POSTFIX_EXPRESSION)
-          && condition.getFirstChild().is(CGrammar.PRIMARY_EXPRESSION)
-          && condition.getFirstChild().getFirstChild().is(CKeyword.TRUE))
-          || condition.getFirstChild().getFirstChild().is(CKeyword.FALSE)) {
+        && condition.getFirstChild().is(CGrammar.PRIMARY_EXPRESSION)
+        && condition.getFirstChild().getFirstChild().is(CKeyword.TRUE))
+        || condition.getFirstChild().getFirstChild().is(CKeyword.FALSE)) {
 
         addIssue("Remove this if statement.", astNode);
       }
+
 
     }
   }

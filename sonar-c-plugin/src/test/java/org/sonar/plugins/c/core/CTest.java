@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -32,16 +32,16 @@ public class CTest {
     Configuration config = new ConfigurationBridge(settings);
     C c = new C(config);
 
-    assertThat(c.getFileSuffixes()).isEqualTo(new String[] { "ccc_m, ccc, CCC_m, CCC" });
+    assertThat(c.getFileSuffixes()).isEqualTo(new String[] { "ccc_m" });
 
-    settings.setProperty(CPlugin.FILE_SUFFIXES_KEY, "CCC_m");
-    assertThat(c.getFileSuffixes()).isEqualTo(new String[] { "CCC_m" });
+    settings.setProperty(CPlugin.FILE_SUFFIXES_KEY, "");
+    assertThat(c.getFileSuffixes()).isEqualTo(new String[] { "ccc_m" });
 
-    settings.setProperty(CPlugin.FILE_SUFFIXES_KEY, "ccc");
-    assertThat(c.getFileSuffixes()).isEqualTo(new String[] { "ccc" });
+    settings.setProperty(CPlugin.FILE_SUFFIXES_KEY, "ccc_m");
+    assertThat(c.getFileSuffixes()).isEqualTo(new String[] { "ccc_m" });
 
-    settings.setProperty(CPlugin.FILE_SUFFIXES_KEY, "CCC");
-    assertThat(c.getFileSuffixes()).isEqualTo(new String[] { "CCC" });
+    settings.setProperty(CPlugin.FILE_SUFFIXES_KEY, ",ccc_m");
+    assertThat(c.getFileSuffixes()).isEqualTo(new String[] { "ccc_m" });
   }
 
 }

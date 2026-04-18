@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -32,8 +32,7 @@ public class ASDocClassCheck {
    */
   public boolean visitNode(ASDocCheck check, AstNode astNode) {
     AstNode attributes = astNode.getPreviousAstNode();
-    List<Trivia> triviaList = isAttributes(attributes) ? attributes.getToken().getTrivia()
-        : astNode.getToken().getTrivia();
+    List<Trivia> triviaList = isAttributes(attributes) ? attributes.getToken().getTrivia() : astNode.getToken().getTrivia();
 
     if (check.containsOnOfTags(triviaList, ASDocCheck.PRIVATE_TAG)) {
       return true;

@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -50,11 +50,11 @@ public class CommentedCodeCheck extends CCheck {
     @Override
     public Set<Detector> getDetectors() {
       return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
-          new EndWithDetector(0.95, '}', ';', '{'),
-          new KeywordsDetector(0.3, CKeyword.keywordValues()),
-          new ContainsDetector(0.95, "++", "--"),
-          new ContainsDetector(0.95, "*=", "/=", "%=", "+=", "-=", "<<=", ">>=", ">>>=", "&=", "^=", "|="),
-          new ContainsDetector(0.95, "==", "!=", "===", "!=="))));
+        new EndWithDetector(0.95, '}', ';', '{'),
+        new KeywordsDetector(0.3, CKeyword.keywordValues()),
+        new ContainsDetector(0.95, "++", "--"),
+        new ContainsDetector(0.95, "*=", "/=", "%=", "+=", "-=", "<<=", ">>=", ">>>=", "&=", "^=", "|="),
+        new ContainsDetector(0.95, "==", "!=", "===", "!=="))));
     }
 
   }
@@ -67,8 +67,7 @@ public class CommentedCodeCheck extends CCheck {
   @Override
   public void visitToken(Token token) {
     for (Trivia trivia : token.getTrivia()) {
-      String[] lines = regexpToDivideStringByLine
-          .split(CCommentAnalyser.getContents(trivia.getToken().getOriginalValue()));
+      String[] lines = regexpToDivideStringByLine.split(CCommentAnalyser.getContents(trivia.getToken().getOriginalValue()));
       for (int lineOffset = 0; lineOffset < lines.length; lineOffset++) {
         if (codeRecognizer.isLineOfCode(lines[lineOffset])) {
           addIssueAtLine("Sections of code should not be \"commented out\".", trivia.getToken().getLine() + lineOffset);

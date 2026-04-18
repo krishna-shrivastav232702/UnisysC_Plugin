@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,10 +28,10 @@ public class IfStatementTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.IF_STATEMENT))
-        .matches("if (e1) { }")
-        .matches("if (e1) { } else { }")
-        .matches("if (e1) { } else if (e2) { }")
-        .matches("if (e1) { } else if (e2) { } else { }");
+      .matches("if (e1) { }")
+      .matches("if (e1) { } else { }")
+      .matches("if (e1) { } else if (e2) { }")
+      .matches("if (e1) { } else if (e2) { } else { }");
   }
 
 }

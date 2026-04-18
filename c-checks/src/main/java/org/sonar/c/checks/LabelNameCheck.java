@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -36,7 +36,10 @@ public class LabelNameCheck extends CCheck {
   private static final String DEFAULT = "^[a-z][a-z0-9_]*$";
   private Pattern pattern = null;
 
-  @RuleProperty(key = "format", description = "Regular expression used to check the label names against", defaultValue = DEFAULT)
+  @RuleProperty(
+    key = "format",
+    description = "Regular expression used to check the label names against",
+    defaultValue = DEFAULT)
   String format = DEFAULT;
 
   @Override

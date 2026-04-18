@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,12 +28,12 @@ public class XmlContentTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.XML_ELEMENT_CONTENT))
-        .matches("")
-        .matches("{a, b, c}")
-        .matches("{a, b, c} {a, b}")
+      .matches("")
+      .matches("{a, b, c}")
+      .matches("{a, b, c} {a, b}")
 
-        .matches("<? ?>")
-        .matches("Text")
-        .matches("<tag />");
+      .matches("<? ?>")
+      .matches("Text")
+      .matches("<tag />");
   }
 }

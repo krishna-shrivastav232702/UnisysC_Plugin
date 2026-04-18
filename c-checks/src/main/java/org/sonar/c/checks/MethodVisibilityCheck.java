@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -53,9 +53,8 @@ public class MethodVisibilityCheck extends CCheck {
 
         if (annotableDirectiveChild.is(CGrammar.FUNCTION_DEF) && !hasVisibility(annotableDirectiveChild)) {
           addIssue(
-              MessageFormat.format("Explicitly declare the visibility of this method \"{0}\".",
-                  Function.getName(annotableDirectiveChild)),
-              annotableDirectiveChild);
+            MessageFormat.format("Explicitly declare the visibility of this method \"{0}\".", Function.getName(annotableDirectiveChild)),
+            annotableDirectiveChild);
         }
       }
     }
@@ -75,7 +74,7 @@ public class MethodVisibilityCheck extends CCheck {
 
   private static boolean isVisibility(AstNodeType modifier) {
     return modifier.equals(CKeyword.PUBLIC) || modifier.equals(CKeyword.INTERNAL)
-        || modifier.equals(CKeyword.PROTECTED) || modifier.equals(CKeyword.PRIVATE);
+      || modifier.equals(CKeyword.PROTECTED) || modifier.equals(CKeyword.PRIVATE);
   }
 
 }

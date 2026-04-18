@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -34,11 +34,17 @@ public class XPathCheck extends CCheck {
   private static final String DEFAULT_XPATH_QUERY = "";
   private static final String DEFAULT_MESSAGE = "The XPath expression matches this piece of code";
 
-  @RuleProperty(key = "xpathQuery", description = "The XPath query", defaultValue = ""
-      + DEFAULT_XPATH_QUERY, type = "TEXT")
+  @RuleProperty(
+    key = "xpathQuery",
+    description = "The XPath query",
+    defaultValue = "" + DEFAULT_XPATH_QUERY,
+    type = "TEXT")
   public String xpathQuery = DEFAULT_XPATH_QUERY;
 
-  @RuleProperty(key = "message", description = "The issue message", defaultValue = "" + DEFAULT_MESSAGE)
+  @RuleProperty(
+    key = "message",
+    description = "The issue message",
+    defaultValue = "" + DEFAULT_MESSAGE)
   public String message = DEFAULT_MESSAGE;
 
   private AstNodeXPathQuery<Object> query = null;
@@ -54,8 +60,7 @@ public class XPathCheck extends CCheck {
       try {
         query = AstNodeXPathQuery.create(xpathQuery);
       } catch (RuntimeException e) {
-        throw new IllegalStateException(
-            "Unable to initialize the XPath engine, perhaps because of an invalid query: " + xpathQuery, e);
+        throw new IllegalStateException("Unable to initialize the XPath engine, perhaps because of an invalid query: " + xpathQuery, e);
       }
     }
     return query;

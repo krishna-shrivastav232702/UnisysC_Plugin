@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -31,24 +31,23 @@ public final class Variable {
   public static String getName(AstNode varDeclStatement) {
     Preconditions.checkState(varDeclStatement.is(CGrammar.VARIABLE_DECLARATION_STATEMENT));
     return varDeclStatement
-        .getFirstChild(CGrammar.VARIABLE_DEF)
-        .getFirstChild(CGrammar.VARIABLE_BINDING_LIST)
-        .getFirstChild(CGrammar.VARIABLE_BINDING)
-        .getFirstChild(CGrammar.TYPED_IDENTIFIER)
-        .getFirstChild(CGrammar.IDENTIFIER).getTokenValue();
+      .getFirstChild(CGrammar.VARIABLE_DEF)
+      .getFirstChild(CGrammar.VARIABLE_BINDING_LIST)
+      .getFirstChild(CGrammar.VARIABLE_BINDING)
+      .getFirstChild(CGrammar.TYPED_IDENTIFIER)
+      .getFirstChild(CGrammar.IDENTIFIER).getTokenValue();
   }
 
   public static boolean isVariable(AstNode directive) {
     Preconditions.checkState(directive.is(CGrammar.DIRECTIVE));
     if (directive.getFirstChild(CGrammar.ANNOTABLE_DIRECTIVE) != null) {
-      AstNode variableDecStmt = directive.getFirstChild(CGrammar.ANNOTABLE_DIRECTIVE)
-          .getFirstChild(CGrammar.VARIABLE_DECLARATION_STATEMENT);
+      AstNode variableDecStmt = directive.getFirstChild(CGrammar.ANNOTABLE_DIRECTIVE).getFirstChild(CGrammar.VARIABLE_DECLARATION_STATEMENT);
 
       if (variableDecStmt != null) {
         return variableDecStmt
-            .getFirstChild(CGrammar.VARIABLE_DEF)
-            .getFirstChild(CGrammar.VARIABLE_DEF_KIND)
-            .getFirstChild().is(CKeyword.VAR);
+          .getFirstChild(CGrammar.VARIABLE_DEF)
+          .getFirstChild(CGrammar.VARIABLE_DEF_KIND)
+          .getFirstChild().is(CKeyword.VAR);
       }
     }
     return false;
@@ -57,14 +56,13 @@ public final class Variable {
   public static boolean isConst(AstNode directive) {
     Preconditions.checkState(directive.is(CGrammar.DIRECTIVE));
     if (directive.getFirstChild(CGrammar.ANNOTABLE_DIRECTIVE) != null) {
-      AstNode variableDecStmt = directive.getFirstChild(CGrammar.ANNOTABLE_DIRECTIVE)
-          .getFirstChild(CGrammar.VARIABLE_DECLARATION_STATEMENT);
+      AstNode variableDecStmt = directive.getFirstChild(CGrammar.ANNOTABLE_DIRECTIVE).getFirstChild(CGrammar.VARIABLE_DECLARATION_STATEMENT);
 
       if (variableDecStmt != null) {
         return variableDecStmt
-            .getFirstChild(CGrammar.VARIABLE_DEF)
-            .getFirstChild(CGrammar.VARIABLE_DEF_KIND)
-            .getFirstChild().is(CKeyword.CONST);
+          .getFirstChild(CGrammar.VARIABLE_DEF)
+          .getFirstChild(CGrammar.VARIABLE_DEF_KIND)
+          .getFirstChild().is(CKeyword.CONST);
       }
     }
     return false;
@@ -75,8 +73,8 @@ public final class Variable {
     List<AstNode> identifiers = new ArrayList<>();
     if (varDeclStatement.is(CGrammar.VARIABLE_DECLARATION_STATEMENT)) {
       AstNode varBindingList = varDeclStatement
-          .getFirstChild(CGrammar.VARIABLE_DEF)
-          .getFirstChild(CGrammar.VARIABLE_BINDING_LIST);
+        .getFirstChild(CGrammar.VARIABLE_DEF)
+        .getFirstChild(CGrammar.VARIABLE_BINDING_LIST);
 
       for (AstNode varBinding : varBindingList.getChildren(CGrammar.VARIABLE_BINDING)) {
         identifiers.add(varBinding.getFirstChild(CGrammar.TYPED_IDENTIFIER).getFirstChild(CGrammar.IDENTIFIER));

@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -41,8 +41,7 @@ public class TraceUseCheck extends CCheck {
   }
 
   private static boolean isFunctionCall(AstNode postfixExpr) {
-    return postfixExpr.getFirstChild().is(CGrammar.PRIMARY_EXPRESSION)
-        && postfixExpr.getLastChild().is(CGrammar.ARGUMENTS);
+    return postfixExpr.getFirstChild().is(CGrammar.PRIMARY_EXPRESSION) && postfixExpr.getLastChild().is(CGrammar.ARGUMENTS);
   }
 
 }

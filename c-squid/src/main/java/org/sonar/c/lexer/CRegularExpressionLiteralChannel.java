@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -31,8 +31,7 @@ import org.sonar.sslr.channel.CodeReader;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.regexp;
 
 /**
- * Provides a heuristic to guess whether a forward slash starts a regular
- * expression.
+ * Provides a heuristic to guess whether a forward slash starts a regular expression.
  * http://stackoverflow.com/questions/7936593/finding-regular-expression-literals-in-a-string-of-javascript-code
  */
 public class CRegularExpressionLiteralChannel extends Channel<Lexer> {
@@ -40,78 +39,75 @@ public class CRegularExpressionLiteralChannel extends Channel<Lexer> {
   private final Channel<Lexer> delegate;
 
   private static final Set<String> WHOLE_TOKENS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
-      "break",
-      "case",
-      "continue",
-      "delete",
-      "do",
-      "else",
-      "finally",
-      "in",
-      "instanceof",
-      "return",
-      "throw",
-      "try",
-      "typeof",
-      "void",
-      // Binary operators which cannot be followed by a division operator:
-      // Match + but not ++. += is handled below.
-      "+",
-      // Match - but not --. -= is handled below.
-      "-",
-      // Match . but not a number with a trailing decimal.
-      ".",
-      // Match /, but not a regexp. /= is handled below.
-      "/",
-      // Second binary operand cannot start a division.
-      ",",
-      // Ditto binary operand.
-      "*")));
+    "break",
+    "case",
+    "continue",
+    "delete",
+    "do",
+    "else",
+    "finally",
+    "in",
+    "instanceof",
+    "return",
+    "throw",
+    "try",
+    "typeof",
+    "void",
+    // Binary operators which cannot be followed by a division operator:
+    // Match + but not ++. += is handled below.
+    "+",
+    // Match - but not --. -= is handled below.
+    "-",
+    // Match . but not a number with a trailing decimal.
+    ".",
+    // Match /, but not a regexp. /= is handled below.
+    "/",
+    // Second binary operand cannot start a division.
+    ",",
+    // Ditto binary operand.
+    "*")));
 
   private static final String[] ENDS = new String[] {
-      // ! prefix operator operand cannot start with a division
-      "!",
-      // % second binary operand cannot start with a division
-      "%",
-      // &, && ditto binary operand
-      "&",
-      // ( expression cannot start with a division
-      "(",
-      // : property value, labelled statement, and operand of ?: cannot start with a
-      // division
-      ":",
-      // ; statement & for condition cannot start with division
-      ";",
-      // TODO Godin: next line was commented-out in order to support XML
-      // , "<" // <, <<, << ditto binary operand
-      // !=, !==, %=, &&=, &=, *=, +=, -=, /=, <<=, <=, =, ==, ===, >=, >>=, >>>=,
-      // ^=, |=, ||=
-      // All are binary operands (assignment ops or comparisons) whose right
-      // operand cannot start with a division operator
-      "=",
-      // >, >>, >>> ditto binary operand
-      ">",
-      // ? expression in ?: cannot start with a division operator
-      "?",
-      // [ first array value & key expression cannot start with a division
-      "[",
-      // ^ ditto binary operand
-      "^",
-      // { statement in block and object property key cannot start with a division
-      "{",
-      // |, || ditto binary operand
-      "|",
-      // } PROBLEMATIC: could be an object literal divided or a block.
-      // More likely to be start of a statement after a block which cannot start with
-      // a /.
-      "}",
-      // ~ ditto binary operand
-      "~"
+    // ! prefix operator operand cannot start with a division
+    "!",
+    // % second binary operand cannot start with a division
+    "%",
+    // &, && ditto binary operand
+    "&",
+    // ( expression cannot start with a division
+    "(",
+    // : property value, labelled statement, and operand of ?: cannot start with a division
+    ":",
+    // ; statement & for condition cannot start with division
+    ";",
+    // TODO Godin: next line was commented-out in order to support XML
+    // , "<" // <, <<, << ditto binary operand
+    // !=, !==, %=, &&=, &=, *=, +=, -=, /=, <<=, <=, =, ==, ===, >=, >>=, >>>=,
+    // ^=, |=, ||=
+    // All are binary operands (assignment ops or comparisons) whose right
+    // operand cannot start with a division operator
+    "=",
+    // >, >>, >>> ditto binary operand
+    ">",
+    // ? expression in ?: cannot start with a division operator
+    "?",
+    // [ first array value & key expression cannot start with a division
+    "[",
+    // ^ ditto binary operand
+    "^",
+    // { statement in block and object property key cannot start with a division
+    "{",
+    // |, || ditto binary operand
+    "|",
+    // } PROBLEMATIC: could be an object literal divided or a block.
+    // More likely to be start of a statement after a block which cannot start with a /.
+    "}",
+    // ~ ditto binary operand
+    "~"
   };
 
   public CRegularExpressionLiteralChannel() {
-    this.delegate = regexp(CTokenType.REGULAR_EXPRESSION_LITERAL,
-        "/([^/\\n\\\\]*+(\\\\.)?+)*+/\\p{javaJavaIdentifierPart}*+");
+    this.delegate = regexp(CTokenType.REGULAR_EXPRESSION_LITERAL, "/([^/\\n\\\\]*+(\\\\.)?+)*+/\\p{javaJavaIdentifierPart}*+");
   }
 
   @Override
@@ -137,8 +133,7 @@ public class CRegularExpressionLiteralChannel extends Channel<Lexer> {
   // a division (x++ / y) this pattern treats ++ and -- as division preceders.
 
   /**
-   * Returns true if a slash after given token starts a regular expression instead
-   * of div operator.
+   * Returns true if a slash after given token starts a regular expression instead of div operator.
    * <p>
    * This fails on some valid but nonsensical JavaScript programs like
    * {@code x = ++/foo/i} which is quite different than

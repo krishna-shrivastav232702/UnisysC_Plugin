@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,13 +28,13 @@ public class ObjectInitialiserTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.OBJECT_INITIALISER))
-        .matches("{ }")
-        .matches("{ a: c }")
-        .matches("{ a: 1, b: 2 }")
+      .matches("{ }")
+      .matches("{ a: c }")
+      .matches("{ a: 1, b: 2 }")
 
-        .matches("{ 1: a, 1: a }")
-        .matches("{ \"First\": 1, \"Second\": 2 }")
-        .matches("{ (a)::Integer: 1, (b)::Integer: 2 }");
+      .matches("{ 1: a, 1: a }")
+      .matches("{ \"First\": 1, \"Second\": 2 }")
+      .matches("{ (a)::Integer: 1, (b)::Integer: 2 }");
   }
 
 }

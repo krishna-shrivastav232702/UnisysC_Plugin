@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,7 +28,7 @@ import org.sonar.check.Rule;
 
 @Rule(key = "S108")
 public class EmptyNestedBlockCheck extends CCheck {
-
+  
   @Override
   public List<AstNodeType> subscribedTo() {
     return Collections.singletonList(CGrammar.COMPOUND_STATEMENT);
@@ -45,7 +45,7 @@ public class EmptyNestedBlockCheck extends CCheck {
     AstNode declarationList = blockNode.getFirstChild(CGrammar.DECLARATION_LIST);
     AstNode statementList = blockNode.getFirstChild(CGrammar.STATEMENT_LIST);
     return (declarationList == null || !declarationList.hasChildren())
-        && (statementList == null || !statementList.hasChildren());
+      && (statementList == null || !statementList.hasChildren());
   }
 
   private static boolean isNested(AstNode blockNode) {

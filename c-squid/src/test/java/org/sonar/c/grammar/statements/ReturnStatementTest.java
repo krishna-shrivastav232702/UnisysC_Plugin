@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,30 +28,30 @@ public class ReturnStatementTest {
   @Test
   public void eos_is_line_terminator() {
     Assertions.assertThat(g.rule(CGrammar.RETURN_STATEMENT))
-        .matchesPrefix("return \n", "another-statement ;")
-        .matchesPrefix("return expression \n", "another-statement ;")
-        .matchesPrefix("return \n", ";");
+      .matchesPrefix("return \n", "another-statement ;")
+      .matchesPrefix("return expression \n", "another-statement ;")
+      .matchesPrefix("return \n", ";");
   }
 
   @Test
   public void eos_is_semicolon() {
     Assertions.assertThat(g.rule(CGrammar.RETURN_STATEMENT))
-        .matchesPrefix("return ;", "another-statement")
-        .matchesPrefix("return expression ;", "another-statement");
+      .matchesPrefix("return ;", "another-statement")
+      .matchesPrefix("return expression ;", "another-statement");
   }
 
   @Test
   public void eos_before_right_curly_bracket() {
     Assertions.assertThat(g.rule(CGrammar.RETURN_STATEMENT))
-        .matchesPrefix("return ", "}")
-        .matchesPrefix("return expression ", "}");
+      .matchesPrefix("return ", "}")
+      .matchesPrefix("return expression ", "}");
   }
 
   @Test
   public void eos_is_end_of_input() {
     Assertions.assertThat(g.rule(CGrammar.RETURN_STATEMENT))
-        .matches("return ")
-        .matches("return expression ");
+      .matches("return ")
+      .matches("return expression ");
   }
 
 }

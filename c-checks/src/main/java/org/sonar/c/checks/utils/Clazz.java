@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -31,17 +31,16 @@ public final class Clazz {
   public static List<AstNode> getDirectives(AstNode classDefNode) {
     Preconditions.checkState(classDefNode.is(CGrammar.CLASS_DEF));
     return classDefNode
-        .getFirstChild(CGrammar.BLOCK)
-        .getFirstChild(CGrammar.DIRECTIVES)
-        .getChildren(CGrammar.DIRECTIVE);
+      .getFirstChild(CGrammar.BLOCK)
+      .getFirstChild(CGrammar.DIRECTIVES)
+      .getChildren(CGrammar.DIRECTIVE);
   }
 
   public static List<AstNode> getFields(AstNode classDefNode) {
     Preconditions.checkState(classDefNode.is(CGrammar.CLASS_DEF));
     List<AstNode> fields = new ArrayList<>();
 
-    for (AstNode directive : classDefNode.getFirstChild(CGrammar.BLOCK).getFirstChild(CGrammar.DIRECTIVES)
-        .getChildren()) {
+    for (AstNode directive : classDefNode.getFirstChild(CGrammar.BLOCK).getFirstChild(CGrammar.DIRECTIVES).getChildren()) {
       AstNode fieldDef = getFieldDefinition(directive);
       if (fieldDef != null) {
         fields.add(fieldDef);
@@ -53,17 +52,16 @@ public final class Clazz {
   public static String getName(AstNode classDefNode) {
     Preconditions.checkState(classDefNode.is(CGrammar.CLASS_DEF));
     return classDefNode.getFirstChild(CGrammar.CLASS_NAME)
-        .getFirstChild(CGrammar.CLASS_IDENTIFIERS)
-        .getLastChild()
-        .getTokenValue();
+      .getFirstChild(CGrammar.CLASS_IDENTIFIERS)
+      .getLastChild()
+      .getTokenValue();
   }
 
   public static AstNode getConstructor(AstNode classDefNode) {
     Preconditions.checkState(classDefNode.is(CGrammar.CLASS_DEF));
     final String className = Clazz.getName(classDefNode);
 
-    for (AstNode directive : classDefNode.getFirstChild(CGrammar.BLOCK).getFirstChild(CGrammar.DIRECTIVES)
-        .getChildren()) {
+    for (AstNode directive : classDefNode.getFirstChild(CGrammar.BLOCK).getFirstChild(CGrammar.DIRECTIVES).getChildren()) {
       AstNode functionDef = getFunctionDefinition(directive.getFirstChild(CGrammar.ANNOTABLE_DIRECTIVE));
 
       if (functionDef != null && Function.isConstructor(functionDef, className)) {
@@ -82,16 +80,15 @@ public final class Clazz {
 
   private static AstNode getFunctionDefinition(@Nullable AstNode annotableDir) {
     return annotableDir != null
-        && annotableDir.is(CGrammar.ANNOTABLE_DIRECTIVE)
-        && annotableDir.getFirstChild().is(CGrammar.FUNCTION_DEF) ? annotableDir.getFirstChild() : null;
+      && annotableDir.is(CGrammar.ANNOTABLE_DIRECTIVE)
+      && annotableDir.getFirstChild().is(CGrammar.FUNCTION_DEF) ? annotableDir.getFirstChild() : null;
   }
 
   public static List<AstNode> getFunctions(AstNode classDefNode) {
     Preconditions.checkState(classDefNode.is(CGrammar.CLASS_DEF));
     List<AstNode> functions = new ArrayList<>();
 
-    for (AstNode directive : classDefNode.getFirstChild(CGrammar.BLOCK).getFirstChild(CGrammar.DIRECTIVES)
-        .getChildren()) {
+    for (AstNode directive : classDefNode.getFirstChild(CGrammar.BLOCK).getFirstChild(CGrammar.DIRECTIVES).getChildren()) {
       AstNode functionDef = getFunctionDefinition(directive.getFirstChild(CGrammar.ANNOTABLE_DIRECTIVE));
 
       if (functionDef != null) {

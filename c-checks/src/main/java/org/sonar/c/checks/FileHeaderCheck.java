@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -34,10 +34,17 @@ public class FileHeaderCheck extends CCheck {
 
   private static final String DEFAULT_HEADER_FORMAT = "";
 
-  @RuleProperty(key = "headerFormat", description = "Expected copyright and license header", defaultValue = DEFAULT_HEADER_FORMAT, type = "TEXT")
+  @RuleProperty(
+    key = "headerFormat",
+    description = "Expected copyright and license header",
+    defaultValue = DEFAULT_HEADER_FORMAT,
+    type = "TEXT")
   public String headerFormat = DEFAULT_HEADER_FORMAT;
 
-  @RuleProperty(key = "isRegularExpression", description = "Whether the headerFormat is a regular expression", defaultValue = "false")
+  @RuleProperty(
+    key = "isRegularExpression",
+    description = "Whether the headerFormat is a regular expression",
+    defaultValue = "false")
   public boolean isRegularExpression = false;
 
   private Predicate<String> headerMatcher;
@@ -72,6 +79,7 @@ public class FileHeaderCheck extends CCheck {
       addFileIssue("Add or update the header of this file.");
     }
   }
+
 
   private static boolean matchesRegularExpression(Pattern regularExpression, String content) {
     Matcher matcher = regularExpression.matcher(content);

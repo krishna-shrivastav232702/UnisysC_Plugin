@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -41,17 +41,15 @@ public class ConstructorWithVoidReturnTypeCheck extends CCheck {
     AstNode constructorDef = Clazz.getConstructor(astNode);
 
     if (constructorDef != null && hasVoidReturnType(constructorDef)) {
-      String className = astNode.getFirstChild(CGrammar.CLASS_NAME).getFirstChild(CGrammar.CLASS_IDENTIFIERS)
-          .getLastChild().getTokenValue();
-      addIssue(MessageFormat.format("Remove the \"void\" return type from this \"{0}\" constructor", className),
-          constructorDef);
+      String className = astNode.getFirstChild(CGrammar.CLASS_NAME).getFirstChild(CGrammar.CLASS_IDENTIFIERS).getLastChild().getTokenValue();
+      addIssue(MessageFormat.format("Remove the \"void\" return type from this \"{0}\" constructor", className), constructorDef);
     }
   }
 
   private static boolean hasVoidReturnType(AstNode functionDef) {
     AstNode resultTypeNode = functionDef.getFirstChild(CGrammar.FUNCTION_COMMON)
-        .getFirstChild(CGrammar.FUNCTION_SIGNATURE)
-        .getFirstChild(CGrammar.RESULT_TYPE);
+      .getFirstChild(CGrammar.FUNCTION_SIGNATURE)
+      .getFirstChild(CGrammar.RESULT_TYPE);
 
     return resultTypeNode != null && resultTypeNode.getFirstChild(CKeyword.VOID) != null;
   }

@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -34,7 +34,7 @@ public class CoberturaSensor implements Sensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-        .name("Unisys C Cobertura")
+        .name("Flex Cobertura")
         .onlyOnFileType(InputFile.Type.MAIN)
         .onlyOnLanguage(C.KEY);
   }

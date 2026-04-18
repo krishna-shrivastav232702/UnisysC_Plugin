@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -29,7 +29,7 @@ import org.sonar.check.Rule;
 
 @Rule(key = "S3687")
 public class VolatileLocalVariableCheck extends CCheck {
-
+    
     @Override
     public List<AstNodeType> subscribedTo() {
         return Collections.singletonList(CGrammar.DECLARATION);

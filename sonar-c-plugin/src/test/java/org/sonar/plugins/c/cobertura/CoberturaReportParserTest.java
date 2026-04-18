@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -19,6 +19,9 @@ package org.sonar.plugins.c.cobertura;
 import java.io.File;
 import org.junit.jupiter.api.Test;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.plugins.c.cobertura.CoberturaReportParser;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -26,21 +29,21 @@ public class CoberturaReportParserTest {
 
   @Test
   public void invalidXmlFile() throws Exception {
-    IllegalStateException e = assertThrows(IllegalStateException.class, () -> CoberturaReportParser.parseReport(
-        new File("src/test/resources/org/sonar/plugins/c/cobertura/coverage-invalid.xml"),
+    IllegalStateException e = assertThrows(IllegalStateException.class, () ->
+      CoberturaReportParser.parseReport(
+        new File("src/test/resources/org/sonar/plugins/flex/cobertura/coverage-invalid.xml"),
         SensorContextTester.create(new File("."))));
-    assertTrue(e.getMessage()
-        .startsWith("com.ctc.wstx.exc.WstxEOFException: Unexpected EOF; was expecting a close tag for element " +
-            "<coverage>"));
+    assertTrue(e.getMessage().startsWith("com.ctc.wstx.exc.WstxEOFException: Unexpected EOF; was expecting a close tag for element " +
+      "<coverage>"));
     assertTrue(e.getMessage().endsWith(" at [row,col {unknown-source}]: [5,0]"));
   }
 
   @Test
   public void nonExistingFile() {
-    IllegalStateException e = assertThrows(IllegalStateException.class, () -> CoberturaReportParser.parseReport(
+    IllegalStateException e = assertThrows(IllegalStateException.class, () ->
+      CoberturaReportParser.parseReport(
         new File("fakeFile.xml"),
         SensorContextTester.create(new File("."))));
-    assertTrue(
-        e.getMessage().startsWith("javax.xml.stream.XMLStreamException: java.io.FileNotFoundException: fakeFile.xml"));
+    assertTrue(e.getMessage().startsWith("javax.xml.stream.XMLStreamException: java.io.FileNotFoundException: fakeFile.xml"));
   }
 }

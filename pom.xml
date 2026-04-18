@@ -9,9 +9,9 @@
     <version>86.0.0.3040</version>
   </parent>
 
-  <groupId>org.sonarsource.c</groupId>
-  <artifactId>c</artifactId>
-  <version>1.0.0</version>
+  <groupId>org.sonarsource.flex</groupId>
+  <artifactId>flex</artifactId>
+  <version>2.17.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>c</name>
@@ -49,8 +49,23 @@
     <module>sslr-c-toolkit</module>
   </modules>
 
+  <scm>
+    <connection>scm:git:git@github.com:SonarSource/sonar-flex.git</connection>
+    <developerConnection>scm:git:git@github.com:SonarSource/sonar-flex.git</developerConnection>
+    <url>https://github.com/SonarSource/sonar-flex</url>
+    <tag>HEAD</tag>
+  </scm>
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://jira.sonarsource.com/browse/SONARFLEX</url>
+  </issueManagement>
+  <ciManagement>
+    <system>Travis</system>
+    <url>https://travis-ci.org/SonarSource/sonar-flex</url>
+  </ciManagement>
+
   <properties>
-    <license.title>SonarQube Unisys C Plugin</license.title>
+    <license.title>SonarQube Flex Plugin</license.title>
     <sonar.coverage.jacoco.xmlReportPaths>${maven.multiModuleProjectDirectory}/coverage/java/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 
     <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
@@ -63,7 +78,7 @@
     <fest.version>1.4</fest.version>
     <orchestrator.version>6.1.0.3962</orchestrator.version>
 
-    <gitRepositoryName>sonar-c</gitRepositoryName>
+    <gitRepositoryName>sonar-flex</gitRepositoryName>
     <artifactsToPublish>${project.groupId}:sonar-c-plugin:jar,${project.groupId}:sslr-c-toolkit:jar</artifactsToPublish>
     <!-- FIXME fix javadoc warnings -->
     <doclint>none</doclint>
@@ -166,14 +181,6 @@
       </dependency>
 
       <dependency>
-        <!-- we keep JUnit 4 for ITs -->
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>${junit.version}</version>
-        <scope>test</scope>
-      </dependency>
-
-      <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
         <version>6.0.2</version>
@@ -220,6 +227,12 @@
       <properties>
         <maven.compiler.release>8</maven.compiler.release>
       </properties>
+    </profile>
+    <profile>
+      <id>coverage-report</id>
+      <modules>
+        <module>coverage-report</module>
+      </modules>
     </profile>
   </profiles>
 

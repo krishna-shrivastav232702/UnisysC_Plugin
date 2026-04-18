@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -88,9 +88,9 @@ public class CoberturaReportParser {
       }
       if (inputFile != null) {
         collectFileData(
-            clazz,
-            context.newCoverage()
-                .onFile(inputFile));
+          clazz,
+          context.newCoverage()
+            .onFile(inputFile));
       } else {
         SMInputCursor line = clazz.childElementCursor("lines").advance().childElementCursor("line");
         while (line.getNext() != null) {
@@ -104,9 +104,9 @@ public class CoberturaReportParser {
   private static InputFile findInputFile(FileSystem fileSystem, FilePredicates predicates, String fileName) {
     String key = fileName.startsWith(File.separator) ? fileName : (File.separator + fileName);
     return fileSystem.inputFile(predicates.and(
-        predicates.matchesPathPattern("**" + key.replace(File.separator, "/")),
-        predicates.hasType(InputFile.Type.MAIN),
-        predicates.hasLanguage(C.KEY)));
+      predicates.matchesPathPattern("**" + key.replace(File.separator, "/")),
+      predicates.hasType(InputFile.Type.MAIN),
+      predicates.hasLanguage(C.KEY)));
   }
 
   private static void collectFileData(SMInputCursor clazz, NewCoverage newCoverage) throws XMLStreamException {

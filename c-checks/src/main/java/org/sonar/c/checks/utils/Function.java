@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -38,27 +38,29 @@ public class Function {
     return functionDef.getFirstChild(CGrammar.FUNCTION_NAME).getFirstChild(CKeyword.GET, CKeyword.SET) != null;
   }
 
+
   public static boolean isEmptyConstructor(AstNode functionDef, String className) {
     Preconditions.checkState(functionDef.is(CGrammar.FUNCTION_DEF));
     AstNode functionBlock = functionDef.getFirstChild(CGrammar.FUNCTION_COMMON).getFirstChild(CGrammar.BLOCK);
 
     return isConstructor(functionDef, className)
-        && (functionBlock == null || functionBlock.getFirstChild(CGrammar.DIRECTIVES).getChildren().isEmpty());
+      && (functionBlock == null || functionBlock.getFirstChild(CGrammar.DIRECTIVES).getChildren().isEmpty());
   }
 
   public static boolean isConstructor(AstNode functionDef, String className) {
     Preconditions.checkState(functionDef.is(CGrammar.FUNCTION_DEF));
     return functionDef.getFirstChild(CGrammar.FUNCTION_NAME).getNumberOfChildren() == 1
-        && functionDef.getFirstChild(CGrammar.FUNCTION_NAME).getFirstChild().getTokenValue().equals(className);
+      && functionDef.getFirstChild(CGrammar.FUNCTION_NAME).getFirstChild().getTokenValue().equals(className);
   }
+
 
   public static List<AstNode> getParametersIdentifiers(AstNode functionDef) {
     Preconditions.checkState(functionDef.is(CGrammar.FUNCTION_DEF, CGrammar.FUNCTION_EXPR));
     List<AstNode> paramIdentifier = new ArrayList<>();
     AstNode parameters = functionDef
-        .getFirstChild(CGrammar.FUNCTION_COMMON)
-        .getFirstChild(CGrammar.FUNCTION_SIGNATURE)
-        .getFirstChild(CGrammar.PARAMETERS);
+      .getFirstChild(CGrammar.FUNCTION_COMMON)
+      .getFirstChild(CGrammar.FUNCTION_SIGNATURE)
+      .getFirstChild(CGrammar.PARAMETERS);
 
     if (parameters != null) {
       for (AstNode parameter : parameters.getChildren(CGrammar.PARAMETER, CGrammar.REST_PARAMETERS)) {
@@ -78,9 +80,8 @@ public class Function {
 
       for (AstNode attribute : attributesNode.getChildren()) {
         if (attribute.getFirstChild().is(CGrammar.ATTRIBUTE_EXPR)
-            && attribute.getFirstChild().getNumberOfChildren() == 1
-            && attribute.getFirstChild().getFirstChild(CGrammar.IDENTIFIER).getTokenValue()
-                .equals(CKeyword.OVERRIDE.getValue())) {
+          && attribute.getFirstChild().getNumberOfChildren() == 1
+          && attribute.getFirstChild().getFirstChild(CGrammar.IDENTIFIER).getTokenValue().equals(CKeyword.OVERRIDE.getValue())) {
           return true;
         }
       }

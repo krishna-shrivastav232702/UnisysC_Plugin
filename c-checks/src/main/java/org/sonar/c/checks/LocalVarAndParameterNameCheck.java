@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -34,12 +34,17 @@ import org.sonar.check.RuleProperty;
 @Rule(key = "S117")
 public class LocalVarAndParameterNameCheck extends CCheck {
 
+
   private static final String DEFAULT = "^[_a-z][a-zA-Z0-9]*$";
   private static final String MESSAGE = "Rename this local variable \"{0}\" to match the regular expression {1}";
   private Pattern pattern = null;
 
-  @RuleProperty(key = "format", description = "Regular expression used to check the names against.", defaultValue = DEFAULT)
+  @RuleProperty(
+    key = "format",
+    description = "Regular expression used to check the names against.",
+    defaultValue = DEFAULT)
   String format = DEFAULT;
+
 
   @Override
   public List<AstNodeType> subscribedTo() {
@@ -59,9 +64,9 @@ public class LocalVarAndParameterNameCheck extends CCheck {
 
     if (astNode.getFirstChild(CGrammar.FUNCTION_COMMON).getFirstChild(CGrammar.BLOCK) != null) {
       checkLocalVariableName(astNode.getFirstChild(CGrammar.FUNCTION_COMMON)
-          .getFirstChild(CGrammar.BLOCK)
-          .getFirstChild(CGrammar.DIRECTIVES)
-          .getChildren(CGrammar.DIRECTIVE));
+        .getFirstChild(CGrammar.BLOCK)
+        .getFirstChild(CGrammar.DIRECTIVES)
+        .getChildren(CGrammar.DIRECTIVE));
     }
   }
 
@@ -70,8 +75,8 @@ public class LocalVarAndParameterNameCheck extends CCheck {
 
       if (Variable.isVariable(directive)) {
         AstNode variableDeclStatement = directive
-            .getFirstChild(CGrammar.ANNOTABLE_DIRECTIVE)
-            .getFirstChild(CGrammar.VARIABLE_DECLARATION_STATEMENT);
+          .getFirstChild(CGrammar.ANNOTABLE_DIRECTIVE)
+          .getFirstChild(CGrammar.VARIABLE_DECLARATION_STATEMENT);
 
         checkVariableDeclStatement(variableDeclStatement);
       }

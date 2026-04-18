@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,7 +28,7 @@ public class TypedIdentifierTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.TYPED_IDENTIFIER))
-        .matches("a")
-        .matches("a : a");
+      .matches("a")
+      .matches("a : a");
   }
 }

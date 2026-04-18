@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,13 +28,13 @@ public class SimpleQualifiedIdentifierTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.SIMPLE_QUALIFIED_IDENTIFIER))
-        .matches("private::*")
-        .matches("identifier::identifier")
+      .matches("private::*")
+      .matches("identifier::identifier")
 
-        .matches("identifier::[null]")
+      .matches("identifier::[null]")
 
-        .matches("*")
-        .matches("identifier");
+      .matches("*")
+      .matches("identifier");
   }
 
 }

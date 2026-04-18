@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -44,9 +44,9 @@ public class OverrideEventCloneFunctionCheck extends CCheck {
       return;
     }
     List<AstNode> classDirectives = astNode
-        .getFirstChild(CGrammar.BLOCK)
-        .getFirstChild(CGrammar.DIRECTIVES)
-        .getChildren(CGrammar.DIRECTIVE);
+      .getFirstChild(CGrammar.BLOCK)
+      .getFirstChild(CGrammar.DIRECTIVES)
+      .getChildren(CGrammar.DIRECTIVE);
 
     for (AstNode directive : classDirectives) {
       if (isOverridingFunction(directive) && isCloneFunction(directive)) {
@@ -54,15 +54,14 @@ public class OverrideEventCloneFunctionCheck extends CCheck {
       }
     }
 
-    String className = astNode.getFirstChild(CGrammar.CLASS_NAME).getFirstChild(CGrammar.CLASS_IDENTIFIERS)
-        .getLastChild().getTokenValue();
+    String className = astNode.getFirstChild(CGrammar.CLASS_NAME).getFirstChild(CGrammar.CLASS_IDENTIFIERS).getLastChild().getTokenValue();
     addIssue(MessageFormat.format("Make this class \"{0}\" override \"Event.clone()\" function.", className), astNode);
   }
 
   private static boolean isCloneFunction(AstNode directive) {
     AstNode functionDef = directive
-        .getFirstChild(CGrammar.ANNOTABLE_DIRECTIVE)
-        .getFirstChild(CGrammar.FUNCTION_DEF);
+      .getFirstChild(CGrammar.ANNOTABLE_DIRECTIVE)
+      .getFirstChild(CGrammar.FUNCTION_DEF);
 
     String functionName = Function.getName(functionDef);
 
@@ -71,15 +70,16 @@ public class OverrideEventCloneFunctionCheck extends CCheck {
 
   private static String getResultType(AstNode functionDef) {
     AstNode resultType = functionDef
-        .getFirstChild(CGrammar.FUNCTION_COMMON)
-        .getFirstChild(CGrammar.FUNCTION_SIGNATURE)
-        .getFirstChild(CGrammar.RESULT_TYPE);
+      .getFirstChild(CGrammar.FUNCTION_COMMON)
+      .getFirstChild(CGrammar.FUNCTION_SIGNATURE)
+      .getFirstChild(CGrammar.RESULT_TYPE);
 
     if (resultType != null && resultType.getFirstChild(CGrammar.TYPE_EXPR) != null) {
       return resultType.getFirstChild(CGrammar.TYPE_EXPR).getTokenValue();
     }
     return null;
   }
+
 
   private static boolean isExtendingEvent(AstNode classDef) {
     AstNode inheritenceNode = classDef.getFirstChild(CGrammar.INHERITENCE);
@@ -99,17 +99,16 @@ public class OverrideEventCloneFunctionCheck extends CCheck {
 
   private static boolean isFunctionWithAttributes(AstNode directive) {
     return directive.getFirstChild(CGrammar.ANNOTABLE_DIRECTIVE) != null
-        && directive.getFirstChild(CGrammar.ANNOTABLE_DIRECTIVE).getFirstChild().is(CGrammar.FUNCTION_DEF)
-        && directive.getFirstChild(CGrammar.ATTRIBUTES) != null;
+      && directive.getFirstChild(CGrammar.ANNOTABLE_DIRECTIVE).getFirstChild().is(CGrammar.FUNCTION_DEF)
+      && directive.getFirstChild(CGrammar.ATTRIBUTES) != null;
   }
 
   private static boolean isOverriding(AstNode directive) {
     for (AstNode attribute : directive.getFirstChild(CGrammar.ATTRIBUTES).getChildren()) {
 
       if (attribute.getFirstChild().is(CGrammar.ATTRIBUTE_EXPR)
-          && attribute.getFirstChild().getNumberOfChildren() == 1
-          && attribute.getFirstChild().getFirstChild(CGrammar.IDENTIFIER).getTokenValue()
-              .equals(CKeyword.OVERRIDE.getValue())) {
+        && attribute.getFirstChild().getNumberOfChildren() == 1
+        && attribute.getFirstChild().getFirstChild(CGrammar.IDENTIFIER).getTokenValue().equals(CKeyword.OVERRIDE.getValue())) {
         return true;
       }
     }

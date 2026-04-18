@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -46,11 +46,11 @@ public final class CToolkit {
   // Visible for testing
   static List<Tokenizer> getTokenizers() {
     return Collections.unmodifiableList(Arrays.asList(
-        new StringTokenizer("<span class=\"s\">", SPAN_END_TAG),
-        new CDocTokenizer("<span class=\"cd\">", SPAN_END_TAG),
-        new JavadocTokenizer("<span class=\"cppd\">", SPAN_END_TAG),
-        new CppDocTokenizer("<span class=\"cppd\">", SPAN_END_TAG),
-        new KeywordsTokenizer("<span class=\"k\">", SPAN_END_TAG, CKeyword.keywordValues())));
+      new StringTokenizer("<span class=\"s\">", SPAN_END_TAG),
+      new CDocTokenizer("<span class=\"cd\">", SPAN_END_TAG),
+      new JavadocTokenizer("<span class=\"cppd\">", SPAN_END_TAG),
+      new CppDocTokenizer("<span class=\"cppd\">", SPAN_END_TAG),
+      new KeywordsTokenizer("<span class=\"k\">", SPAN_END_TAG, CKeyword.keywordValues())));
   }
 
 }

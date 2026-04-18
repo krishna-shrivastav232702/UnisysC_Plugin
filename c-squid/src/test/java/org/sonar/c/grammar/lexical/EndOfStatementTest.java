@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -29,39 +29,39 @@ public class EndOfStatementTest {
   @Test
   public void semicolon() {
     assertThat(g.rule(CGrammar.EOS))
-        .matchesPrefix(";", "another-statement")
-        .matchesPrefix("/* comment */ ;", "another-statement")
-        .matchesPrefix("\n ;", "another-statement")
-        .matchesPrefix("/* comment \n */ ;", "another-statement");
+      .matchesPrefix(";", "another-statement")
+      .matchesPrefix("/* comment */ ;", "another-statement")
+      .matchesPrefix("\n ;", "another-statement")
+      .matchesPrefix("/* comment \n */ ;", "another-statement");
   }
 
   @Test
   public void line_terminator_sequence() {
     assertThat(g.rule(CGrammar.EOS))
-        .matchesPrefix("\n", "another-statement")
-        .matchesPrefix("\r\n", "another-statement")
-        .matchesPrefix("\r", "another-statement")
-        .matchesPrefix("// comment \n", "another-statement")
-        .matchesPrefix("/* comment */ \n", "another-statement")
-        .notMatches("\n\n");
+      .matchesPrefix("\n", "another-statement")
+      .matchesPrefix("\r\n", "another-statement")
+      .matchesPrefix("\r", "another-statement")
+      .matchesPrefix("// comment \n", "another-statement")
+      .matchesPrefix("/* comment */ \n", "another-statement")
+      .notMatches("\n\n");
   }
 
   @Test
   public void right_curly_bracket() {
     assertThat(g.rule(CGrammar.EOS))
-        .matchesPrefix(" ", "}")
-        .matchesPrefix("/* comment */ ", "}")
-        .notMatches("/* comment \n */ }");
+      .matchesPrefix(" ", "}")
+      .matchesPrefix("/* comment */ ", "}")
+      .notMatches("/* comment \n */ }");
   }
 
   @Test
   public void end_of_input() {
     assertThat(g.rule(CGrammar.EOS))
-        .matches("")
-        .matches(" ")
-        .matches("/* comment */")
-        .matches("/* comment \n */")
-        .matches("/* comment \n */ \n");
+      .matches("")
+      .matches(" ")
+      .matches("/* comment */")
+      .matches("/* comment \n */")
+      .matches("/* comment \n */ \n");
   }
 
 }

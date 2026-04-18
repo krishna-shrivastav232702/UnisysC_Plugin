@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,9 +28,9 @@ public class QualifierTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.QUALIFIER))
-        .matches("protected")
-        .matches("*")
-        .matches("b");
+      .matches("protected")
+      .matches("*")
+      .matches("b");
   }
 
 }

@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -24,8 +24,7 @@ public class AllBranchesIdenticalCheck extends ConditionalStructureCheckBase {
   @Override
   public void visitConditionalStructure(ConditionalStructure cond) {
     if (cond.allBranchesArePresent && cond.areAllEquivalentBranches()) {
-      addIssue("Remove this conditional structure or edit its code blocks so that they're not all the same.",
-          cond.getNode().getToken());
+      addIssue("Remove this conditional structure or edit its code blocks so that they're not all the same.", cond.getNode().getToken());
     }
   }
 

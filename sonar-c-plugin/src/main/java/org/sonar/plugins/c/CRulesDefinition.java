@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -40,11 +40,10 @@ public final class CRulesDefinition implements RulesDefinition {
   @Override
   public void define(Context context) {
     NewRepository repository = context
-        .createRepository(CheckList.REPOSITORY_KEY, C.KEY)
-        .setName(REPOSITORY_NAME);
+      .createRepository(CheckList.REPOSITORY_KEY, C.KEY)
+      .setName(REPOSITORY_NAME);
 
-    RuleMetadataLoader ruleMetadataLoader = new RuleMetadataLoader(RESOURCE_BASE_PATH, CProfile.SONAR_WAY_PROFILE_PATH,
-        sonarRuntime);
+    RuleMetadataLoader ruleMetadataLoader = new RuleMetadataLoader(RESOURCE_BASE_PATH, CProfile.SONAR_WAY_PROFILE_PATH, sonarRuntime);
     ruleMetadataLoader.addRulesByAnnotatedClass(repository, CheckList.getChecks());
 
     TEMPLATE_RULE_KEYS.forEach(key -> repository.rule(key).setTemplate(true));

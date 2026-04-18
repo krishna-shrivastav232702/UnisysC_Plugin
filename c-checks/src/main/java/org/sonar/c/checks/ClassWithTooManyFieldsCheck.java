@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -32,15 +32,21 @@ import org.sonar.check.RuleProperty;
 @Rule(key = "S1820")
 public class ClassWithTooManyFieldsCheck extends CCheck {
 
+
   public static final int DEFAULT_MAX = 20;
   public static final boolean DEFAULT_COUNT_NON_PUBLIC = true;
 
-  @RuleProperty(key = "maximumFieldThreshold", description = "The maximum number of fields", defaultValue = ""
-      + DEFAULT_MAX)
+  @RuleProperty(
+    key = "maximumFieldThreshold",
+    description = "The maximum number of fields",
+    defaultValue = "" + DEFAULT_MAX)
   int maximumFieldThreshold = DEFAULT_MAX;
 
-  @RuleProperty(key = "countNonpublicFields", description = "Whether or not to include non-public fields in the count", defaultValue = ""
-      + DEFAULT_COUNT_NON_PUBLIC, type = "BOOLEAN")
+  @RuleProperty(
+    key = "countNonpublicFields",
+    description = "Whether or not to include non-public fields in the count",
+    defaultValue = "" + DEFAULT_COUNT_NON_PUBLIC,
+  type = "BOOLEAN")
   boolean countNonpublicFields = DEFAULT_COUNT_NON_PUBLIC;
 
   @Override
@@ -54,9 +60,7 @@ public class ClassWithTooManyFieldsCheck extends CCheck {
 
     if (nbFields > maximumFieldThreshold) {
       String msg = countNonpublicFields ? String.valueOf(maximumFieldThreshold) : (maximumFieldThreshold + " public");
-      String message = MessageFormat.format(
-          "Refactor this struct so it has no more than {0} fields, rather than the {1} it currently has.", msg,
-          nbFields);
+      String message = MessageFormat.format("Refactor this struct so it has no more than {0} fields, rather than the {1} it currently has.", msg, nbFields);
       addIssue(message, astNode);
     }
   }

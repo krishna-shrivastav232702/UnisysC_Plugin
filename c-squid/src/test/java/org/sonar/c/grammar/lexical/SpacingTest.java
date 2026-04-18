@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -27,37 +27,36 @@ public class SpacingTest {
   private final LexerlessGrammar g = CGrammar.createGrammar();
 
   /**
-   * Must allow empty matches, otherwise "optional(SPACING)" will be used
-   * everywhere in grammar,
+   * Must allow empty matches, otherwise "optional(SPACING)" will be used everywhere in grammar,
    * which leads to dramatic degradation of performance.
    */
   @Test
   public void empty() {
     assertThat(g.rule(CGrammar.SPACING))
-        .matches("");
+      .matches("");
   }
 
   @Test
   public void whitespace() {
     assertThat(g.rule(CGrammar.SPACING))
-        .matches(" ")
-        .matches("\n")
-        .matches("\r")
-        .matches("\r\n");
+      .matches(" ")
+      .matches("\n")
+      .matches("\r")
+      .matches("\r\n");
   }
 
   @Test
   public void single_line_comment() {
     assertThat(g.rule(CGrammar.SPACING))
-        .matches(" // comment")
-        .matches(" // comment \n");
+      .matches(" // comment")
+      .matches(" // comment \n");
   }
 
   @Test
   public void multi_line_comment() {
     assertThat(g.rule(CGrammar.SPACING))
-        .matches(" /* comment */ /* comment */ ")
-        .matches("/* comment \n */");
+      .matches(" /* comment */ /* comment */ ")
+      .matches("/* comment \n */");
   }
 
 }

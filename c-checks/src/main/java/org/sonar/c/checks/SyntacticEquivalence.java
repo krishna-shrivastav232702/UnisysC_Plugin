@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -34,7 +34,7 @@ public class SyntacticEquivalence {
       Token token1 = node1.getToken();
       Token token2 = node2.getToken();
       return (token1 == null && token2 == null) ||
-          (token1 != null && token2 != null && token1.getValue().equals(token2.getValue()));
+        (token1 != null && token2 != null && token1.getValue().equals(token2.getValue()));
     }
 
     List<AstNode> children1 = node1.getChildren();

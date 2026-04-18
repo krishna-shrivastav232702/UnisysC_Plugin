@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -43,7 +43,7 @@ public class BooleanEqualityComparisonCheck extends CCheck {
 
   private static boolean hasBooleanLiteralOperand(AstNode astNode) {
     return astNode.is(CGrammar.POSTFIX_EXPRESSION)
-        && astNode.getFirstChild().is(CGrammar.PRIMARY_EXPRESSION)
-        && astNode.getFirstChild().getFirstChild().is(CKeyword.TRUE, CKeyword.FALSE);
+      && astNode.getFirstChild().is(CGrammar.PRIMARY_EXPRESSION)
+      && astNode.getFirstChild().getFirstChild().is(CKeyword.TRUE, CKeyword.FALSE);
   }
 }

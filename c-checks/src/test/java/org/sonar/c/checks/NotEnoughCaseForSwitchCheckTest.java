@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -25,7 +25,7 @@ public class NotEnoughCaseForSwitchCheckTest {
   private NotEnoughCaseForSwitchCheck check = new NotEnoughCaseForSwitchCheck();
 
   @Test
-  public void test() {
+  public void test(){
     CVerifier.verify(new File("src/test/resources/checks/NotEnoughCaseForSwitch.ccc_m"), check);
   }
 }

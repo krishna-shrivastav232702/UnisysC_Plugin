@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -23,22 +23,22 @@ import org.sonar.sslr.tests.Assertions;
 
 public class ForStatementTest {
 
-    private final LexerlessGrammar g = CGrammar.createGrammar();
+  private final LexerlessGrammar g = CGrammar.createGrammar();
 
-    @Test
-    public void test() {
-        Assertions.assertThat(g.rule(CGrammar.ITERATION_STATEMENT))
-                .matches("for ( ; ; ) { }")
+  @Test
+ public void test() {
+    Assertions.assertThat(g.rule(CGrammar.ITERATION_STATEMENT))
+        .matches("for ( ; ; ) { }")
+        
+        .matches("for (i = 0; i < 5; i++) { }")
+        
+        .matches("for ( ; i < 10; ) { }")
+        .matches("for (i = 0; ; i++) { }");
 
-                .matches("for (i = 0; i < 5; i++) { }")
-
-                .matches("for ( ; i < 10; ) { }")
-                .matches("for (i = 0; ; i++) { }");
-
-        Assertions.assertThat(g.rule(CGrammar.EXPRESSION))
-                .matches("i = 1")
-                .matches("i < 5")
-                .matches("i++");
-    }
+    Assertions.assertThat(g.rule(CGrammar.EXPRESSION))
+        .matches("i = 1")
+        .matches("i < 5")
+        .matches("i++");
+} 
 
 }

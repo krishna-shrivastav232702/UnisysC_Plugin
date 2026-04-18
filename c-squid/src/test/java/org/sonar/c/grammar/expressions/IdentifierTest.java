@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,29 +28,29 @@ public class IdentifierTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.IDENTIFIER))
-        .matches("identifier")
+      .matches("identifier")
 
-        .matches("dynamic")
-        .matches("each")
-        .matches("final")
-        .matches("get")
-        .matches("include")
-        .matches("namespace")
-        .matches("override")
-        .matches("set")
-        .matches("static")
-        .matches("native")
+      .matches("dynamic")
+      .matches("each")
+      .matches("final")
+      .matches("get")
+      .matches("include")
+      .matches("namespace")
+      .matches("override")
+      .matches("set")
+      .matches("static")
+      .matches("native")
 
-        .notMatches("for")
-        .matches("for27")
+      .notMatches("for")
+      .matches("for27")
 
-        .matches("_")
-        .matches("$")
-        // unicode escape sequence
-        .matches("\\u1234")
+      .matches("_")
+      .matches("$")
+      // unicode escape sequence
+      .matches("\\u1234")
 
-        // "as" is not keyword in ActionScript 2:
-        .matches("as");
+      // "as" is not keyword in ActionScript 2:
+      .matches("as");
   }
 
 }

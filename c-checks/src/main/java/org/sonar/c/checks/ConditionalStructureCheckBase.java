@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -30,18 +30,15 @@ import org.sonar.c.CKeyword;
 
 public abstract class ConditionalStructureCheckBase extends CCheck {
   private Set<AstNode> visitedIfStatements = new HashSet<>();
-
   @Override
   public void visitFile(@Nullable AstNode node) {
     visitedIfStatements.clear();
   }
-
   @Override
   public List<AstNodeType> subscribedTo() {
     return Arrays.asList(
-        CGrammar.CONTROL_STATEMENT);
+      CGrammar.CONTROL_STATEMENT);
   }
-
   @Override
   public void visitNode(AstNode node) {
     if (isIfStatement(node)) {

@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -30,8 +30,7 @@ import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 
 /**
- * Note that implementation differs from AbstractNestedIfCheck - see
- * SONARPLUGINS-1855 and SONARPLUGINS-2178
+ * Note that implementation differs from AbstractNestedIfCheck - see SONARPLUGINS-1855 and SONARPLUGINS-2178
  */
 @Rule(key = "S134")
 public class ControlFlowStmtDepthCheck extends CCheck {
@@ -40,8 +39,10 @@ public class ControlFlowStmtDepthCheck extends CCheck {
 
   private static final int DEFAULT_MAX = 3;
 
-  @RuleProperty(key = "max", description = "Maximum allowed control flow statement nesting depth.", defaultValue = ""
-      + DEFAULT_MAX)
+  @RuleProperty(
+    key = "max",
+    description = "Maximum allowed control flow statement nesting depth.",
+    defaultValue = "" + DEFAULT_MAX)
   public int max = DEFAULT_MAX;
 
   public int getMax() {
@@ -51,8 +52,8 @@ public class ControlFlowStmtDepthCheck extends CCheck {
   @Override
   public List<AstNodeType> subscribedTo() {
     return Arrays.asList(
-        CGrammar.CONTROL_STATEMENT,
-        CGrammar.ITERATION_STATEMENT);
+      CGrammar.CONTROL_STATEMENT,
+      CGrammar.ITERATION_STATEMENT);
   }
 
   @Override
@@ -65,8 +66,7 @@ public class ControlFlowStmtDepthCheck extends CCheck {
     if (!isElseIf(astNode)) {
       nestingLevel++;
       if (nestingLevel == getMax() + 1) {
-        addIssue(MessageFormat.format("Refactor this code to not nest more than {0} if/for/while/switch statements.",
-            getMax()), astNode);
+        addIssue(MessageFormat.format("Refactor this code to not nest more than {0} if/for/while/switch statements.", getMax()), astNode);
       }
     }
   }
@@ -80,16 +80,15 @@ public class ControlFlowStmtDepthCheck extends CCheck {
 
   private static boolean isElseIf(AstNode astNode) {
     AstNode parent = astNode.getParent();
-    if (parent == null)
-      return false;
-
+    if (parent == null) return false;
+    
     AstNode grandParent = parent.getParent();
     if (grandParent == null || !grandParent.is(CGrammar.CONTROL_STATEMENT)) {
-      return false;
+        return false;
     }
-
+    
     AstNode prevSibling = parent.getPreviousSibling();
     return prevSibling != null && prevSibling.is(CKeyword.ELSE);
-  }
+  } 
 
 }

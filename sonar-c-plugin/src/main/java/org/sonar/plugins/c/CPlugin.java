@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -29,31 +29,30 @@ public class CPlugin implements Plugin {
   @Override
   public void define(Context context) {
     context.addExtensions(
-        C.class,
+      C.class,
 
-        CSquidSensor.class,
-        CoberturaSensor.class,
+      CSquidSensor.class,
+      CoberturaSensor.class,
 
-        CRulesDefinition.class,
-        CProfile.class,
+      CRulesDefinition.class,
+      CProfile.class,
 
-        PropertyDefinition.builder(FILE_SUFFIXES_KEY)
-            .defaultValue(C.DEFAULT_FILE_SUFFIXES)
-            .name("File suffixes")
-            .description("List of suffixes for files to analyze. To not filter, leave the list empty.")
-            .onConfigScopes(PropertyDefinition.ConfigScope.MODULE, PropertyDefinition.ConfigScope.PROJECT)
-            .category(C.NAME)
-            .multiValues(true)
-            .build(),
+      PropertyDefinition.builder(FILE_SUFFIXES_KEY)
+        .defaultValue(C.DEFAULT_FILE_SUFFIXES)
+        .name("File suffixes")
+        .description("List of suffixes for files to analyze. To not filter, leave the list empty.")
+        .onConfigScopes(PropertyDefinition.ConfigScope.MODULE, PropertyDefinition.ConfigScope.PROJECT)
+        .category(C.NAME)
+        .multiValues(true)
+        .build(),
 
-        PropertyDefinition.builder(COBERTURA_REPORT_PATHS)
-            .deprecatedKey("sonar.c.cobertura.reportPath")
-            .name("Cobertura xml report paths")
-            .description(
-                "Comma separated list of paths to the Cobertura coverage report file. The paths may be either absolute or relative to the project base directory.")
-            .onConfigScopes(PropertyDefinition.ConfigScope.MODULE, PropertyDefinition.ConfigScope.PROJECT)
-            .category(C.NAME)
-            .multiValues(true)
-            .build());
+      PropertyDefinition.builder(COBERTURA_REPORT_PATHS)
+        .deprecatedKey("sonar.c.cobertura.reportPath")
+        .name("Cobertura xml report paths")
+        .description("Comma separated list of paths to the Cobertura coverage report file. The paths may be either absolute or relative to the project base directory.")
+        .onConfigScopes(PropertyDefinition.ConfigScope.MODULE, PropertyDefinition.ConfigScope.PROJECT)
+        .category(C.NAME)
+        .multiValues(true)
+        .build());
   }
 }

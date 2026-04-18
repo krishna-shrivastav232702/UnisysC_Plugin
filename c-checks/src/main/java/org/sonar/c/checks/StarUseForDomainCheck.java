@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -80,11 +80,11 @@ public class StarUseForDomainCheck extends CCheck {
     currentState = TRANSITIONS[currentState.ordinal()][getSymbol(token.getOriginalValue()).ordinal()];
 
     if (currentState == State.FOUND_ISSUE) {
-      addIssue("Specifically define the origin domain of SWF files that are allowed to communicate with this one",
-          token);
+      addIssue("Specifically define the origin domain of SWF files that are allowed to communicate with this one", token);
       currentState = State.EXPECTING_SECURITY;
     }
   }
+
 
   private static Symbol getSymbol(String value) {
     Symbol result = Symbol.OTHER;

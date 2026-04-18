@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -37,8 +37,7 @@ public class CommentRegularExpressionCheckTest {
 
   @Test
   public void test_default_regex() {
-    CVerifier.verifyNoIssue(new File("src/test/resources/checks/CommentRegularExpressionDefault.ccc_m"),
-        new CommentRegularExpressionCheck());
+    CVerifier.verifyNoIssue(new File("src/test/resources/checks/CommentRegularExpressionDefault.ccc_m"), new CommentRegularExpressionCheck());
   }
 
   @Test

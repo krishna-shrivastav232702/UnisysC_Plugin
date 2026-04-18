@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -49,9 +49,9 @@ public class ConstructorCallsDispatchEventCheck extends CCheck {
   @Override
   public List<AstNodeType> subscribedTo() {
     return Arrays.asList(
-        CGrammar.CLASS_DEF,
-        CGrammar.FUNCTION_DEF,
-        CGrammar.PRIMARY_EXPRESSION);
+      CGrammar.CLASS_DEF,
+      CGrammar.FUNCTION_DEF,
+      CGrammar.PRIMARY_EXPRESSION);
   }
 
   @Override
@@ -68,26 +68,22 @@ public class ConstructorCallsDispatchEventCheck extends CCheck {
     } else if (isConstructor(astNode)) {
       classStack.peek().isInConstructor = true;
     } else if (isCallToDispatchEventInConstructor(astNode)) {
-      addIssue(
-          MessageFormat.format("Remove this event dispatch from the \"{0}\" constructor", classStack.peek().className),
-          astNode);
+      addIssue(MessageFormat.format("Remove this event dispatch from the \"{0}\" constructor", classStack.peek().className), astNode);
     }
   }
 
   private boolean isConstructor(AstNode astNode) {
-    return isInClass && astNode.is(CGrammar.FUNCTION_DEF)
-        && Function.isConstructor(astNode, classStack.peek().className);
+    return isInClass && astNode.is(CGrammar.FUNCTION_DEF) && Function.isConstructor(astNode, classStack.peek().className);
   }
 
   private boolean isCallToDispatchEventInConstructor(AstNode astNode) {
-    return isInClass && classStack.peek().isInConstructor && astNode.is(CGrammar.PRIMARY_EXPRESSION)
-        && isCallToDispatchEvent(astNode);
+    return isInClass && classStack.peek().isInConstructor && astNode.is(CGrammar.PRIMARY_EXPRESSION) && isCallToDispatchEvent(astNode);
   }
 
   private static boolean isCallToDispatchEvent(AstNode primaryExpr) {
     return "dispatchEvent".equals(primaryExpr.getTokenValue())
-        && primaryExpr.getNextAstNode().is(CGrammar.ARGUMENTS)
-        && primaryExpr.getNextAstNode().getFirstChild(CGrammar.LIST_EXPRESSION) != null;
+      && primaryExpr.getNextAstNode().is(CGrammar.ARGUMENTS)
+      && primaryExpr.getNextAstNode().getFirstChild(CGrammar.LIST_EXPRESSION) != null;
   }
 
   @Override

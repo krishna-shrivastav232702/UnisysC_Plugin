@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,7 +28,7 @@ import org.sonar.check.Rule;
 @Rule(key = "S128")
 public class NonEmptyCaseWithoutBreakCheck extends CCheck {
 
-  private static final AstNodeType[] JUMP_NODES = { CGrammar.RETURN_STATEMENT, CGrammar.JUMP_STATEMENT };
+  private static final AstNodeType[] JUMP_NODES = {CGrammar.RETURN_STATEMENT, CGrammar.JUMP_STATEMENT};
 
   @Override
   public List<AstNodeType> subscribedTo() {
@@ -59,10 +59,10 @@ public class NonEmptyCaseWithoutBreakCheck extends CCheck {
       return;
     }
     if (directive.getFirstChild().is(CGrammar.STATEMENT)
-        && directive.getFirstChild().getFirstChild().isNot(JUMP_NODES)) {
+      && directive.getFirstChild().getFirstChild().isNot(JUMP_NODES)) {
       List<AstNode> children = astNode.getChildren(CGrammar.CASE_LABEL);
       addIssue("Last statement in this switch-clause should be an unconditional break.",
-          children.get(children.size() - 1));
+        children.get(children.size() - 1));
     }
   }
 

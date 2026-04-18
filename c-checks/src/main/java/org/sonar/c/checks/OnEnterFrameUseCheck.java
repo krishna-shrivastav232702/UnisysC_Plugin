@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -36,16 +36,14 @@ public class OnEnterFrameUseCheck extends CCheck {
 
   @Override
   public void visitNode(AstNode astNode) {
-    if (astNode.getNumberOfChildren() > 1 && isOnEnterFrame(astNode.getFirstChild())
-        && isFunctionExpr(astNode.getLastChild())) {
+    if (astNode.getNumberOfChildren() > 1 && isOnEnterFrame(astNode.getFirstChild()) && isFunctionExpr(astNode.getLastChild())) {
       addIssue("Refactor this code to remove the use of \"onEnterFrame\" event handler.", astNode);
     }
   }
 
   private static boolean isFunctionExpr(AstNode assignementExpr) {
     AstNode assignmentExprChild = assignementExpr.getFirstChild();
-    return assignmentExprChild.is(CGrammar.POSTFIX_EXPRESSION)
-        && assignmentExprChild.getFirstChild().getFirstChild().is(CGrammar.FUNCTION_EXPR);
+    return assignmentExprChild.is(CGrammar.POSTFIX_EXPRESSION) && assignmentExprChild.getFirstChild().getFirstChild().is(CGrammar.FUNCTION_EXPR);
   }
 
   private static boolean isOnEnterFrame(AstNode postfixExpr) {

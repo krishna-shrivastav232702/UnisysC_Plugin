@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -40,8 +40,7 @@ public class ClassWithTooManyFunctionsCheckTest {
   public void custom_count_non_publicMethods() {
     check.countNonpublicMethods = false;
 
-    CVerifier.verifyNoIssueIgnoringExpected(new File("src/test/resources/checks/ClassWithTooManyFunctions.ccc_m"),
-        check);
+    CVerifier.verifyNoIssueIgnoringExpected(new File("src/test/resources/checks/ClassWithTooManyFunctions.ccc_m"), check);
   }
 
   @Test

@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -35,7 +35,7 @@ public final class CheckList {
         LineLengthCheck.class,
         ControlFlowStmtDepthCheck.class,
         XPathCheck.class,
-        CyclomaticComplexityCheck.class,
+        FunctionComplexityCheck.class,
         OneStatementPerLineCheck.class,
         CommentedCodeCheck.class,
         SwitchWithoutDefaultCheck.class,
@@ -105,16 +105,7 @@ public final class CheckList {
         DefaultCasePositionCheck.class,
         AllBranchesIdenticalCheck.class,
         ParsingErrorCheck.class,
-        VolatileLocalVariableCheck.class,
-        PointerIndirectionLevelCheck.class,
-        MultipleVariableDeclarationCheck.class,
-        IfElseIfHasElseCheck.class,
-        AllVariablesInitializedCheck.class,
-        CognitiveComplexityCheck.class,
-        CyclomaticComplexityCheck.class,
-        CastAwayQualifiersCheck.class,
-        GotoStatementCheck.class
-      ));
+        VolatileLocalVariableCheck.class));
   }
 
 }

@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -33,18 +33,15 @@ class ConditionalStructure {
     AstNode branch;
     List<AstNode> content;
     boolean oneLiner;
-
     BranchAndContent(AstNode branch, List<AstNode> content, boolean oneLiner) {
       this.branch = branch;
       this.content = content;
       this.oneLiner = oneLiner;
     }
   }
-
   static BranchAndContent branchAndContentIf(AstNode branch, AstNode statement) {
     return new BranchAndContent(branch, singletonList(statement), isOnelinerStatement(statement));
   }
-
   static BranchAndContent branchAndContentSwitch(AstNode branch, List<AstNode> statements) {
     return new BranchAndContent(branch, statements, isOnelinerStatements(statements));
   }
@@ -153,23 +150,23 @@ class ConditionalStructure {
     return new ConditionalStructure(node, branches, allBranchesArePresent);
   }
 
-  static ConditionalStructure switchStatement(AstNode node) {
+static ConditionalStructure switchStatement(AstNode node) {
     List<BranchAndContent> branches = new ArrayList<>();
     boolean allBranchesArePresent = false;
 
     AstNode body = node.getFirstChild(CGrammar.STATEMENT);
     if (body == null) {
-      return new ConditionalStructure(node, branches, false);
+        return new ConditionalStructure(node, branches, false);
     }
 
     AstNode compoundStatement = body.getFirstChild(CGrammar.COMPOUND_STATEMENT);
     if (compoundStatement == null) {
-      return new ConditionalStructure(node, branches, false);
+        return new ConditionalStructure(node, branches, false);
     }
 
     AstNode statementList = compoundStatement.getFirstChild(CGrammar.STATEMENT_LIST);
     if (statementList == null) {
-      return new ConditionalStructure(node, branches, false);
+        return new ConditionalStructure(node, branches, false);
     }
 
     List<AstNode> statements = statementList.getChildren(CGrammar.STATEMENT);
@@ -178,59 +175,59 @@ class ConditionalStructure {
     List<AstNode> currentContent = new ArrayList<>();
 
     for (AstNode statement : statements) {
-      AstNode labeledStatement = statement.getFirstChild(CGrammar.LABELED_STATEMENT);
+        AstNode labeledStatement = statement.getFirstChild(CGrammar.LABELED_STATEMENT);
 
-      if (labeledStatement != null &&
-          (labeledStatement.hasDirectChildren(CKeyword.CASE) ||
-              labeledStatement.hasDirectChildren(CKeyword.DEFAULT))) {
+        if (labeledStatement != null &&
+            (labeledStatement.hasDirectChildren(CKeyword.CASE) ||
+             labeledStatement.hasDirectChildren(CKeyword.DEFAULT))) {
 
-        // Save previous branch
-        if (currentLabel != null) {
-          List<AstNode> content = stripTrailingBreak(currentContent);
-          // oneliner: check if ALL content nodes are on one line
-          boolean oneLiner = isOnelinerStatements(content);
-          branches.add(new BranchAndContent(currentLabel, content, oneLiner));
+            // Save previous branch
+            if (currentLabel != null) {
+                List<AstNode> content = stripTrailingBreak(currentContent);
+                // oneliner: check if ALL content nodes are on one line
+                boolean oneLiner = isOnelinerStatements(content);
+                branches.add(new BranchAndContent(currentLabel, content, oneLiner));
+            }
+
+            currentLabel = labeledStatement;
+            currentContent = new ArrayList<>();
+
+            if (labeledStatement.hasDirectChildren(CKeyword.DEFAULT)) {
+                allBranchesArePresent = true;
+            }
+            AstNode labeledContent = labeledStatement.getFirstChild(CGrammar.STATEMENT);
+            if (labeledContent != null) {
+                currentContent.add(labeledContent);
+            }
+
+        } else {
+            if (currentLabel != null) {
+                currentContent.add(statement);
+            }
         }
-
-        currentLabel = labeledStatement;
-        currentContent = new ArrayList<>();
-
-        if (labeledStatement.hasDirectChildren(CKeyword.DEFAULT)) {
-          allBranchesArePresent = true;
-        }
-        AstNode labeledContent = labeledStatement.getFirstChild(CGrammar.STATEMENT);
-        if (labeledContent != null) {
-          currentContent.add(labeledContent);
-        }
-
-      } else {
-        if (currentLabel != null) {
-          currentContent.add(statement);
-        }
-      }
     }
 
     if (currentLabel != null) {
-      List<AstNode> content = stripTrailingBreak(currentContent);
-      boolean oneLiner = isOnelinerStatements(content);
-      branches.add(new BranchAndContent(currentLabel, content, oneLiner));
+        List<AstNode> content = stripTrailingBreak(currentContent);
+        boolean oneLiner = isOnelinerStatements(content);
+        branches.add(new BranchAndContent(currentLabel, content, oneLiner));
     }
 
     return new ConditionalStructure(node, branches, allBranchesArePresent);
-  }
+}
 
-  private static List<AstNode> stripTrailingBreak(List<AstNode> content) {
+private static List<AstNode> stripTrailingBreak(List<AstNode> content) {
     if (!content.isEmpty() && isBreakStatement(content.get(content.size() - 1))) {
-      return new ArrayList<>(content.subList(0, content.size() - 1));
+        return new ArrayList<>(content.subList(0, content.size() - 1));
     }
     return content;
-  }
+}
 
-  private static boolean isBreakStatement(AstNode statement) {
+private static boolean isBreakStatement(AstNode statement) {
     return statement.is(CGrammar.STATEMENT) &&
         statement.hasDirectChildren(CGrammar.JUMP_STATEMENT) &&
         statement.getFirstChild(CGrammar.JUMP_STATEMENT).hasDirectChildren(CKeyword.BREAK);
-  }
+}
 
   AstNode getNode() {
     return node;

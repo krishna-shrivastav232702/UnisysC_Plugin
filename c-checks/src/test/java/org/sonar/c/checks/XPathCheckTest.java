@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -56,8 +56,7 @@ public class XPathCheckTest {
     XPathCheck check = new XPathCheck();
     check.xpathQuery = "[a-";
     final File file = new File("src/test/resources/checks/ParsingError.ccc_m");
-    RuntimeException e = assertThrows(RuntimeException.class,
-        () -> CVerifier.verifyNoIssueIgnoringExpected(file, check));
+    RuntimeException e = assertThrows(RuntimeException.class, () -> CVerifier.verifyNoIssueIgnoringExpected(file, check));
     assertEquals("Unable to initialize the XPath engine, perhaps because of an invalid query: [a-", e.getMessage());
   }
 

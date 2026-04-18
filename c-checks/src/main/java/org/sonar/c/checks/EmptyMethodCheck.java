@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -42,8 +42,8 @@ public class EmptyMethodCheck extends CCheck {
 
       if (block != null && isEmptyBlock(block)) {
         addIssue(
-            "Add a nested comment explaining why this method is empty, throw an NotSupportedException or complete the implementation.",
-            function);
+          "Add a nested comment explaining why this method is empty, throw an NotSupportedException or complete the implementation.",
+          function);
       }
     }
   }

@@ -9,7 +9,7 @@
   <packages>
     <package name="example" line-rate="0.0" branch-rate="1.0" complexity="0.0">
       <classes>
-        <class name="example.File" filename="example/File.ccc_m" line-rate="0.0" branch-rate="1.0" complexity="0.0">
+        <class name="example.File" filename="example/File.as" line-rate="0.0" branch-rate="1.0" complexity="0.0">
           <methods>
           </methods>
           <lines>

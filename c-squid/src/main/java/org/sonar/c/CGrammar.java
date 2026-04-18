@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -675,7 +675,8 @@ public enum CGrammar implements GrammarRuleKey {
 
                 b.rule(PARAMETER_TYPE_LIST).is(PARAMETER_LIST, b.optional(b.sequence(COMMA, TRIPLE_DOTS)));
 
-                b.rule(PARAMETER_LIST).is(PARAMETER_DECLARATION, b.zeroOrMore(b.sequence(COMMA, PARAMETER_DECLARATION))); 
+                b.rule(PARAMETER_LIST).is(PARAMETER_DECLARATION,
+                                b.zeroOrMore(b.sequence(COMMA, PARAMETER_DECLARATION)));
 
                 b.rule(PARAMETER_DECLARATION).is(DECLARATION_SPECIFIERS,
                                 b.optional(b.firstOf(DECLARATOR, ABSTRACT_DECLARATOR)));
@@ -1212,16 +1213,16 @@ public enum CGrammar implements GrammarRuleKey {
                 b.rule(KEYWORDS).is(b.firstOf(keywords.get(0), keywords.get(1), rest));
         }
 
-    private static void punctuators(LexerlessGrammarBuilder b) {
-        for (CPunctuator p : CPunctuator.values()) {
-                if (p == AND) {
-                        // Prevent '&' from consuming the first char of '&&' or '&='.
-                        b.rule(p).is(SPACING, "&", b.nextNot(b.regexp("[&=]")));
-                        continue;
+        private static void punctuators(LexerlessGrammarBuilder b) {
+                for (CPunctuator p : CPunctuator.values()) {
+                        if (p == AND) {
+                                // Prevent '&' from consuming the first char of '&&' or '&='.
+                                b.rule(p).is(SPACING, "&", b.nextNot(b.regexp("[&=]")));
+                                continue;
+                        }
+                        b.rule(p).is(SPACING, p.getValue());
                 }
-                b.rule(p).is(SPACING, p.getValue());
         }
-    }
 
         private static Object word(LexerlessGrammarBuilder b, String word) {
                 return b.sequence(SPACING, word, b.nextNot(IDENTIFIER_PART));

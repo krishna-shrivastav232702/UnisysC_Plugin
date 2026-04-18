@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -73,8 +73,7 @@ public class DebugFeaturesCheck extends CCheck {
   @Override
   public void visitNode(AstNode astNode) {
     if (isFunctionCall(astNode) && "trace".equals(astNode.getFirstChild().getTokenValue())) {
-      addIssue("Make sure this debug feature \"trace()\" is deactivated before delivering the code in production.",
-          astNode);
+      addIssue("Make sure this debug feature \"trace()\" is deactivated before delivering the code in production.", astNode);
     }
   }
 
@@ -83,15 +82,13 @@ public class DebugFeaturesCheck extends CCheck {
     currentState = TRANSITIONS[currentState.ordinal()][getSymbol(token.getOriginalValue()).ordinal()];
 
     if (currentState == State.FOUND_ISSUE) {
-      addIssue("Make sure this debug feature \"Alert.show()\" is deactivated before delivering the code in production.",
-          token);
+      addIssue("Make sure this debug feature \"Alert.show()\" is deactivated before delivering the code in production.", token);
       currentState = State.EXPECTING_ALERT;
     }
   }
 
   private static boolean isFunctionCall(AstNode postfixExpr) {
-    return postfixExpr.getFirstChild().is(CGrammar.PRIMARY_EXPRESSION)
-        && postfixExpr.getLastChild().is(CGrammar.ARGUMENTS);
+    return postfixExpr.getFirstChild().is(CGrammar.PRIMARY_EXPRESSION) && postfixExpr.getLastChild().is(CGrammar.ARGUMENTS);
   }
 
   private static Symbol getSymbol(String value) {

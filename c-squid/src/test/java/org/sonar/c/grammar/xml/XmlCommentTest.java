@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,8 +28,8 @@ public class XmlCommentTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.XML_COMMENT))
-        .matches("<!-- comment -->")
-        .matchesPrefix("<!-- comment -->", "<!-- another commment-->")
-        .notMatches("<!-- -- -->");
+      .matches("<!-- comment -->")
+      .matchesPrefix("<!-- comment -->", "<!-- another commment-->")
+      .notMatches("<!-- -- -->");
   }
 }

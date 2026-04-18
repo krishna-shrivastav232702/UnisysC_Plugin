@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -16,7 +16,7 @@
  */
 package org.sonar.c;
 
-public class CCommentAnalyser {
+public class CCommentAnalyser{
 
   private CCommentAnalyser() {
     // This class should not be instantiated.

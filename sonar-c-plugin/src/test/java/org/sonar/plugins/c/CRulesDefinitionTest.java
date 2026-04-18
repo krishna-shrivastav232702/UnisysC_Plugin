@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -23,6 +23,7 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinition.Rule;
 import org.sonar.api.utils.Version;
 import org.sonar.c.checks.CheckList;
+import org.sonar.plugins.c.CRulesDefinition;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -35,10 +36,10 @@ public class CRulesDefinitionTest {
     CRulesDefinition rulesDefinition = new CRulesDefinition(sonarRuntime);
     RulesDefinition.Context context = new RulesDefinition.Context();
     rulesDefinition.define(context);
-    RulesDefinition.Repository repository = context.repository("unisys_c");
+    RulesDefinition.Repository repository = context.repository("c");
 
-    assertThat(repository.name()).isEqualTo("Unisys_C_Analyzer");
-    assertThat(repository.language()).isEqualTo("unisys_c");
+    assertThat(repository.name()).isEqualTo("Sonar");
+    assertThat(repository.language()).isEqualTo("c");
     assertThat(repository.rules()).hasSize(CheckList.getChecks().size());
 
     Rule functionComplexityRule = repository.rule("S1541");
@@ -53,6 +54,6 @@ public class CRulesDefinitionTest {
 
     assertThat(repository.rules().stream().filter(Rule::template))
         .extracting(Rule::key)
-        .containsOnly("XPath", "S5639");
+        .containsOnly("XPath", "CommentRegularExpression");
   }
 }

@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,8 +28,8 @@ public class FunctionSignatureTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.FUNCTION_SIGNATURE))
-        .matches("( ) : resultType")
-        .matches("(param1, param2) : resultType");
+      .matches("( ) : resultType")
+      .matches("(param1, param2) : resultType");
   }
 
 }

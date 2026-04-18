@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,8 +28,8 @@ public class AttributesTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.ATTRIBUTES))
-        .matches("public static")
-        .notMatches("public static function");
+      .matches("public static")
+      .notMatches("public static function");
   }
 
 }

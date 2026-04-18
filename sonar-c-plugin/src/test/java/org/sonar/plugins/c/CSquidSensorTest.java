@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -47,6 +47,7 @@ import org.sonar.api.rule.RuleKey;
 import org.sonar.api.testfixtures.log.LogTesterJUnit5;
 import org.sonar.api.utils.Version;
 import org.sonar.api.utils.log.LoggerLevel;
+import org.sonar.plugins.c.CSquidSensor;
 import org.sonar.plugins.c.core.C;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -57,7 +58,7 @@ import static org.mockito.Mockito.when;
 
 public class CSquidSensorTest {
 
-  private static final File TEST_DIR = new File("src/test/resources/org/sonar/plugins/c/squid");
+  private static final File TEST_DIR = new File("src/test/resources/org/sonar/plugins/flex/squid");
   private static final SonarRuntime SONARQUBE_89 = SonarRuntimeImpl.forSonarQube(Version.create(8, 9),
       SonarQubeSide.SCANNER, SonarEdition.DEVELOPER);
 
@@ -91,19 +92,35 @@ public class CSquidSensorTest {
     DefaultFileSystem fs = new DefaultFileSystem(TEST_DIR);
     fs.setEncoding(StandardCharsets.UTF_8);
     tester.setFileSystem(fs);
-    fs.add(inputFile("SmallFile.ccc_m"));
+    fs.add(inputFile("SmallFile.as"));
+    fs.add(inputFile("bom.as"));
 
     sensor.execute(tester);
 
-    String componentKey = "key:SmallFile.ccc_m";
-    assertThat(tester.measure(componentKey, CoreMetrics.NCLOC).value()).isEqualTo(15);
-    assertThat(tester.measure(componentKey, CoreMetrics.COMMENT_LINES).value()).isEqualTo(2);
-    assertThat(tester.measure(componentKey, CoreMetrics.STATEMENTS).value()).isEqualTo(4);
-    assertThat(tester.measure(componentKey, CoreMetrics.FUNCTIONS).value()).isEqualTo(3);
+    String componentKey = "key:SmallFile.as";
+    assertThat(tester.measure(componentKey, CoreMetrics.NCLOC).value()).isEqualTo(11);
+    assertThat(tester.measure(componentKey, CoreMetrics.COMMENT_LINES).value()).isEqualTo(1);
+    assertThat(tester.measure(componentKey, CoreMetrics.STATEMENTS).value()).isEqualTo(3);
+    assertThat(tester.measure(componentKey, CoreMetrics.FUNCTIONS).value()).isEqualTo(2);
+    assertThat(tester.measure(componentKey, CoreMetrics.CLASSES).value()).isEqualTo(1);
     assertThat(tester.measure(componentKey, CoreMetrics.COMPLEXITY).value()).isEqualTo(3);
-    assertThat(tester.measure(componentKey, CoreMetrics.EXECUTABLE_LINES_DATA).value()).isEqualTo("4=1;9=1;10=1;16=1;");
+    assertThat(tester.measure(componentKey, CoreMetrics.EXECUTABLE_LINES_DATA).value()).isEqualTo("6=1;7=1;12=1;");
 
-    assertThat(tester.cpdTokens(componentKey)).hasSize(15);
+    assertThat(tester.cpdTokens(componentKey)).hasSize(10);
+
+    assertThat(tester.highlightingTypeAt(componentKey, 1, 0)).containsOnly(TypeOfText.KEYWORD);
+    assertThat(tester.highlightingTypeAt(componentKey, 3, 0)).containsOnly(TypeOfText.KEYWORD);
+    assertThat(tester.highlightingTypeAt(componentKey, 3, 7)).containsOnly(TypeOfText.KEYWORD);
+    assertThat(tester.highlightingTypeAt(componentKey, 11, 0)).containsOnly(TypeOfText.KEYWORD);
+    assertThat(tester.highlightingTypeAt(componentKey, 5, 4)).containsOnly(TypeOfText.COMMENT);
+    assertThat(tester.highlightingTypeAt(componentKey, 6, 10)).containsOnly(TypeOfText.CONSTANT);
+    assertThat(tester.highlightingTypeAt(componentKey, 7, 10)).containsOnly(TypeOfText.STRING);
+
+    assertThat(tester.allIssues()).hasSize(1);
+
+    componentKey = "key:bom.as";
+    assertThat(tester.highlightingTypeAt(componentKey, 1, 0)).containsOnly(TypeOfText.COMMENT);
+    assertThat(tester.highlightingTypeAt(componentKey, 2, 0)).containsOnly(TypeOfText.COMMENT);
   }
 
   private DefaultInputFile inputFile(String fileName) throws IOException {
@@ -120,16 +137,39 @@ public class CSquidSensorTest {
   }
 
   @Test
+  public void analyse2() throws IOException {
+    DefaultFileSystem fs = new DefaultFileSystem(TEST_DIR);
+    fs.setEncoding(StandardCharsets.UTF_8);
+    tester.setFileSystem(fs);
+    DefaultInputFile inputFile = inputFile("TimeFormatter.as");
+    fs.add(inputFile);
+
+    sensor.execute(tester);
+
+    String componentKey = inputFile.key();
+    assertThat(tester.measure(componentKey, CoreMetrics.NCLOC).value()).isZero();
+    assertThat(tester.measure(componentKey, CoreMetrics.COMMENT_LINES).value()).isEqualTo(59);
+    assertThat(tester.measure(componentKey, CoreMetrics.STATEMENTS).value()).isZero();
+    assertThat(tester.measure(componentKey, CoreMetrics.FUNCTIONS).value()).isZero();
+    assertThat(tester.measure(componentKey, CoreMetrics.CLASSES).value()).isZero();
+    assertThat(tester.measure(componentKey, CoreMetrics.COMPLEXITY).value()).isZero();
+
+    assertThat(tester.cpdTokens(componentKey)).isEmpty();
+
+    assertThat(tester.allIssues()).isEmpty();
+  }
+
+  @Test
   public void parse_error() throws IOException {
     DefaultFileSystem fs = new DefaultFileSystem(TEST_DIR);
     fs.setEncoding(StandardCharsets.UTF_8);
     tester.setFileSystem(fs);
-    DefaultInputFile inputFile = inputFile("parse_error.ccc_m");
+    DefaultInputFile inputFile = inputFile("parse_error.as");
     fs.add(inputFile);
     sensor.execute(tester);
     assertThat(tester.measure(inputFile.key(), CoreMetrics.NCLOC)).isNull();
     assertThat(logTester.logs(LoggerLevel.ERROR).stream()
-        .filter(log -> log.startsWith("Unable to parse file: ") && log.endsWith("parse_error.ccc_m"))).isNotEmpty();
+        .filter(log -> log.startsWith("Unable to parse file: ") && log.endsWith("parse_error.as"))).isNotEmpty();
   }
 
   @Test
@@ -137,7 +177,7 @@ public class CSquidSensorTest {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
     sensor.describe(descriptor);
     assertThat(descriptor.name()).isEqualTo("C");
-    assertThat(descriptor.languages()).containsOnly("unisys_c");
+    assertThat(descriptor.languages()).containsOnly("c");
   }
 
   @Test
@@ -145,7 +185,7 @@ public class CSquidSensorTest {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
     createSensor(SonarRuntimeImpl.forSonarLint(Version.create(6, 5))).describe(descriptor);
     assertThat(descriptor.name()).isEqualTo("C");
-    assertThat(descriptor.languages()).containsOnly("unisys_c");
+    assertThat(descriptor.languages()).containsOnly("c");
   }
 
   @Test
@@ -155,7 +195,7 @@ public class CSquidSensorTest {
     createSensor(SonarRuntimeImpl.forSonarQube(Version.create(9, 3), SonarQubeSide.SCANNER, SonarEdition.DEVELOPER))
         .describe(descriptor);
     assertThat(descriptor.name()).isEqualTo("C");
-    assertThat(descriptor.languages()).containsOnly("unisys_c");
+    assertThat(descriptor.languages()).containsOnly("c");
     verify(descriptor).processesFilesIndependently();
   }
 

@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -68,6 +68,7 @@ public class ASDocMemberCheck {
     }
   }
 
+
   /**
    * Returns class member trivia.
    * Handles case when there is metadata tag before method or field.
@@ -102,11 +103,10 @@ public class ASDocMemberCheck {
   }
 
   /**
-   * <ul>
-   * Verifies:
-   * <li>presence of ASDoc above the method declaration
-   * <li>presence of @return tag in ASDoc
-   * <li>presence of @param tag in ASDoc
+   * <ul> Verifies:
+   * <li> presence of ASDoc above the method declaration
+   * <li> presence of @return tag in ASDoc
+   * <li> presence of @param tag in ASDoc
    * </ul>
    */
   private static void checkMethod(ASDocCheck check, List<Trivia> trivia, AstNode functionDef) {
@@ -130,8 +130,7 @@ public class ASDocMemberCheck {
   }
 
   /**
-   * Report an issue if the method as a non-void return type and "@return" tag is
-   * not present in the ASDoc
+   * Report an issue if the method as a non-void return type and "@return" tag is not present in the ASDoc
    */
   private static void checkForReturnASDoc(ASDocCheck check, MethodASDoc methodASDoc, AstNode functionDef) {
     if (!returnsVoid(functionDef) && !methodASDoc.hasReturn) {
@@ -140,8 +139,7 @@ public class ASDocMemberCheck {
   }
 
   /**
-   * Verifies that for every method's parameter a "@param" tag followed by the
-   * parameter's name
+   * Verifies that for every method's parameter a "@param" tag followed by the parameter's name
    * is present in the ASDoc.
    */
   private static void checkForParametersASDoc(ASDocCheck check, MethodASDoc methodASDoc, AstNode functionDef) {
@@ -186,11 +184,12 @@ public class ASDocMemberCheck {
     }
   }
 
+
   private static boolean returnsVoid(AstNode functionDef) {
     AstNode returnType = functionDef
-        .getFirstChild(CGrammar.FUNCTION_COMMON)
-        .getFirstChild(CGrammar.FUNCTION_SIGNATURE)
-        .getFirstChild(CGrammar.RESULT_TYPE);
+      .getFirstChild(CGrammar.FUNCTION_COMMON)
+      .getFirstChild(CGrammar.FUNCTION_SIGNATURE)
+      .getFirstChild(CGrammar.RESULT_TYPE);
 
     if (returnType == null) {
       return true;

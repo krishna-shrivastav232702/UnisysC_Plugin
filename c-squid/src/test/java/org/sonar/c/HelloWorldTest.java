@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -27,7 +27,7 @@ public class HelloWorldTest {
   @Test
   public void testUnisysCProgram() {
     Assertions.assertThat(g.rule(CGrammar.PROGRAM))
-        .matches("#include <stdio.h>\n"
+      .matches("#include <stdio.h>\n"
             + "#include \"unisys_lib.h\"\n"
             + "\n"
             + "void hello() {\n"
@@ -44,6 +44,6 @@ public class HelloWorldTest {
   @Test
   public void testEmptyProgram() {
     Assertions.assertThat(g.rule(CGrammar.PROGRAM))
-        .matches("   ");
+      .matches("   "); 
   }
 }

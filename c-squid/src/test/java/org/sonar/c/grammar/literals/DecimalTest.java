@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,18 +28,18 @@ public class DecimalTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.DECIMAL))
-        .matches("0")
-        .matches("1")
-        .matches("12")
-        .notMatches("01")
+      .matches("0")
+      .matches("1")
+      .matches("12")
+      .notMatches("01")
 
-        .matches(".2")
-        .matches("2.")
-        .matches("0.2")
+      .matches(".2")
+      .matches("2.")
+      .matches("0.2")
 
-        .matches("1e2")
-        .matches("1.2E-3")
-        .matches("1.2E+3");
+      .matches("1e2")
+      .matches("1.2E-3")
+      .matches("1.2E+3");
 
   }
 

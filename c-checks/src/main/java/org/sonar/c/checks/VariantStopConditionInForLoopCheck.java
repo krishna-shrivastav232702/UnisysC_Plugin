@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -41,12 +41,12 @@ public class VariantStopConditionInForLoopCheck extends CCheck {
   @Override
   public List<AstNodeType> subscribedTo() {
     return Arrays.asList(
-        CGrammar.FOR_STATEMENT,
-        CGrammar.SUB_STATEMENT,
+      CGrammar.FOR_STATEMENT,
+      CGrammar.SUB_STATEMENT,
 
-        CGrammar.ASSIGNMENT_EXPRESSION,
-        CPunctuator.DOUBLE_PLUS,
-        CPunctuator.DOUBLE_MINUS);
+      CGrammar.ASSIGNMENT_EXPRESSION,
+      CPunctuator.DOUBLE_PLUS,
+      CPunctuator.DOUBLE_MINUS);
   }
 
   @Override
@@ -65,8 +65,7 @@ public class VariantStopConditionInForLoopCheck extends CCheck {
       counters.addAll(pendingCounters);
       pendingCounters.clear();
 
-    } else if (!counters.isEmpty()
-        && astNode.is(CGrammar.ASSIGNMENT_EXPRESSION, CPunctuator.DOUBLE_PLUS, CPunctuator.DOUBLE_MINUS)) {
+    } else if (!counters.isEmpty() && astNode.is(CGrammar.ASSIGNMENT_EXPRESSION, CPunctuator.DOUBLE_PLUS, CPunctuator.DOUBLE_MINUS)) {
       checkIfModifyingCounter(astNode);
     }
   }
@@ -115,8 +114,7 @@ public class VariantStopConditionInForLoopCheck extends CCheck {
     if (varNode != null) {
       String varName = Expression.exprToString(varNode);
       if (counters.contains(varName)) {
-        addIssue(MessageFormat.format("Do not update the loop counter \"{0}\" within the loop body.", varName),
-            varNode);
+        addIssue(MessageFormat.format("Do not update the loop counter \"{0}\" within the loop body.", varName), varNode);
       }
     }
   }
@@ -160,10 +158,8 @@ public class VariantStopConditionInForLoopCheck extends CCheck {
   }
 
   private static void getCountersFromVariableDef(Set<String> counters, AstNode initialiserExpr) {
-    for (AstNode variableBinding : initialiserExpr.getFirstChild(CGrammar.VARIABLE_BINDING_LIST_NO_IN)
-        .getChildren(CGrammar.VARIABLE_BINDING_NO_IN)) {
-      counters.add(Expression.exprToString(
-          variableBinding.getFirstChild(CGrammar.TYPED_IDENTIFIER_NO_IN).getFirstChild(CGrammar.IDENTIFIER)));
+    for (AstNode variableBinding : initialiserExpr.getFirstChild(CGrammar.VARIABLE_BINDING_LIST_NO_IN).getChildren(CGrammar.VARIABLE_BINDING_NO_IN)) {
+      counters.add(Expression.exprToString(variableBinding.getFirstChild(CGrammar.TYPED_IDENTIFIER_NO_IN).getFirstChild(CGrammar.IDENTIFIER)));
     }
   }
 

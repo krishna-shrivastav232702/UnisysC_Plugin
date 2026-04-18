@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -59,11 +59,11 @@ public class UnusedPrivateFunctionCheck extends CCheck {
       for (AstNode functionDef : Clazz.getFunctions(classDef)) {
 
         if (!Function.isAccessor(functionDef)
-            && Modifiers.getModifiers(functionDef.getPreviousAstNode()).contains(CKeyword.PRIVATE)
-            && !Function.isEmptyConstructor(functionDef, Clazz.getName(classDef))) {
+          && Modifiers.getModifiers(functionDef.getPreviousAstNode()).contains(CKeyword.PRIVATE)
+          && !Function.isEmptyConstructor(functionDef, Clazz.getName(classDef))) {
           AstNode identifierNode = functionDef
-              .getFirstChild(CGrammar.FUNCTION_NAME)
-              .getFirstChild(CGrammar.IDENTIFIER);
+            .getFirstChild(CGrammar.FUNCTION_NAME)
+            .getFirstChild(CGrammar.IDENTIFIER);
 
           functions.put(identifierNode.getTokenValue(), new PrivateFunction(identifierNode, 0));
         }
@@ -86,9 +86,9 @@ public class UnusedPrivateFunctionCheck extends CCheck {
   @Override
   public List<AstNodeType> subscribedTo() {
     return Arrays.asList(
-        CGrammar.CLASS_DEF,
-        CGrammar.FUNCTION_DEF,
-        CGrammar.QUALIFIED_IDENTIFIER);
+      CGrammar.CLASS_DEF,
+      CGrammar.FUNCTION_DEF,
+      CGrammar.QUALIFIED_IDENTIFIER);
   }
 
   @Override
@@ -106,6 +106,7 @@ public class UnusedPrivateFunctionCheck extends CCheck {
     }
   }
 
+
   @Override
   public void leaveNode(AstNode astNode) {
     if (astNode.is(CGrammar.CLASS_DEF)) {
@@ -118,8 +119,7 @@ public class UnusedPrivateFunctionCheck extends CCheck {
   private void reportUnusedPrivateFunction() {
     for (Map.Entry<String, PrivateFunction> entry : classStack.peek().functions.entrySet()) {
       if (entry.getValue().usages == 0) {
-        addIssue("Remove the declaration of the unused '" + entry.getKey() + "' function.",
-            entry.getValue().declaration);
+        addIssue("Remove the declaration of the unused '" + entry.getKey() + "' function.", entry.getValue().declaration);
       }
     }
   }

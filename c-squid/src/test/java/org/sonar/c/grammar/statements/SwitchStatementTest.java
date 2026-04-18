@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,13 +28,13 @@ public class SwitchStatementTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.CASE_LABEL))
-        .matches("case 0:")
-        .matches("default:");
+      .matches("case 0:")
+      .matches("default:");
 
     Assertions.assertThat(g.rule(CGrammar.SWITCH_STATEMENT))
-        .matches("switch (e) { }")
-        .matches("switch (e) { case 0: }")
-        .matches("switch (e) { case 0: case 1: ; default: ; }");
+      .matches("switch (e) { }")
+      .matches("switch (e) { case 0: }")
+      .matches("switch (e) { case 0: case 1: ; default: ; }");
   }
 
 }

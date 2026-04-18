@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -31,19 +31,19 @@ import org.sonar.check.Rule;
 @Rule(key = "ActionScript2")
 public class ActionScript2Check extends CCheck {
 
-  private final Set<String> deprecatedOperators = Collections
-      .unmodifiableSet(new HashSet<>(Arrays.asList("or", "and", "ne", "eq", "ge", "gt", "le", "lt", "add", "<>")));
+  private final Set<String> deprecatedOperators = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("or", "and", "ne", "eq", "ge", "gt", "le", "lt", "add", "<>")));
 
   @Override
   public List<AstNodeType> subscribedTo() {
     return Arrays.asList(
-        CGrammar.UNARY_EXPR,
-        CGrammar.LOGICAL_OR_OPERATOR,
-        CGrammar.LOGICAL_AND_OPERATOR,
-        CGrammar.EQUALITY_OPERATOR,
-        CGrammar.RELATIONAL_OPERATOR,
-        CGrammar.RELATIONAL_OPERATOR_NO_IN,
-        CGrammar.ADDITIVE_OPERATOR);
+      CGrammar.UNARY_EXPR,
+      CGrammar.LOGICAL_OR_OPERATOR,
+      CGrammar.LOGICAL_AND_OPERATOR,
+      CGrammar.EQUALITY_OPERATOR,
+      CGrammar.RELATIONAL_OPERATOR,
+      CGrammar.RELATIONAL_OPERATOR_NO_IN,
+      CGrammar.ADDITIVE_OPERATOR
+    );
   }
 
   @Override

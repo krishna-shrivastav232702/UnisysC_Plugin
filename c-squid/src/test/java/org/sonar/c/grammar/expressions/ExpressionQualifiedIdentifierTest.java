@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,10 +28,10 @@ public class ExpressionQualifiedIdentifierTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.EXPR_QUALIFIED_IDENTIFIER))
-        .matches("(null)::*")
-        .matches("(null)::identifier")
+      .matches("(null)::*")
+      .matches("(null)::identifier")
 
-        .matches("(null)[null]");
+      .matches("(null)[null]");
   }
 
 }

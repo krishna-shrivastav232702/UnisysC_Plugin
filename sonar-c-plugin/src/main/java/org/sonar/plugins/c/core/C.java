@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -35,7 +35,7 @@ public class C extends AbstractLanguage {
   private final Configuration config;
 
   /**
-   * Creates the {@link C} language. * <br/>
+   * Creates the {@link C} language.   * <br/>
    * <b>Do not call, this constructor is called by Pico container.</b>
    */
   public C(Configuration config) {

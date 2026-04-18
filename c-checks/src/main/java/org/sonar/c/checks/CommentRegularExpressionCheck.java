@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -34,11 +34,16 @@ public class CommentRegularExpressionCheck extends CCheck {
   private static final String DEFAULT_REGULAR_EXPRESSION = "";
   private static final String DEFAULT_MESSAGE = "The regular expression matches this comment.";
 
-  @RuleProperty(key = "regularExpression", description = "The regular expression", defaultValue = ""
-      + DEFAULT_REGULAR_EXPRESSION)
+  @RuleProperty(
+    key = "regularExpression",
+    description = "The regular expression",
+    defaultValue = "" + DEFAULT_REGULAR_EXPRESSION)
   public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
 
-  @RuleProperty(key = "message", description = "The issue message", defaultValue = "" + DEFAULT_MESSAGE)
+  @RuleProperty(
+    key = "message",
+    description = "The issue message",
+    defaultValue = "" + DEFAULT_MESSAGE)
   public String message = DEFAULT_MESSAGE;
 
   private Pattern pattern = null;

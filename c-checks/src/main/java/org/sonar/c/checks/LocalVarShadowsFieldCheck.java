@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -39,6 +39,7 @@ import org.sonar.check.Rule;
 @Rule(key = "S1117")
 public class LocalVarShadowsFieldCheck extends CCheck {
 
+
   private static class ClassState {
     private final Map<String, AstNode> classFields;
     private final String className;
@@ -74,9 +75,9 @@ public class LocalVarShadowsFieldCheck extends CCheck {
   @Override
   public List<AstNodeType> subscribedTo() {
     return Arrays.asList(
-        CGrammar.CLASS_DEF,
-        CGrammar.FUNCTION_DEF,
-        CGrammar.VARIABLE_DECLARATION_STATEMENT);
+      CGrammar.CLASS_DEF,
+      CGrammar.FUNCTION_DEF,
+      CGrammar.VARIABLE_DECLARATION_STATEMENT);
   }
 
   @Override
@@ -98,7 +99,7 @@ public class LocalVarShadowsFieldCheck extends CCheck {
 
   private boolean isClassFunctionNotConstructor(AstNode node) {
     return !classStack.isEmpty() && node.is(CGrammar.FUNCTION_DEF)
-        && !Function.isConstructor(node, classStack.peek().getClassName());
+      && !Function.isConstructor(node, classStack.peek().getClassName());
   }
 
   private static boolean isStatic(AstNode functionDef) {
@@ -108,7 +109,7 @@ public class LocalVarShadowsFieldCheck extends CCheck {
   private static boolean isAccessor(AstNode functionDef) {
     String functionName = Function.getName(functionDef);
     return Function.isAccessor(functionDef)
-        || (functionName.length() > 2 && "set".equals(functionName.substring(0, 3)));
+      || (functionName.length() > 2 && "set".equals(functionName.substring(0, 3)));
   }
 
   private void checkVariableNames(AstNode varDeclStatement) {

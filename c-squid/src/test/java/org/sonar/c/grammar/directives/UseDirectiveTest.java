@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,7 +28,7 @@ public class UseDirectiveTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.USE_DIRECTIVE))
-        .matches("use namespace ns1, ns2");
+      .matches("use namespace ns1, ns2");
   }
 
 }

@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -43,10 +43,10 @@ public class ArrayFieldElementTypeCheck extends CCheck {
 
       if (Variable.isVariable(directive)) {
         AstNode varBindingList = directive
-            .getFirstChild(CGrammar.ANNOTABLE_DIRECTIVE)
-            .getFirstChild(CGrammar.VARIABLE_DECLARATION_STATEMENT)
-            .getFirstChild(CGrammar.VARIABLE_DEF)
-            .getFirstChild(CGrammar.VARIABLE_BINDING_LIST);
+          .getFirstChild(CGrammar.ANNOTABLE_DIRECTIVE)
+          .getFirstChild(CGrammar.VARIABLE_DECLARATION_STATEMENT)
+          .getFirstChild(CGrammar.VARIABLE_DEF)
+          .getFirstChild(CGrammar.VARIABLE_BINDING_LIST);
 
         checkVarBindingList(varBindingList, directive);
       }
@@ -59,8 +59,8 @@ public class ArrayFieldElementTypeCheck extends CCheck {
 
       if (!hasInitialisation(varBinding) && isArray(varBinding) && !hasArrayTypeTag(directive)) {
         String message = MessageFormat.format(
-            "Define the element type for this ''{0}'' array",
-            varBinding.getFirstChild(CGrammar.TYPED_IDENTIFIER).getFirstChild(CGrammar.IDENTIFIER).getTokenValue());
+          "Define the element type for this ''{0}'' array",
+          varBinding.getFirstChild(CGrammar.TYPED_IDENTIFIER).getFirstChild(CGrammar.IDENTIFIER).getTokenValue());
         addIssue(message, varBinding);
       }
     }
@@ -74,16 +74,15 @@ public class ArrayFieldElementTypeCheck extends CCheck {
     AstNode typeExpr = varBinding.getFirstChild(CGrammar.TYPED_IDENTIFIER).getFirstChild(CGrammar.TYPE_EXPR);
 
     return typeExpr != null
-        && typeExpr.getNumberOfChildren() == 1
-        && "Array".equals(typeExpr.getFirstChild().getTokenValue());
+      && typeExpr.getNumberOfChildren() == 1
+      && "Array".equals(typeExpr.getFirstChild().getTokenValue());
   }
 
   private static boolean hasArrayTypeTag(AstNode directive) {
     AstNode previousDirective = directive.getPreviousAstNode();
 
     while (previousDirective != null && MetadataTag.isMetadataTag(previousDirective)) {
-      if (MetadataTag.isTag(previousDirective.getFirstChild().getFirstChild(CGrammar.METADATA_STATEMENT),
-          "ArrayElementType")) {
+      if (MetadataTag.isTag(previousDirective.getFirstChild().getFirstChild(CGrammar.METADATA_STATEMENT), "ArrayElementType")) {
         return true;
       }
       previousDirective = previousDirective.getPreviousAstNode();

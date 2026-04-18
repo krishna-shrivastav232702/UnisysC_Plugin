@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -31,14 +31,19 @@ import org.sonar.c.checks.utils.Variable;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 
+
 @Rule(key = "S116")
 public class FieldNameCheck extends CCheck {
 
   private static final String DEFAULT = "^[_a-z][a-zA-Z0-9]*$";
   private Pattern pattern = null;
 
-  @RuleProperty(key = "format", description = "Regular expression used to check the field names against", defaultValue = DEFAULT)
+  @RuleProperty(
+    key = "format",
+    description = "Regular expression used to check the field names against",
+    defaultValue = DEFAULT)
   String format = DEFAULT;
+
 
   @Override
   public List<AstNodeType> subscribedTo() {
@@ -58,8 +63,8 @@ public class FieldNameCheck extends CCheck {
 
       if (Variable.isVariable(directive)) {
         AstNode variableDeclStatement = directive
-            .getFirstChild(CGrammar.ANNOTABLE_DIRECTIVE)
-            .getFirstChild(CGrammar.VARIABLE_DECLARATION_STATEMENT);
+          .getFirstChild(CGrammar.ANNOTABLE_DIRECTIVE)
+          .getFirstChild(CGrammar.VARIABLE_DECLARATION_STATEMENT);
 
         visitVariableDeclStatement(variableDeclStatement);
       }
@@ -69,8 +74,7 @@ public class FieldNameCheck extends CCheck {
   private void visitVariableDeclStatement(AstNode variableDeclStatement) {
     for (AstNode identifier : Variable.getDeclaredIdentifiers(variableDeclStatement)) {
       if (!pattern.matcher(identifier.getTokenValue()).matches()) {
-        addIssue(MessageFormat.format("Rename this field name to match the regular expression {0}", format),
-            identifier);
+        addIssue(MessageFormat.format("Rename this field name to match the regular expression {0}", format), identifier);
       }
     }
   }

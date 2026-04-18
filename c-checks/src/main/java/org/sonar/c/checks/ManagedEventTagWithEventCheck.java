@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -49,11 +49,9 @@ public class ManagedEventTagWithEventCheck extends CCheck {
     searchEventInPreviousTag(astNode);
     searchEventInNextTag(astNode);
 
-    for (Map.Entry<String, Boolean> entry : isDeclaredInEventTag.entrySet()) {
+    for (Map.Entry<String, Boolean> entry: isDeclaredInEventTag.entrySet()) {
       if (Boolean.FALSE.equals(entry.getValue())) {
-        addIssue(MessageFormat.format(
-            "The managed event {0} is either misspelled or is missing a companion Event metadata tag", entry.getKey()),
-            astNode);
+        addIssue(MessageFormat.format("The managed event {0} is either misspelled or is missing a companion Event metadata tag", entry.getKey()), astNode);
       }
     }
 
@@ -84,11 +82,13 @@ public class ManagedEventTagWithEventCheck extends CCheck {
     }
   }
 
+
   private void checkEventTag(AstNode directive) {
     AstNode metadataStmt = directive.getFirstChild().getFirstChild(CGrammar.METADATA_STATEMENT);
 
     if (MetadataTag.isTag(metadataStmt, "Event")) {
       String eventName = MetadataTag.getTagPropertiesMap(metadataStmt).get("name");
+
 
       isDeclaredInEventTag.computeIfPresent(eventName, (key, value) -> true);
     }

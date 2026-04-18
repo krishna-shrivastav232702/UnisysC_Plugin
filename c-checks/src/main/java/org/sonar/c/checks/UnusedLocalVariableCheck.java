@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -52,6 +52,7 @@ public class UnusedLocalVariableCheck extends CCheck {
       this.variables = new HashMap<>();
     }
 
+
     private void declare(AstNode astNode) {
       String identifier = astNode.getTokenValue();
       variables.computeIfAbsent(identifier, key -> new LocalVariable(astNode, 0));
@@ -77,9 +78,9 @@ public class UnusedLocalVariableCheck extends CCheck {
   @Override
   public List<AstNodeType> subscribedTo() {
     return Arrays.asList(
-        CGrammar.FUNCTION_DEF,
-        CGrammar.VARIABLE_DECLARATION_STATEMENT,
-        CGrammar.QUALIFIED_IDENTIFIER);
+      CGrammar.FUNCTION_DEF,
+      CGrammar.VARIABLE_DECLARATION_STATEMENT,
+      CGrammar.QUALIFIED_IDENTIFIER);
   }
 
   @Override
@@ -108,11 +109,11 @@ public class UnusedLocalVariableCheck extends CCheck {
     }
   }
 
+
   private void reportUnusedVariable() {
     for (Map.Entry<String, LocalVariable> entry : currentScope.variables.entrySet()) {
       if (entry.getValue().usages == 0) {
-        addIssue(MessageFormat.format("Remove this unused ''{0}'' local variable.", entry.getKey()),
-            entry.getValue().declaration);
+        addIssue(MessageFormat.format("Remove this unused ''{0}'' local variable.", entry.getKey()), entry.getValue().declaration);
       }
     }
   }

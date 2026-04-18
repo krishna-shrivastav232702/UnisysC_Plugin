@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,8 +28,8 @@ public class NamespaceDefinitionTest {
   @Test
   public void classWithStaticAtribute() {
     Assertions.assertThat(g.rule(CGrammar.NAMESPACE_DEF))
-        .matches("namespace a")
-        .matches("namespace a = b");
+      .matches("namespace a")
+      .matches("namespace a = b");
 
   }
 }

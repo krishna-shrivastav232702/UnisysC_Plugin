@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -26,7 +26,7 @@ public class StarUseForLocalConnectionCheckTest {
 
   @Test
   public void test() {
-    CVerifier.verify(new File("src/test/resources/checks/StarUseForLocalConnection.ccc_m"), check);
+  CVerifier.verify(new File("src/test/resources/checks/StarUseForLocalConnection.ccc_m"), check);
   }
 
 }

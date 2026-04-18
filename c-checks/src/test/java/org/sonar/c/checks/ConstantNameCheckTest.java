@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -25,7 +25,7 @@ public class ConstantNameCheckTest {
   private ConstantNameCheck check = new ConstantNameCheck();
 
   @Test
-  public void defaults() {
+  public void defaults(){
     CVerifier.verify(new File("src/test/resources/checks/ConstantName.ccc_m"), check);
   }
 

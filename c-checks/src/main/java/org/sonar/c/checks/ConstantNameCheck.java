@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -30,13 +30,17 @@ import org.sonar.c.checks.utils.Variable;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 
+
 @Rule(key = "S115")
 public class ConstantNameCheck extends CCheck {
 
   private static final String DEFAULT = "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$";
   private Pattern pattern = null;
 
-  @RuleProperty(key = "format", description = "Regular expression used to check the constant names against", defaultValue = DEFAULT)
+  @RuleProperty(
+    key = "format",
+    description = "Regular expression used to check the constant names against",
+    defaultValue = DEFAULT)
   String format = DEFAULT;
 
   @Override
@@ -53,15 +57,14 @@ public class ConstantNameCheck extends CCheck {
 
   @Override
   public void visitNode(AstNode astNode) {
-    if (astNode.getFirstChild(CGrammar.VARIABLE_DEF).getFirstChild(CGrammar.VARIABLE_DEF_KIND)
-        .getFirstChild(CKeyword.CONST) != null) {
+    if (astNode.getFirstChild(CGrammar.VARIABLE_DEF).getFirstChild(CGrammar.VARIABLE_DEF_KIND).getFirstChild(CKeyword.CONST) != null) {
 
       for (AstNode identifier : Variable.getDeclaredIdentifiers(astNode)) {
         String varName = identifier.getTokenValue();
 
         if (!pattern.matcher(varName).matches()) {
           addIssue("Rename this constant '" + varName + "' to match the regular expression " + format + "",
-              identifier);
+            identifier);
         }
       }
     }

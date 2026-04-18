@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,8 +28,8 @@ public class NonAttributeQualifierIdentifierTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.NON_ATTRIBUTE_QUALIFIED_IDENTIFIER))
-        .matches("identifier")
-        .matches("(null)::*");
+      .matches("identifier")
+      .matches("(null)::*");
   }
 
 }

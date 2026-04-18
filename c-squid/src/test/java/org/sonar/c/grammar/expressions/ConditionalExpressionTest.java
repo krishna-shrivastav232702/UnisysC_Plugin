@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,8 +28,8 @@ public class ConditionalExpressionTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.CONDITIONAL_EXPR))
-        .matches("0")
-        .matches("0 ? 1 : 2");
+      .matches("0")
+      .matches("0 ? 1 : 2");
   }
 
 }

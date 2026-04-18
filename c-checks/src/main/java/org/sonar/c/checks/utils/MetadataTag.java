@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -33,8 +33,8 @@ public final class MetadataTag {
     Preconditions.checkState(metadata.is(CGrammar.METADATA_STATEMENT));
     if (isNotEmpty(metadata)) {
       AstNode postfixExpr = metadata
-          .getFirstChild(CGrammar.ASSIGNMENT_EXPRESSION)
-          .getFirstChild(CGrammar.POSTFIX_EXPRESSION);
+        .getFirstChild(CGrammar.ASSIGNMENT_EXPRESSION)
+        .getFirstChild(CGrammar.POSTFIX_EXPRESSION);
 
       return postfixExpr != null && tagName.equals(postfixExpr.getTokenValue());
     }
@@ -50,10 +50,10 @@ public final class MetadataTag {
 
     if (isNotEmpty(metadata) && hasProperty(metadata)) {
       AstNode properties = metadata
-          .getFirstChild(CGrammar.ASSIGNMENT_EXPRESSION)
-          .getFirstChild(CGrammar.POSTFIX_EXPRESSION)
-          .getFirstChild(CGrammar.ARGUMENTS)
-          .getFirstChild(CGrammar.LIST_EXPRESSION);
+        .getFirstChild(CGrammar.ASSIGNMENT_EXPRESSION)
+        .getFirstChild(CGrammar.POSTFIX_EXPRESSION)
+        .getFirstChild(CGrammar.ARGUMENTS)
+        .getFirstChild(CGrammar.LIST_EXPRESSION);
 
       if (properties.getNumberOfChildren() == 1) {
         AstNode assignmentExpr = properties.getFirstChild(CGrammar.ASSIGNMENT_EXPRESSION);
@@ -76,16 +76,15 @@ public final class MetadataTag {
 
       Map<String, String> properties = new HashMap<>();
       AstNode listExpr = metadata
-          .getFirstChild(CGrammar.ASSIGNMENT_EXPRESSION)
-          .getFirstChild(CGrammar.POSTFIX_EXPRESSION)
-          .getFirstChild(CGrammar.ARGUMENTS)
-          .getFirstChild(CGrammar.LIST_EXPRESSION);
+        .getFirstChild(CGrammar.ASSIGNMENT_EXPRESSION)
+        .getFirstChild(CGrammar.POSTFIX_EXPRESSION)
+        .getFirstChild(CGrammar.ARGUMENTS)
+        .getFirstChild(CGrammar.LIST_EXPRESSION);
 
       for (AstNode assignmentExpr : listExpr.getChildren(CGrammar.ASSIGNMENT_EXPRESSION)) {
         if (assignmentExpr.getFirstChild(CGrammar.ASSIGNMENT_OPERATOR) != null) {
-          properties.put(
-              assignmentExpr.getFirstChild(CGrammar.ASSIGNMENT_OPERATOR).getPreviousSibling().getTokenValue(),
-              assignmentExpr.getFirstChild(CGrammar.ASSIGNMENT_OPERATOR).getNextSibling().getTokenValue());
+          properties.put(assignmentExpr.getFirstChild(CGrammar.ASSIGNMENT_OPERATOR).getPreviousSibling().getTokenValue(),
+            assignmentExpr.getFirstChild(CGrammar.ASSIGNMENT_OPERATOR).getNextSibling().getTokenValue());
         }
       }
       return properties;
@@ -95,21 +94,21 @@ public final class MetadataTag {
 
   public static boolean isNotEmpty(AstNode metadata) {
     return metadata.getFirstChild(CGrammar.ASSIGNMENT_EXPRESSION) != null
-        && metadata.getFirstChild(CGrammar.ASSIGNMENT_EXPRESSION).getFirstChild(CGrammar.POSTFIX_EXPRESSION) != null;
+      && metadata.getFirstChild(CGrammar.ASSIGNMENT_EXPRESSION).getFirstChild(CGrammar.POSTFIX_EXPRESSION) != null;
   }
 
   public static boolean hasProperty(AstNode metadata) {
     Preconditions.checkState(metadata.is(CGrammar.METADATA_STATEMENT));
     AstNode arguments = metadata
-        .getFirstChild(CGrammar.ASSIGNMENT_EXPRESSION)
-        .getFirstChild(CGrammar.POSTFIX_EXPRESSION)
-        .getFirstChild(CGrammar.ARGUMENTS);
+      .getFirstChild(CGrammar.ASSIGNMENT_EXPRESSION)
+      .getFirstChild(CGrammar.POSTFIX_EXPRESSION)
+      .getFirstChild(CGrammar.ARGUMENTS);
     return arguments != null && arguments.getFirstChild(CGrammar.LIST_EXPRESSION) != null;
   }
 
   public static boolean isMetadataTag(AstNode directive) {
     return directive.getFirstChild().is(CGrammar.STATEMENT)
-        && directive.getFirstChild().getFirstChild().is(CGrammar.METADATA_STATEMENT);
+      && directive.getFirstChild().getFirstChild().is(CGrammar.METADATA_STATEMENT);
   }
 
 }

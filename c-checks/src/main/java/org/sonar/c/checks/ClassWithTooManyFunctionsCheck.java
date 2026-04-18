@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -32,15 +32,21 @@ import org.sonar.check.RuleProperty;
 @Rule(key = "S1448")
 public class ClassWithTooManyFunctionsCheck extends CCheck {
 
+
   private static final int DEFAULT_MAX = 20;
   private static final boolean DEFAULT_INCLUDE_NON_PUBLIC = true;
 
-  @RuleProperty(key = "maximumFunctionThreshold", description = "The maximum number of methods", defaultValue = ""
-      + DEFAULT_MAX)
+  @RuleProperty(
+    key = "maximumFunctionThreshold",
+    description = "The maximum number of methods",
+    defaultValue = "" + DEFAULT_MAX)
   int maximumFunctionThreshold = DEFAULT_MAX;
 
-  @RuleProperty(key = "countNonpublicMethods", description = "Whether or not to include non-public methods in the count", defaultValue = ""
-      + DEFAULT_INCLUDE_NON_PUBLIC, type = "BOOLEAN")
+  @RuleProperty(
+    key = "countNonpublicMethods",
+    description = "Whether or not to include non-public methods in the count",
+    defaultValue = "" + DEFAULT_INCLUDE_NON_PUBLIC,
+    type = "BOOLEAN")
   boolean countNonpublicMethods = DEFAULT_INCLUDE_NON_PUBLIC;
 
   @Override
@@ -54,8 +60,8 @@ public class ClassWithTooManyFunctionsCheck extends CCheck {
 
     if (nbMethods > maximumFunctionThreshold) {
       String message = MessageFormat.format(
-          "Class \"{0}\" has {1} methods, which is greater than {2} authorized. Split it into smaller classes.",
-          Clazz.getName(astNode), nbMethods, maximumFunctionThreshold);
+        "Class \"{0}\" has {1} methods, which is greater than {2} authorized. Split it into smaller classes.",
+        Clazz.getName(astNode), nbMethods, maximumFunctionThreshold);
       addIssue(message, astNode);
     }
   }

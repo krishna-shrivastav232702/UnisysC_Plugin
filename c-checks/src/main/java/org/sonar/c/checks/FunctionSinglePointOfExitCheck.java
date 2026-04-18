@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -53,10 +53,10 @@ public class FunctionSinglePointOfExitCheck extends CCheck {
 
   private static boolean hasReturnAtEnd(AstNode functionDefinitionNode) {
     AstNode lastDirectiveNode = functionDefinitionNode
-        .getFirstChild(CGrammar.FUNCTION_COMMON)
-        .getFirstChild(CGrammar.BLOCK)
-        .getFirstChild(CGrammar.DIRECTIVES)
-        .getLastChild();
+      .getFirstChild(CGrammar.FUNCTION_COMMON)
+      .getFirstChild(CGrammar.BLOCK)
+      .getFirstChild(CGrammar.DIRECTIVES)
+      .getLastChild();
     if (lastDirectiveNode != null) {
       AstNode statementNode = lastDirectiveNode.getFirstChild(CGrammar.STATEMENT);
       if (statementNode != null && statementNode.getFirstChild().is(CGrammar.RETURN_STATEMENT)) {

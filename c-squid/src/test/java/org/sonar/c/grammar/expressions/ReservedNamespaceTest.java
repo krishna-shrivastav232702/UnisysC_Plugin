@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,10 +28,10 @@ public class ReservedNamespaceTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.RESERVED_NAMESPACE))
-        .matches("public")
-        .matches("private")
-        .matches("protected")
-        .matches("internal");
+      .matches("public")
+      .matches("private")
+      .matches("protected")
+      .matches("internal");
   }
 
 }

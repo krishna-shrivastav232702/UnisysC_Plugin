@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -59,8 +59,7 @@ public class DuplicateSwitchCaseConditionCheck extends CCheck {
     AstNode duplicateCase = casesByCondition.get(expression);
 
     if (duplicateCase != null) {
-      addIssue(MessageFormat.format("This case duplicates the case on line {0} with condition \"{1}\".",
-          duplicateCase.getTokenLine(), expression), caseLabel);
+      addIssue(MessageFormat.format("This case duplicates the case on line {0} with condition \"{1}\".", duplicateCase.getTokenLine(), expression), caseLabel);
     } else {
       casesByCondition.put(expression, caseLabel);
     }

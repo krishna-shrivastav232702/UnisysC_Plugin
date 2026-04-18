@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,35 +28,35 @@ public class PrimaryExpressionTest {
   @Test
   public void string() {
     Assertions.assertThat(g.rule(CGrammar.PRIMARY_EXPRESSION))
-        .matches("\"Sonar source\"");
+      .matches("\"Sonar source\"");
   }
 
   @Test
   public void reservedNamespace() {
     Assertions.assertThat(g.rule(CGrammar.PRIMARY_EXPRESSION))
-        .matches("internal")
-        .matches("private::identifier");
+      .matches("internal")
+      .matches("private::identifier");
   }
 
   @Test
   public void emptyArrayInitialiser() {
     Assertions.assertThat(g.rule(CGrammar.PRIMARY_EXPRESSION))
-        .matches("[]")
-        .matches("[   ]");
+      .matches("[]")
+      .matches("[   ]");
   }
 
   @Test
   public void emptyObjectInitialiser() {
     Assertions.assertThat(g.rule(CGrammar.PRIMARY_EXPRESSION))
-        .matches("{}")
-        .matches("{   }");
+      .matches("{}")
+      .matches("{   }");
   }
 
   @Test
   public void filledObjectInitialiser() {
     Assertions.assertThat(g.rule(CGrammar.PRIMARY_EXPRESSION))
-        .matches("{ FirstName : \"John\", LastName: \"Smith\"}")
-        .matches("{ Age : 43}");
+      .matches("{ FirstName : \"John\", LastName: \"Smith\"}")
+      .matches("{ Age : 43}");
   }
 
 }

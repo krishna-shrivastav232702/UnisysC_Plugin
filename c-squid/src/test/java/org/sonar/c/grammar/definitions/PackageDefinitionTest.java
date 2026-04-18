@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,35 +28,35 @@ public class PackageDefinitionTest {
   @Test
   public void emptyPackage() {
     Assertions.assertThat(g.rule(CGrammar.PACKAGE_DEF))
-        .matches("package p {}")
-        .matches("package   parent.child {   }")
-        .matches("package p{}");
+      .matches("package p {}")
+      .matches("package   parent.child {   }")
+      .matches("package p{}");
   }
 
   @Test
   public void packageWithBody() {
     Assertions.assertThat(g.rule(CGrammar.PACKAGE_DEF))
-        .matches("package samples\n"
-            + "{\n"
-            + "    public class SampleCode\n"
-            + "    {\n"
-            + "        private var sampleGreeting:String;\n"
-            + "        public function sampleFunction()\n"
-            + "        {\n"
-            + "            trace(sampleGreeting + \" from sampleFunction()\");\n"
-            + "        }\n"
-            + "    }\n"
-            + "}");
+      .matches("package samples\n"
+      + "{\n"
+      + "    public class SampleCode\n"
+      + "    {\n"
+      + "        private var sampleGreeting:String;\n"
+      + "        public function sampleFunction()\n"
+      + "        {\n"
+      + "            trace(sampleGreeting + \" from sampleFunction()\");\n"
+      + "        }\n"
+      + "    }\n"
+      + "}");
   }
 
   @Test
   public void childPackages() {
     Assertions.assertThat(g.rule(CGrammar.PACKAGE_DEF))
-        .matches("package flash.xml\n"
-            + "{\n"
-            + "    class XMLDocument {}\n"
-            + "    class XMLNode {}\n"
-            + "    class XMLSocket {}\n"
-            + "}");
+      .matches("package flash.xml\n"
+      + "{\n"
+      + "    class XMLDocument {}\n"
+      + "    class XMLNode {}\n"
+      + "    class XMLSocket {}\n"
+      + "}");
   }
 }

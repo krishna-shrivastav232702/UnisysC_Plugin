@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -37,8 +37,7 @@ public class LabelPlacementCheck extends CCheck {
   @Override
   public void visitNode(AstNode astNode) {
     if (!isIterationStatement(astNode.getFirstChild(CGrammar.SUB_STATEMENT))) {
-      addIssue(MessageFormat.format("Remove this ''{0}'' label.",
-          astNode.getFirstChild(CGrammar.IDENTIFIER).getTokenValue()), astNode);
+      addIssue(MessageFormat.format("Remove this ''{0}'' label.", astNode.getFirstChild(CGrammar.IDENTIFIER).getTokenValue()), astNode);
     }
 
   }
@@ -46,7 +45,7 @@ public class LabelPlacementCheck extends CCheck {
   private static boolean isIterationStatement(AstNode subStatement) {
     AstNode astNode = subStatement.getFirstChild();
     return astNode.is(CGrammar.STATEMENT)
-        && astNode.getFirstChild().is(CGrammar.WHILE_STATEMENT, CGrammar.DO_STATEMENT, CGrammar.FOR_STATEMENT);
+      && astNode.getFirstChild().is(CGrammar.WHILE_STATEMENT, CGrammar.DO_STATEMENT, CGrammar.FOR_STATEMENT);
   }
 
 }

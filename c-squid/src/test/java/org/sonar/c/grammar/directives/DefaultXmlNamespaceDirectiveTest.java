@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -28,9 +28,9 @@ public class DefaultXmlNamespaceDirectiveTest {
   @Test
   public void test() {
     Assertions.assertThat(g.rule(CGrammar.DEFAULT_XML_NAMESPACE_DIRECTIVE))
-        .matches("default xml namespace = ns ;")
-        .notMatches("default \n xml namespace = ns ;")
-        .notMatches("default xml \n namespace = ns ;");
+      .matches("default xml namespace = ns ;")
+      .notMatches("default \n xml namespace = ns ;")
+      .notMatches("default xml \n namespace = ns ;");
   }
 
 }

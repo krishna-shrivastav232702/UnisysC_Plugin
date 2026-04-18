@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -31,13 +31,13 @@ public class EqEqCheck extends CCheck {
 
   @Override
   public List<AstNodeType> subscribedTo() {
-    return Arrays.asList(CPunctuator.EQUAL1);
+    return Arrays.asList(CPunctuator.EQUAL1); 
   }
 
   @Override
   public void visitNode(AstNode astNode) {
     if (isInsideSelectionCondition(astNode)) {
-      addIssue("Replace = with ==", astNode);
+       addIssue("Replace = with ==", astNode);
     }
   }
 

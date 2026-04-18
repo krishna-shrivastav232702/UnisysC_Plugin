@@ -1,5 +1,5 @@
 /*
- * SonarQube Unisys C Plugin
+ * SonarQube Flex Plugin
  * Copyright (C) 2010-2025 SonarSource Sàrl
  * mailto:info AT sonarsource DOT com
  *
@@ -37,17 +37,17 @@ public class FileMetrics {
     AstNode rootTree = context.rootTree();
     Objects.requireNonNull(rootTree, "Cannot compute metrics without a root tree");
     List<AstNode> statements = rootTree.getDescendants(
-        CGrammar.DEFAULT_XML_NAMESPACE_DIRECTIVE,
-        CGrammar.VARIABLE_DECLARATION_STATEMENT,
-        CGrammar.EXPRESSION_STATEMENT,
-        CGrammar.IF_STATEMENT,
-        CGrammar.FOR_STATEMENT,
-        CGrammar.WHILE_STATEMENT,
-        CGrammar.DO_STATEMENT,
-        CGrammar.SWITCH_STATEMENT,
-        CGrammar.JUMP_STATEMENT,
-        CGrammar.RETURN_STATEMENT,
-        CGrammar.EMPTY_STATEMENT);
+      CGrammar.DEFAULT_XML_NAMESPACE_DIRECTIVE,
+      CGrammar.VARIABLE_DECLARATION_STATEMENT,
+      CGrammar.EXPRESSION_STATEMENT,
+      CGrammar.IF_STATEMENT,
+      CGrammar.FOR_STATEMENT,
+      CGrammar.WHILE_STATEMENT,
+      CGrammar.DO_STATEMENT,
+      CGrammar.SWITCH_STATEMENT,
+      CGrammar.JUMP_STATEMENT,
+      CGrammar.RETURN_STATEMENT,
+      CGrammar.EMPTY_STATEMENT);
 
     Set<Integer> alreadyMarked = new HashSet<>();
     StringBuilder sb = new StringBuilder();
