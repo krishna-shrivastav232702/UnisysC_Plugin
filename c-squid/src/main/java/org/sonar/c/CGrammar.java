@@ -675,8 +675,7 @@ public enum CGrammar implements GrammarRuleKey {
 
                 b.rule(PARAMETER_TYPE_LIST).is(PARAMETER_LIST, b.optional(b.sequence(COMMA, TRIPLE_DOTS)));
 
-                b.rule(PARAMETER_LIST).is(
-                                b.firstOf(PARAMETER_DECLARATION, b.sequence(PARAMETER, COMMA, PARAMETER_DECLARATION)));
+                b.rule(PARAMETER_LIST).is(PARAMETER_DECLARATION, b.zeroOrMore(b.sequence(COMMA, PARAMETER_DECLARATION))); 
 
                 b.rule(PARAMETER_DECLARATION).is(DECLARATION_SPECIFIERS,
                                 b.optional(b.firstOf(DECLARATOR, ABSTRACT_DECLARATOR)));

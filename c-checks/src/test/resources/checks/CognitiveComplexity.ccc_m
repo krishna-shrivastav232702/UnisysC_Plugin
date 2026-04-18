@@ -1,0 +1,19 @@
+void simpleLogic(int a, int b) { // OK
+    if (a > 0) {
+        doSomething();
+    }
+    if (b > 0) {
+        doOther();
+    }
+}
+
+void complexNesting(int a, int b) { // Noncompliant 
+    if (a > 0) {
+        int i;
+        for (i = 0; i < 10; i++) {
+            if (b > 0) {
+                doNestedWork();
+            }
+        }
+    }
+}

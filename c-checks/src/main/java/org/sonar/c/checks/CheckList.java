@@ -109,7 +109,9 @@ public final class CheckList {
         PointerIndirectionLevelCheck.class,
         MultipleVariableDeclarationCheck.class,
         IfElseIfHasElseCheck.class,
-        AllVariablesInitializedCheck.class
+        AllVariablesInitializedCheck.class,
+        CognitiveComplexityCheck.class,
+        CyclomaticComplexityCheck.class
       ));
   }
 
