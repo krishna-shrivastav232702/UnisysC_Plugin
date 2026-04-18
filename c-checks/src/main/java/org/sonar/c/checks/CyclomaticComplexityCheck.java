@@ -23,12 +23,12 @@ import java.util.List;
 
 import org.sonar.c.CCheck;
 import org.sonar.c.CGrammar;
-import org.sonar.c.metrics.ComplexityVisitor;
+import org.sonar.c.metrics.CyclomaticComplexityVisitor;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 
 @Rule(key = "S1541")
-public class FunctionComplexityCheck extends CCheck {
+public class CyclomaticComplexityCheck extends CCheck {
 
   private static final int DEFAULT_MAXIMUM_FUNCTION_COMPLEXITY_THRESHOLD = 10;
 
@@ -43,7 +43,7 @@ public class FunctionComplexityCheck extends CCheck {
 
   @Override
   public void visitNode(AstNode node) {
-    int functionComplexity = ComplexityVisitor.functionComplexity(node);
+    int functionComplexity = CyclomaticComplexityVisitor.functionComplexity(node);
     if (functionComplexity > maximumFunctionComplexityThreshold) {
       String message = String.format("Function has a complexity of %s which is greater than %s authorized.",
           functionComplexity, maximumFunctionComplexityThreshold);

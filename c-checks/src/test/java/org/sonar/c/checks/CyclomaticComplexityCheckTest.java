@@ -18,16 +18,16 @@ package org.sonar.c.checks;
 
 import java.io.File;
 import org.junit.jupiter.api.Test;
-import org.sonar.c.checks.ClassComplexityCheck;
 
-public class ClassComplexityCheckTest {
+public class CyclomaticComplexityCheckTest {
 
   @Test
   public void test() {
-    ClassComplexityCheck check = new ClassComplexityCheck();
-    check.setMaximumClassComplexityThreshold(1);
+    CyclomaticComplexityCheck check = new CyclomaticComplexityCheck();
+    // Function complexity can't be less than 1
+    check.setMaximumFunctionComplexityThreshold(3);
 
-    CVerifier.verify(new File("src/test/resources/checks/ClassComplexity.ccc_m"), check);
+    CVerifier.verify(new File("src/test/resources/checks/CyclomaticComplexity.ccc_m"), check);
   }
 
 }

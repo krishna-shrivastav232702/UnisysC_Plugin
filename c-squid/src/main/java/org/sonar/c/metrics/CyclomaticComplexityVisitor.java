@@ -27,7 +27,7 @@ import org.sonar.c.CVisitor;
 import org.sonar.c.CKeyword;
 import org.sonar.c.CPunctuator;
 
-public class ComplexityVisitor extends CVisitor {
+public class CyclomaticComplexityVisitor extends CVisitor {
 
   private int complexity;
 
@@ -63,18 +63,18 @@ public class ComplexityVisitor extends CVisitor {
   }
 
   public static int complexity(AstNode root) {
-    ComplexityVisitor visitor = new ComplexityVisitor();
+    CyclomaticComplexityVisitor visitor = new CyclomaticComplexityVisitor();
     visitor.scanNode(root);
     return visitor.complexity;
   }
 
   public static int functionComplexity(AstNode functionDef) {
-    ComplexityVisitor visitor = new FunctionComplexityVisitor(functionDef);
+    CyclomaticComplexityVisitor visitor = new FunctionComplexityVisitor(functionDef);
     visitor.scanNode(functionDef);
     return visitor.complexity;
   }
 
-  private static class FunctionComplexityVisitor extends ComplexityVisitor {
+  private static class FunctionComplexityVisitor extends CyclomaticComplexityVisitor {
 
     private final AstNode functionDef;
     private int nestingLevel = 0;

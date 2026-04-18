@@ -53,7 +53,7 @@ import org.sonar.c.CVisitorContext;
 import org.sonar.c.Issue;
 import org.sonar.c.checks.CheckList;
 import org.sonar.c.lexer.CLexer;
-import org.sonar.c.metrics.ComplexityVisitor;
+import org.sonar.c.metrics.CyclomaticComplexityVisitor;
 import org.sonar.c.metrics.FileMetrics;
 import org.sonar.c.parser.CParser;
 import org.sonar.plugins.c.core.C;
@@ -185,7 +185,7 @@ public class CSquidSensor implements Sensor {
     fileLinesContext.save();
 
     AstNode root = visitorContext.rootTree();
-    int fileComplexity = ComplexityVisitor.complexity(Objects.requireNonNull(root));
+    int fileComplexity = CyclomaticComplexityVisitor.complexity(Objects.requireNonNull(root));
     saveMeasure(context, inputFile, CoreMetrics.COMPLEXITY, fileComplexity);
   }
 

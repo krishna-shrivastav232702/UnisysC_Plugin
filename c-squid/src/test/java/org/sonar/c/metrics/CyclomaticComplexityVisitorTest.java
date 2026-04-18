@@ -25,7 +25,7 @@ import org.sonar.sslr.parser.LexerlessGrammar;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ComplexityVisitorTest {
+public class CyclomaticComplexityVisitorTest {
 
   private Parser<LexerlessGrammar> parser = CParser.create(StandardCharsets.UTF_8);
 
@@ -78,10 +78,10 @@ public class ComplexityVisitorTest {
   }
 
   private int complexity(String source) {
-    return ComplexityVisitor.complexity(parser.parse(source));
+    return CyclomaticComplexityVisitor.complexity(parser.parse(source));
   }
 
   private int functionComplexity(String source) {
-    return ComplexityVisitor.functionComplexity(parser.parse(source).getFirstDescendant(CGrammar.FUNCTION_DEF));
+    return CyclomaticComplexityVisitor.functionComplexity(parser.parse(source).getFirstDescendant(CGrammar.FUNCTION_DEF));
   }
 }
