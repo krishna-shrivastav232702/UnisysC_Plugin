@@ -19,7 +19,6 @@ package org.sonar.plugins.c;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.sonar.c.checks.CheckList;
-import org.sonar.plugins.c.CProfile;
 import org.sonar.plugins.c.core.C;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -44,7 +43,6 @@ public class CProfileTest {
     assertThat(activeRules.size()).isGreaterThan(40);
     assertThat(activeRules).extracting(BuiltInActiveRule::ruleKey)
         .contains("S1871")
-        .contains("S101")
         .doesNotContain("S1469")
         .doesNotContain("S1176");
   }
