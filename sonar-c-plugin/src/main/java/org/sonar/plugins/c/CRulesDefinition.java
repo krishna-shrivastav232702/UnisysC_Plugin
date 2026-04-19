@@ -16,7 +16,6 @@
  */
 package org.sonar.plugins.c;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import org.sonar.api.SonarRuntime;
@@ -29,7 +28,7 @@ public final class CRulesDefinition implements RulesDefinition {
 
   private static final String REPOSITORY_NAME = "Unisys_C_Analyzer";
   private static final String RESOURCE_BASE_PATH = "org/sonar/l10n/c/rules/c";
-  private static final Set<String> TEMPLATE_RULE_KEYS = new HashSet<>(Arrays.asList("XPath", "S5639"));
+  private static final Set<String> TEMPLATE_RULE_KEYS = new HashSet<>();
 
   private final SonarRuntime sonarRuntime;
 

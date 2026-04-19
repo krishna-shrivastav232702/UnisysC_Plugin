@@ -5,7 +5,7 @@
     "impacts": {
       "RELIABILITY": "MEDIUM"
     },
-    "attribute": "CORRECTNESS"
+    "attribute": "CONVENTIONAL"
   },
   "status": "ready",
   "remediation": {
