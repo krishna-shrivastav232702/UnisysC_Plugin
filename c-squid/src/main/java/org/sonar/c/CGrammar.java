@@ -213,6 +213,10 @@ public enum CGrammar implements GrammarRuleKey {
         DIGIT,
         DIGIT_SEQUENCE,
         SIGN,
+        UNSIGNED_SUFFIX,
+        LONG_SUFFIX,
+        INTEGER_SUFFIX,
+        OCTAL_CONSTANT,
 
         /**
          * EXPRESSIONS
@@ -424,7 +428,6 @@ public enum CGrammar implements GrammarRuleKey {
                         + UNICODE_COMBINING_MARK + UNICODE_DIGIT + UNICODE_CONNECTOR_PUNCTUATION + "])";
 
         
-        private static final String FLOAT_SUFFIX_REGEXP = "[fFlL]?";
         private static final String INTEGER_SUFFIX_REGEXP = "(?:[uU](?:ll|LL|l|L)?|(?:ll|LL|l|L)[uU]?)?";
         private static final String DECIMAL_INTEGER_REGEXP = "(0|([1-9][0-9]*+))";
         private static final String DECIMAL_DIGITS_REGEXP = "([0-9]++)";
@@ -536,12 +539,20 @@ public enum CGrammar implements GrammarRuleKey {
                         b.sequence("E", b.optional(SIGN), DIGIT_SEQUENCE)
                 ));
 
+                b.rule(UNSIGNED_SUFFIX).is(b.regexp("[uU]"));
+                b.rule(LONG_SUFFIX).is(b.regexp("[lL]+"));
+                b.rule(INTEGER_SUFFIX).is(b.firstOf(
+                        b.sequence(UNSIGNED_SUFFIX, b.optional(LONG_SUFFIX)),
+                        b.sequence(LONG_SUFFIX, b.optional(UNSIGNED_SUFFIX))
+                ));
+                b.rule(OCTAL_CONSTANT).is(SPACING, "0", b.zeroOrMore(OCTAL_DIGIT));
+
                 b.rule(DECIMAL_CONSTANT).is(NONZERO_DIGIT, b.zeroOrMore(DIGIT));
                 b.rule(I_CONSTANT).is(b.firstOf(
-                                b.sequence(HEXADECIMAL_CONSTANT, b.regexp(INTEGER_SUFFIX_REGEXP)),
-                                b.sequence(SPACING, b.regexp("0[0-7]+"), b.regexp(INTEGER_SUFFIX_REGEXP)),
-                                b.sequence(SPACING, "0", b.regexp(INTEGER_SUFFIX_REGEXP)),
-                                b.sequence(SPACING, DECIMAL_CONSTANT, b.regexp(INTEGER_SUFFIX_REGEXP))));
+                        b.sequence(HEXADECIMAL_CONSTANT, b.optional(INTEGER_SUFFIX)),
+                        b.sequence(OCTAL_CONSTANT, b.optional(INTEGER_SUFFIX)),
+                        b.sequence(SPACING, DECIMAL_CONSTANT, b.optional(INTEGER_SUFFIX))
+                ));
                 b.rule(FLOATING_SUFFIX).is(b.regexp("[fFlL]"));
                 b.rule(FRACTIONAL_CONSTANT).is(b.firstOf(
                         b.sequence(b.optional(DIGIT_SEQUENCE), ".", DIGIT_SEQUENCE),  
@@ -561,7 +572,7 @@ public enum CGrammar implements GrammarRuleKey {
                 b.rule(DECIMAL).is(SPACING, b.regexp(DECIMAL_REGEXP));
                 b.rule(NUMBER).is(b.firstOf(HEXADECIMAL, OCTAL, DECIMAL));
 
-                b.rule(CONSTANT).is(b.firstOf(F_CONSTANT, CHARACTER_CONSTANT, I_CONSTANT, ENUMERATION_CONSTANT));
+                b.rule(CONSTANT).is(b.firstOf(I_CONSTANT,F_CONSTANT, CHARACTER_CONSTANT, ENUMERATION_CONSTANT));
 
                 // Regular expression according to ECMA 262
                 b.rule(REGULAR_EXPRESSION).is(SPACING, b.regexp("/"
