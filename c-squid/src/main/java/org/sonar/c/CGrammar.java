@@ -151,7 +151,9 @@ public enum CGrammar implements GrammarRuleKey {
         ENUM_SPECIFIER,
         ENUMERATION_LIST,
         ENUMERATOR,
+        EXTERNAL_DEFINITION,
         FUNCTION_ABSTRACT_SUFFIX,
+        FUNCTION_BODY,
         FCT_SPECIFIER,
         IDENTIFIER_LIST,
         INIT_DECLARATOR,
@@ -1111,9 +1113,12 @@ public enum CGrammar implements GrammarRuleKey {
                 b.rule(TYPED_IDENTIFIER).is(b.firstOf(b.sequence(IDENTIFIER, COLON, TYPE_EXPR), IDENTIFIER));
                 b.rule(TYPED_IDENTIFIER_NO_IN)
                                 .is(b.firstOf(b.sequence(IDENTIFIER, COLON, TYPE_EXPR_NO_IN), IDENTIFIER));
+                
+                b.rule(EXTERNAL_DEFINITION).is(b.firstOf(FUNCTION_DEF, /*LINKAGE_SPECIFICATION,*/ DECLARATION));
+                
+                b.rule(FUNCTION_DEF).is(b.optional(DECLARATION_SPECIFIERS), DECLARATOR, FUNCTION_BODY);
 
-                b.rule(FUNCTION_DEF).is(DECLARATION_SPECIFIERS, DECLARATOR, b.optional(DECLARATION_LIST),
-                                COMPOUND_STATEMENT);
+                b.rule(FUNCTION_BODY).is(b.optional(DECLARATION_LIST), COMPOUND_STATEMENT);
 
                 b.rule(DECLARATION_LIST).is(b.oneOrMore(DECLARATION));
                 b.rule(STATEMENT_LIST).is(b.oneOrMore(STATEMENT));
@@ -1196,18 +1201,10 @@ public enum CGrammar implements GrammarRuleKey {
                 b.rule(NAMESPACE_BINDING).is(IDENTIFIER, b.optional(NAMESPACE_INITIALISATION));
                 b.rule(NAMESPACE_INITIALISATION).is(EQUAL1, ASSIGNMENT_EXPRESSION);
 
-                /*
-                 * b.rule(PROGRAM).is(
-                 * b.firstOf(
-                 * b.sequence(PACKAGE_DEF, PROGRAM),
-                 * DIRECTIVES),
-                 * SPACING,
-                 * b.token(GenericTokenType.EOF, b.endOfInput()));
-                 */
                 b.rule(PROGRAM).is(
-                                b.zeroOrMore(INCLUDE_DIRECTIVE),
-                                b.zeroOrMore(FUNCTION_DEF), SPACING,
-                                b.token(GenericTokenType.EOF, b.endOfInput()));
+                        b.zeroOrMore(INCLUDE_DIRECTIVE),
+                        b.zeroOrMore(EXTERNAL_DEFINITION), SPACING,
+                        b.token(GenericTokenType.EOF, b.endOfInput()));
         }
 
         private static void xml(LexerlessGrammarBuilder b) {
