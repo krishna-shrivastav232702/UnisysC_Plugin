@@ -5,7 +5,7 @@
     "impacts": {
       "MAINTAINABILITY": "LOW"
     },
-    "attribute": "READABILITY"
+    "attribute": "CLEAR"
   },
   "status": "ready",
   "remediation": {

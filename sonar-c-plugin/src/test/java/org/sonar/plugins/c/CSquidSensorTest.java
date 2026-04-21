@@ -75,7 +75,7 @@ public class CSquidSensorTest {
   private CSquidSensor createSensor(SonarRuntime sonarRuntime) {
     ActiveRulesBuilder activeRulesBuilder = new ActiveRulesBuilder();
     activeRulesBuilder
-        .addRule(new NewActiveRule.Builder().setRuleKey(RuleKey.of("c", "S1125")).setSeverity("BLOCKER").build());
+        .addRule(new NewActiveRule.Builder().setRuleKey(RuleKey.of("c", "S1314")).setSeverity("BLOCKER").build());
     ActiveRules activeRules = activeRulesBuilder.build();
     CheckFactory checkFactory = new CheckFactory(activeRules);
     FileLinesContextFactory fileLinesContextFactory = mock(FileLinesContextFactory.class);
