@@ -171,6 +171,9 @@ public enum CGrammar implements GrammarRuleKey {
         STRUCT_DECLARATION_LIST,
         STRUCT_OR_UNION,
         STRUCT_OR_UNION_SPECIFIER,
+        S_CHAR,
+        S_CHAR_SEQUENCE,
+        STRING_CONSTANT,
         POINTER,
         PARAMETER_DECLARATION,
         PARAMETER_LIST,
@@ -489,6 +492,14 @@ public enum CGrammar implements GrammarRuleKey {
         private static void literals(LexerlessGrammarBuilder b) {
                 b.rule(STRING).is(SPACING, b.regexp(STRING_REGEXP));
 
+                b.rule(STRING_CONSTANT).is(SPACING, b.firstOf(
+                        b.sequence("L\"", S_CHAR_SEQUENCE, "\""),
+                        b.sequence("\"", S_CHAR_SEQUENCE, "\"")));
+
+                b.rule(S_CHAR_SEQUENCE).is(b.zeroOrMore(S_CHAR));
+
+                b.rule(S_CHAR).is(b.firstOf(b.regexp("[^\"\\\\\\n\\r]"), ESCAPE_SEQUENCE));
+
                 b.rule(ESCAPE_SEQUENCE_CHARACTER).is(b.regexp("['\"\\\\abfnrtv?]"));
                 b.rule(OCTAL_DIGIT).is(b.regexp("[0-7]"));
                 b.rule(HEXADECIMAL_DIGIT).is(b.regexp("[0-9a-fA-F]"));
@@ -598,7 +609,7 @@ public enum CGrammar implements GrammarRuleKey {
                 b.rule(PRIMARY_EXPRESSION).is(b.firstOf(
                                 CONSTANT,
                                 IDENTIFIER,
-                                // STRING_LITERAL,
+                                STRING_CONSTANT,
                                 b.sequence(LPARENTHESIS, EXPRESSION, RPARENTHESIS)));
 
                 b.rule(RESERVED_NAMESPACE).is(b.firstOf(PUBLIC, PRIVATE, PROTECTED, INTERNAL));
