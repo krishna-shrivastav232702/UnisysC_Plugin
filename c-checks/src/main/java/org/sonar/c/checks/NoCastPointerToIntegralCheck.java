@@ -27,7 +27,7 @@ import org.sonar.check.Rule;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
 
-@Rule(key = "M23_389")
+@Rule(key = "M23_094")
 public class NoCastPointerToIntegralCheck extends CCheck {
 
     @Override

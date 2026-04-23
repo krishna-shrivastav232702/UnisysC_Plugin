@@ -1,0 +1,14 @@
+void test() {
+    int a = 0;           // OK 
+    int b = 0777;        // Noncompliant
+    int c = 0123;        // Noncompliant
+    int d = 010;         // Noncompliant
+    int e = 007;         // Noncompliant
+
+    int f = 123;         // OK 
+    int g = 0xFF;        // OK 
+    int h = 0x0;         // OK 
+
+    int arr[010];        // Noncompliant
+    int i = 0 + 1;       // OK 
+}

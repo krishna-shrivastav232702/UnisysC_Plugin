@@ -1,0 +1,70 @@
+<h2>Why is this an issue?</h2>
+<p>
+    Octal constants (integer literals that start with <code>0</code> followed by digits 0-7) are often a source of confusion and errors:
+    <ul>
+        <li><strong>Misleading Notation:</strong> Octal notation is rarely used in modern programming and is not immediately recognizable. Many developers may mistake <code>0777</code> for a decimal value like 777 or misread <code>010</code> as 10.</li>
+        <li><strong>Easy to Mistype:</strong> The leading <code>0</code> requirement is unintuitive. It's easy to accidentally write an octal constant when intending a decimal number, or vice versa.</li>
+        <li><strong>Historical Baggage:</strong> Octal notation has roots in early computing (particularly Unix/Linux file permissions) but is rarely needed in modern application code. Its presence suggests legacy code that may not have been maintained properly.</li>
+        <li><strong>Readability:</strong> Code using octal constants is harder to understand and maintain. Future developers may not immediately recognize the notation.</li>
+        <li><strong>Type Safety:</strong> Using a more explicit notation (decimal or hexadecimal) makes intent clearer and reduces cognitive load.</li>
+    </ul>
+</p>
+
+<pre>
+void test() {
+    int permissions = 0755;  // Noncompliant: unclear - is this octal or decimal?
+    int size = 010;          // Noncompliant: hard to see that this is 8 in decimal
+    int value = 0777;        // Noncompliant: what is the decimal equivalent?
+}
+</pre>
+
+<h3>How to fix it</h3>
+
+<h4>Option 1: Use decimal notation</h4>
+<p>If you know the decimal value, use decimal notation directly:</p>
+
+<pre>
+void test() {
+    int size = 8;            // Compliant: clear that it's 8 in decimal
+    int value = 511;         // Compliant: decimal equivalent of 0777
+    int permissions = 493;   // Compliant: decimal equivalent of 0755
+}
+</pre>
+
+<h4>Option 2: Use hexadecimal notation for bit patterns</h4>
+<p>If you're working with bit patterns, hexadecimal is often clearer than octal:</p>
+
+<pre>
+void test() {
+    int mask = 0xFF;         /* Compliant: hexadecimal is clearer for bit patterns */
+    int flags = 0xFFF;       /* Compliant: easier to see bit count */
+}
+</pre>
+
+<h4>Option 3: Use comments for numeric constants</h4>
+<p>If you must use numeric constants, add a comment explaining their purpose:</p>
+
+<pre>
+void test() {
+    int size = 8;            /* Was 010 - size in decimal */
+    int buffer = 1024;       /* Was 02000 - capacity in bytes */
+}
+</pre>
+
+<h4>Option 4: Use named constants for file permissions</h4>
+<p>If working with file permissions (a common use case for octal), define named constants:</p>
+
+<pre>
+#define FILE_PERM_RWX_OWNER     0700  /* Still octal, but intent is clear */
+#define FILE_PERM_RX_GROUP      0050
+#define FILE_PERM_R_OTHERS      0004
+
+/* Or better yet, use symbolic notation if available */
+#define FILE_READ    4
+#define FILE_WRITE   2
+#define FILE_EXECUTE 1
+</pre>
+
+<p>
+    By eliminating octal constants and using clearer notations, your code becomes more maintainable and less prone to misinterpretation.
+</p>

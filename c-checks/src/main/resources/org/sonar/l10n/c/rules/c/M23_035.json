@@ -1,0 +1,48 @@
+{
+    "key": "c:M23_035",
+    "repo": "c",
+    "name": "Octal constants shall not be used",
+    "createdAt": "2026-01-06T18:18:35+0530",
+    "severity": "BLOCKER",
+    "status": "READY",
+    "isTemplate": false,
+    "tags": [],
+    "sysTags": [
+      "misra-c++2023",
+      "misra-required",
+      "pitfall"
+    ],
+    "lang": "c",
+    "langName": "C",
+    "params": [],
+    "defaultDebtRemFnType": "CONSTANT_ISSUE",
+    "debtRemFnType": "CONSTANT_ISSUE",
+    "type": "CODE_SMELL",
+    "defaultRemFnType": "CONSTANT_ISSUE",
+    "defaultRemFnBaseEffort": "5min",
+    "remFnType": "CONSTANT_ISSUE",
+    "remFnBaseEffort": "5min",
+    "remFnOverloaded": false,
+    "scope": "MAIN",
+    "isExternal": false,
+    "descriptionSections": [
+      {
+        "key": "root_cause",
+        "content": "<p><strong>This rule is part of MISRA C++:2023.</strong></p>\n<p><strong>Usage of this content is governed by <a href=\"https://sonarsource.com/legal/\">Sonar’s terms and conditions</a>. Redistribution is\nprohibited.</strong></p>\n<h3>Rule 5.13.3 - Octal constants shall not be used</h3>\n<p>Category: Required</p>\n<p>Analysis: Decidable,Single Translation Unit</p>\n<h3>Rationale</h3>\n<p>Any integer constant beginning with a <code>0</code> (zero) is an octal constant. Because of this, a zero-prefixed constant that is intended to be\na decimal number may be interpreted as an octal number, contrary to developer expectations.</p>\n<p><strong>Note:</strong> this rule does not apply to octal escape sequences because the use of a leading <code>\\</code> character means that there is\nless scope for confusion.</p>\n<h3>Exception</h3>\n<p>The integer constant <code>0</code> (written as a single numeric digit) is an octal constant, but its use is permitted as an exception to this\nrule.</p>\n<h3>Example</h3>\n<pre>\ncode[ 1 ] = 109;      // Compliant     - decimal 109\ncode[ 2 ] = 100;      // Compliant     - decimal 100\ncode[ 3 ] = 052;      // Non-compliant - equivalent to decimal 42, not 52\ncode[ 4 ] = 071;      // Non-compliant - equivalent to decimal 57, not 71\ncode[ 5 ] = 0;        // Compliant by exception\ncode[ 6 ] = 000;      // Non-compliant - exception does not apply\ncode[ 7 ] = '\\123';   // Rule does not apply\n</pre>\n<p><strong>Copyright The MISRA Consortium Limited © 2023</strong></p>"
+      },
+      {
+        "key": "resources",
+        "content": "<h3>Related rules</h3>\n<p><a href='/coding_rules#rule_key=c%3AS1314'>S1314</a> detects octal constants that occur in non-POSIX contexts</p>\n<h3>External coding guidelines</h3>\n<p>CERT - <a href=\"https://wiki.sei.cmu.edu/confluence/x/atYxBQ\">DCL18-C. Do not begin integer constants with 0 when specifying a decimal\nvalue</a></p>"
+      }
+    ],
+    "educationPrinciples": [],
+    "updatedAt": "2026-01-06T18:18:35+0530",
+    "cleanCodeAttribute": "CLEAR",
+    "cleanCodeAttributeCategory": "INTENTIONAL",
+    "impacts": [
+      {
+        "softwareQuality": "MAINTAINABILITY",
+        "severity": "BLOCKER"
+      }
+    ]
+  }
