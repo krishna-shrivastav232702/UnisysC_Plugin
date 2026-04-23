@@ -1,0 +1,23 @@
+{
+  "title": "The built-in unary '-' operator should not be applied to an expression of unsigned type",
+  "type": "BUG",
+  "code": {
+    "impacts": {
+      "RELIABILITY": "HIGH"
+    },
+    "attribute": "CONVENTIONAL"
+  },
+  "status": "ready",
+  "remediation": {
+    "func": "Constant/Issue",
+    "constantCost": "10min"
+  },
+  "tags": [
+    "bad-practice",
+    "type-safety"
+  ],
+  "defaultSeverity": "MAJOR",
+  "ruleSpecification": "RSPEC-23_099",
+  "sqKey": "M23_099",
+  "scope": "All"
+}

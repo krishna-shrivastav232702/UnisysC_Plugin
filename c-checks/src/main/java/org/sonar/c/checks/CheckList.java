@@ -81,7 +81,8 @@ public final class CheckList {
         CastAwayQualifiersCheck.class,
         GotoStatementCheck.class,
         AsmDeclarationCheck.class,
-        NoUnaryPlusCheck.class
+        NoUnaryPlusCheck.class,
+        NoUnaryMinusOnUnsignedCheck.class
       ));
   }
 

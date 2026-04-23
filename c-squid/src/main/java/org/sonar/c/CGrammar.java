@@ -571,7 +571,7 @@ public enum CGrammar implements GrammarRuleKey {
                 b.rule(DECIMAL).is(SPACING, b.regexp(DECIMAL_REGEXP));
                 b.rule(NUMBER).is(b.firstOf(HEXADECIMAL, OCTAL, DECIMAL));
 
-                b.rule(CONSTANT).is(b.firstOf(I_CONSTANT,F_CONSTANT, CHARACTER_CONSTANT, ENUMERATION_CONSTANT));
+                b.rule(CONSTANT).is(b.firstOf(F_CONSTANT,I_CONSTANT, CHARACTER_CONSTANT, ENUMERATION_CONSTANT));
 
                 // Regular expression according to ECMA 262
                 b.rule(REGULAR_EXPRESSION).is(SPACING, b.regexp("/"
@@ -1106,7 +1106,7 @@ public enum CGrammar implements GrammarRuleKey {
                                 __NEAR,
                                 SHORT,
                                 SIGNED,
-                                // STRUCT_OR_UNION_SPECIFIER,
+                                STRUCT_OR_UNION_SPECIFIER,
                                 // TYPEDEF_NAME,
                                 UNSIGNED,
                                 VOID,

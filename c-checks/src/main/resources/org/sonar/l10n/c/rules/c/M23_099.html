@@ -1,0 +1,39 @@
+<h2>Why is this an issue?</h2>
+<p>
+    The unary minus operator <code>-</code> negates a numeric value by performing arithmetic negation. 
+    When applied to an unsigned integer type, the behavior can be surprising and error-prone due to 
+    the semantics of unsigned arithmetic.
+</p>
+
+<p>
+    For example, when you negate an unsigned value, the result wraps around according to unsigned arithmetic rules. 
+    A value like <code>-10U</code> does not represent negative ten; instead, it underflows and produces a large 
+    positive unsigned value. This counterintuitive behavior often indicates a logic error or type confusion.
+</p>
+
+<pre>
+unsigned int ui = 10U;
+int result = -ui;  // Noncompliant: negating unsigned produces unexpected result
+</pre>
+
+<p>
+    Such code typically signals that the developer either:
+    <ul>
+        <li>Intended to use a signed type but mistakenly declared an unsigned type</li>
+        <li>Misunderstands how unsigned arithmetic works</li>
+        <li>Is attempting an operation that does not make semantic sense for unsigned values</li>
+    </ul>
+</p>
+
+<h3>How to fix it</h3>
+<p>Ensure that negation is only applied to signed types. If you need to negate a value, declare it as a signed type:</p>
+
+<pre>
+/* Recommended: Use a signed type */
+int si = 10;
+int result = -si;  // OK: negation of signed integer
+
+/* Or explicitly cast if unsigned is required for other reasons */
+unsigned int ui = 10U;
+int result = -(int)ui;  // More explicit about the type conversion
+</pre>

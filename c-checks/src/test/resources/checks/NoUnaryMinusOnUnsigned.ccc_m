@@ -1,0 +1,28 @@
+void test() {
+
+  int    si = 10;
+  long   sl = 10L;
+  float  sf = 1.5f;
+  double sd = 1.5;
+
+  int result;
+
+  unsigned int  ui = 10U;
+  unsigned long ul = 10UL;
+
+  result = -si;          // OK
+  result = -sl;          // OK 
+  result = -(si + 1);    // OK 
+
+  result = -ui;          // Noncompliant
+  result = -ul;          // Noncompliant
+
+  if (-ui > 0) {         // Noncompliant
+      doWork();
+  }
+
+  result = -10;          // OK 
+
+  result = -10U;         // Noncompliant
+  result = -0xFFU;       // Noncompliant
+}
