@@ -1,0 +1,15 @@
+int main () {       // Noncompliant
+    int a = 10;
+    int i = 0;
+
+    for (i = 0; i < a; i++) {
+        doSomething();
+        doAnotherThing();
+    }
+
+    if (a > 5) {
+        doSomething();
+    }
+    
+    return 0;
+}
