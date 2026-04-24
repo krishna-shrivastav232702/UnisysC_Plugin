@@ -95,7 +95,8 @@ public final class CheckList {
         NoFloatForLoopCounterCheck.class,
         FileEndsWithNewlineCheck.class,
         PreferIfOverSwitchCheck.class,
-        LocalStaticVariableCheck.class
+        LocalStaticVariableCheck.class,
+        NoLowercaseLSuffixCheck.class
       ));
   }
 

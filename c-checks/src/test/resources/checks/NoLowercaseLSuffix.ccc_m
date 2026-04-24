@@ -1,0 +1,14 @@
+int const a = 0L;      // OK
+int const b = 0l;      // Noncompliant
+
+int const c = 1Lu;     // OK
+int const d = 1lU;     // Noncompliant
+
+int const e = 2uLL;    // OK
+int const f = 2Ull;    // OK
+
+long long const g = 3LL;     // OK
+long long const h = 3ll;     // Noncompliant
+
+long double const i = 1.2L;   // OK
+long double const j = 3.4l;   // Noncompliant

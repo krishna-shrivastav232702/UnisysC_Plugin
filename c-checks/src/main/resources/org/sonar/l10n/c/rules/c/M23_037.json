@@ -1,0 +1,23 @@
+{
+  "title": "The lowercase form of \"L\" shall not be used as the first character in a literal suffix",
+  "type": "CODE_SMELL",
+  "code": {
+    "impacts": {
+      "MAINTAINABILITY": "LOW"
+    },
+  "attribute": "IDENTIFIABLE"
+  },
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "5min"
+  },
+  "tags": [
+    "pitfall", "convention"
+  ],
+  "defaultSeverity": "Minor",
+  "ruleSpecification": "RSPEC-23_037",
+  "sqKey": "M23_037",
+  "scope": "All",
+  "quickfix": "unknown"
+}
