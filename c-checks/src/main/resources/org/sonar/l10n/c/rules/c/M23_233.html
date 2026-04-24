@@ -1,0 +1,3 @@
+<h2>Why is this an issue?</h2>
+<p>The use of mutable variables with static storage duration, even when they do not have linkage, potentially results in hidden temporal coupling. This can lead to data races (and thus <em>undefined behaviour</em>). Additionally, functions with persistent state are usually more difficult to understand and test.</p>
+<p><strong>Note:</strong> the lifetime of local variables with static storage duration ends at program termination in the reverse order of their creation. Suitable care should be taken to ensure that the code executed during destruction does not access a previously destroyed variable.</p>
