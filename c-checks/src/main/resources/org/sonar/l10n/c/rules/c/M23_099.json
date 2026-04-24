@@ -3,18 +3,18 @@
   "type": "BUG",
   "code": {
     "impacts": {
-      "RELIABILITY": "HIGH"
+      "RELIABILITY": "MEDIUM"
     },
-    "attribute": "CONVENTIONAL"
+    "attribute": "LOGICAL"
   },
   "status": "ready",
   "remediation": {
     "func": "Constant/Issue",
-    "constantCost": "10min"
+    "constantCost": "30min"
   },
   "tags": [
-    "bad-practice",
-    "type-safety"
+    "unpredictable",
+    "suspicious"
   ],
   "defaultSeverity": "MAJOR",
   "ruleSpecification": "RSPEC-23_099",

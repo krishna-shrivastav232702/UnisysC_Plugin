@@ -3,9 +3,9 @@
   "type": "BUG",
   "code": {
     "impacts": {
-      "MAINTAINABILITY": "LOW"
+      "RELIABILITY": "BLOCKER"
     },
-    "attribute": "CLEAR"
+    "attribute": "LOGICAL"
   },
   "status": "ready",
   "remediation": {
@@ -15,7 +15,7 @@
   "tags": [
     "pitfall"
   ],
-  "defaultSeverity": "Blocker",
+  "defaultSeverity": "BLOCKER",
   "ruleSpecification": "RSPEC-23_142",
   "sqKey": "M23_142",
   "scope": "All",

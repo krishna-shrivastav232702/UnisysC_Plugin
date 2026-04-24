@@ -3,9 +3,9 @@
   "type": "CODE_SMELL",
   "code": {
     "impacts": {
-      "MAINTAINABILITY": "LOW"
+      "RELIABILITY": "HIGH"
     },
-    "attribute": "CLEAR"
+    "attribute": "LOGICAL"
   },
   "status": "ready",
   "remediation": {
@@ -15,7 +15,7 @@
   "tags": [
     "pitfall"
   ],
-  "defaultSeverity": "Critical",
+  "defaultSeverity": "CRITICAL",
   "ruleSpecification": "RSPEC-23_202",
   "sqKey": "M23_202",
   "scope": "All",

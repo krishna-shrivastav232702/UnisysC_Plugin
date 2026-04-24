@@ -3,19 +3,19 @@
   "type": "BUG",
   "code": {
     "impacts": {
-      "MAINTAINABILITY": "LOW"
+      "RELIABILITY": "HIGH"
     },
-    "attribute": "CLEAR"
+    "attribute": "LOGICAL"
   },
   "status": "ready",
   "remediation": {
     "func": "Constant/Issue",
-    "constantCost": "5min"
+    "constantCost": "1h"
   },
   "tags": [
     "pitfall"
   ],
-  "defaultSeverity": "Critical",
+  "defaultSeverity": "CRITICAL",
   "ruleSpecification": "RSPEC-23_081",
   "sqKey": "M23_081",
   "scope": "All",
