@@ -1,0 +1,21 @@
+<h2>Why is this an issue?</h2>
+<p>
+    Subtracting pointers that do not address elements of the same array is undefined behavior. This can lead to unpredictable results, memory corruption, and security vulnerabilities.
+</p>
+<p>
+    Pointer arithmetic is only well-defined when both pointers point to elements within the same array or to one element past the end of the array. Subtracting pointers from different arrays or incompatible memory regions violates the C standard and results in undefined behavior.
+</p>
+<p>
+    <h3>Example:</h3>
+    <pre>
+    int arr1[10];
+    int arr2[10];
+    int *p1 = &amp;arr1[5];
+    int *p2 = &amp;arr2[3];
+    
+    int diff = p1 - p2;           // Noncompliant - pointers from different arrays
+    
+    int diff2 = &amp;arr1[7] - &amp;arr1[2];  // OK - both point to same array
+    int diff3 = p1 - &amp;arr1[0];   // OK - both point to same array
+</pre>
+</p>

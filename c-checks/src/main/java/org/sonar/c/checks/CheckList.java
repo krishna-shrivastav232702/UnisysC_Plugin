@@ -88,7 +88,8 @@ public final class CheckList {
         OctalConstantCheck.class,
         UnsignedLiteralSuffixCheck.class,
         SignedBitFieldLengthCheck.class,
-        TooManyLinesInFileCheck.class
+        TooManyLinesInFileCheck.class,
+        NoPointerSubtractionCheck.class
       ));
   }
 

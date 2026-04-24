@@ -1,0 +1,23 @@
+{
+  "title": "Subtraction between pointers shall only be applied to pointers that address elements of the same array",
+  "type": "BUG",
+  "code": {
+    "impacts": {
+      "MAINTAINABILITY": "LOW"
+    },
+    "attribute": "CLEAR"
+  },
+  "status": "ready",
+  "remediation": {
+    "func": "Constant/Issue",
+    "constantCost": "5min"
+  },
+  "tags": [
+    "pitfall"
+  ],
+  "defaultSeverity": "Critical",
+  "ruleSpecification": "RSPEC-23_081",
+  "sqKey": "M23_081",
+  "scope": "All",
+  "quickfix": "unknown"
+}

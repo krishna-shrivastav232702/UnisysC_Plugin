@@ -1,0 +1,17 @@
+void test() {
+    int arr[10];
+    int *p = &arr[0];
+    int *q = &arr[5];
+    int *r = &arr[3];
+    int x = 10;
+    int y = 20;
+
+    int diff;
+    diff = p - q;              // Noncompliant
+    diff = q - r;              // Noncompliant
+    diff = p - r;              // Noncompliant
+
+    diff = x - y;              // OK 
+    diff = x - 5;              // OK 
+    diff = *p - *q;            // OK 
+}
