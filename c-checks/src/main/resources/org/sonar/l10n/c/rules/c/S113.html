@@ -1,0 +1,35 @@
+<h2>Why is this an issue?</h2>
+<p>
+    Text files should end with a newline character. This is a standard convention in Unix and POSIX-compliant systems, and it is recommended by many coding standards and tools.
+</p>
+<p>
+    Not ending files with a newline can cause issues with:
+    <ul>
+        <li>Version control systems (git may show incomplete final lines in diffs)</li>
+        <li>Text editors and IDEs that expect a trailing newline</li>
+        <li>Build tools and preprocessors that may malfunction</li>
+        <li>Code consistency and readability across the project</li>
+    </ul>
+</p>
+<p>
+    <h3>Example:</h3>
+    <pre>
+    // Noncompliant - file does not end with a newline
+    #include &lt;stdio.h&gt;
+    
+    int main() {
+        printf("Hello, World!\n");
+        return 0;
+    }  // &lt;-- No newline after this line
+
+    
+    // Compliant - file ends with a newline
+    #include &lt;stdio.h&gt;
+    
+    int main() {
+        printf("Hello, World!\n");
+        return 0;
+    }
+    // &lt;-- Newline at end of file
+</pre>
+</p>
