@@ -1,0 +1,6 @@
+    int foo()
+    {
+    int a = 0;       // OK
+    static int b = 0;       // Noncompliant
+    static const int d = bar();   // OK
+    }

@@ -1,0 +1,23 @@
+{
+  "title": "Local variables shall not have static storage duration",
+  "type": "CODE_SMELL",
+  "code": {
+    "impacts": {
+      "RELIABILITY": "MEDIUM"
+    },
+    "attribute": "LOGICAL"
+  },
+  "status": "ready",
+  "remediation": {
+    "func": "Constant/Issue",
+    "constantCost": "10min"
+  },
+  "tags": [
+    "confusing", "unpredictable"
+  ],
+  "defaultSeverity": "Major",
+  "ruleSpecification": "RSPEC-23_233",
+  "sqKey": "M23_233",
+  "scope": "All",
+  "quickfix": "unknown"
+}

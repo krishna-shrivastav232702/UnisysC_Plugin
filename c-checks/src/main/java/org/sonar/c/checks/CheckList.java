@@ -94,7 +94,8 @@ public final class CheckList {
         NoProgramTerminatingFunctionsCheck.class,
         NoFloatForLoopCounterCheck.class,
         FileEndsWithNewlineCheck.class,
-        PreferIfOverSwitchCheck.class
+        PreferIfOverSwitchCheck.class,
+        LocalStaticVariableCheck.class
       ));
   }
 
