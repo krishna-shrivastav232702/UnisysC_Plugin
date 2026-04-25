@@ -1,65 +1,60 @@
-void function f() {
-  if (0) { // OK
-  }
+void test_collapsible_if() {
+  
+  if (condition1)
+    if (condition2) { // Noncompliant
+      doSomething();
+    }
 
-  if (0) { // OK
-  } else {
-  }
-
-  if (0) { // OK
-    if (0) {     // Noncompliant
+  if (1) {
+  } else if (condition1) {
+    if (condition2) { // Noncompliant
+      doSomething();
     }
   }
 
-  if (0) { // OK
-    if (0) { // OK
-    }
+  if (condition1 && condition2) { // OK
     doSomething();
   }
 
-  if (0) { // Compliant
-    int a;
-    if (a) { // Compliant
-    }
-  }
-
-  if (0) { // Compliant
-    if (0) { // Compliant
-    }
-  } else {
-  }
-
-  if (0) { // Compliant
-    if (0) { // Compliant
-    } else {
-    }
-  }
-
-  if (0) { // Compliant
-  } else if (0) { // Compliant
-    if (0) { // Noncompliant
-    }
-  }
-
-  if (0) // Compliant
-    if (true) { // Noncompliant
-    }
-
-  if (0) { // Compliant
-    while (true) {
-      if (true) { // Compliant
-      }
-    }
-
-    while (true)
-      if(true) { // Compliant
-      }
-  }
-}
-
-    if (0) { // Compliant
-    }
-
-    if (0) { // Compliant
+  if (condition1) {
+    if (condition2) { // OK
       doSomething();
     }
+  } else {
+    doOther();
+  }
+
+  if (condition1) {
+    if (condition2) { // OK
+      doSomething();
+    } else {
+      doOther();
+    }
+  }
+
+  if (condition1) {
+    int x = 1; // OK 
+    if (condition2) {
+      doSomething();
+    }
+  }
+
+  if (condition1) {
+    if (condition2) { // OK 
+      doSomething();
+    }
+    doSomethingElse();
+  }
+
+  if (condition1) {
+    while (condition2) { // OK
+      if (condition3) { 
+        doSomething();
+      }
+    }
+  }
+
+  if (condition1) {
+    // OK 
+  }
+}
