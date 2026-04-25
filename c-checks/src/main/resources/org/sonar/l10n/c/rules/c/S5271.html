@@ -1,0 +1,49 @@
+<h2>Why is this an issue?</h2>
+<p>
+    Functions that never return (through infinite loops, program termination, or exceptions) should be explicitly declared with the <code>noreturn</code> attribute. This provides important information to the compiler and readers of the code.
+</p>
+<p>
+    Using the <code>noreturn</code> attribute enables:
+    <ul>
+        <li>Better compiler optimizations</li>
+        <li>Clearer intent and documentation</li>
+        <li>Detection of unreachable code after function calls</li>
+        <li>Accurate control flow analysis</li>
+    </ul>
+</p>
+<p>
+    <h3>Example:</h3>
+    <pre>
+    // Noncompliant - function never returns but not marked as noreturn
+    void fatalError(const char *msg) {
+        fprintf(stderr, "Fatal error: %s\n", msg);
+        exit(1);
+    }
+    
+    void infiniteLoop() {
+        while (1) {
+            printf("Running...\n");
+        }
+    }
+    
+    // Compliant - properly marked with noreturn
+    _Noreturn void fatalError(const char *msg) {
+        fprintf(stderr, "Fatal error: %s\n", msg);
+        exit(1);
+    }
+    
+    _Noreturn void infiniteLoop() {
+        while (1) {
+            printf("Running...\n");
+        }
+    }
+    
+    // Compliant - using noreturn macro (if defined)
+    #define NORETURN _Noreturn
+    
+    NORETURN void handleShutdown() {
+        cleanup();
+        exit(0);
+    }
+</pre>
+</p>

@@ -91,7 +91,8 @@ public final class CheckList {
         NoLowercaseLSuffixCheck.class,
         NoBitFieldsCheck.class,
         ConsistentDeclarationTypeCheck.class,
-        NonVoidFunctionMustReturnCheck.class
+        NonVoidFunctionMustReturnCheck.class,
+        NoReturnFunctionShouldBeNoreturnCheck.class
       ));
   }
 

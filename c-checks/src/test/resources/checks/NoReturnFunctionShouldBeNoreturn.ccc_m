@@ -1,0 +1,31 @@
+void doWork() {                   // OK 
+    int x;
+    x = 1;
+}
+
+void logMessage() {               // OK 
+    int y;
+    y = 2;
+}
+
+int getValue() {                  // OK 
+    return 42;
+}
+
+int computeSum(int a, int b) {    // OK 
+    int result;
+    result = a + b;
+    return result;
+}
+
+int fatalError() {                // Noncompliant 
+    int x;
+    x = 1;
+}
+
+int neverReturns() {              // Noncompliant 
+    int a;
+    int b;
+    a = 1;
+    b = 2;
+}
