@@ -1,0 +1,40 @@
+<h2>Why is this an issue?</h2>
+<p>
+    When a variable or function is declared multiple times (forward declaration, definition, or redeclaration), all declarations must have the same type. Inconsistent types across declarations can lead to unexpected behavior, type mismatches, and potential runtime errors.
+</p>
+<p>
+    The C standard requires that all declarations of the same entity be compatible. Violating this rule can result in:
+    <ul>
+        <li>Implicit type conversions that mask errors</li>
+        <li>Incompatible function signatures</li>
+        <li>Unintended variable shadowing or redefinition</li>
+        <li>Linker errors or undefined behavior</li>
+    </ul>
+</p>
+<p>
+    <h3>Example:</h3>
+    <pre>
+    // Forward declaration
+    int getValue();
+    
+    // Noncompliant - different return type
+    float getValue() {
+        return 3.14f;
+    }
+    
+    // Noncompliant - inconsistent variable type
+    int x;      // First declaration
+    float x;    // Redeclaration with different type - ERROR
+    
+    // Compliant - consistent declarations
+    int getValue();  // Forward declaration
+    
+    int getValue() {  // Definition with same type
+        return 42;
+    }
+    
+    // Compliant - consistent variable declarations
+    extern int globalVar;    // Declaration
+    int globalVar = 100;     // Definition with same type
+</pre>
+</p>

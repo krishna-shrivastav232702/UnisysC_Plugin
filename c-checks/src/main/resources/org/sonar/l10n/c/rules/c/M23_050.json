@@ -1,0 +1,25 @@
+{
+  "title": "All \"declarations\" of a variable or function shall have the same type",
+  "type": "BUG",
+  "code": {
+    "impacts": {
+      "MAINTAINABILITY": "MEDIUM",
+      "RELIABILITY":"HIGH"
+    },
+    "attribute": "LOGICAL"
+  },
+  "status": "ready",
+  "remediation": {
+    "func": "Constant/Issue",
+    "constantCost": "10min"
+  },
+  "tags": [
+    "suspicious",
+    "unpredictable"
+  ],
+  "defaultSeverity": "CRITICAL",
+  "ruleSpecification": "RSPEC-23_050",
+  "sqKey": "M23_050",
+  "scope": "All",
+  "quickfix": "unknown"
+}

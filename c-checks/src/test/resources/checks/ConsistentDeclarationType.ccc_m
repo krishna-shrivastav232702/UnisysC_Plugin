@@ -1,0 +1,17 @@
+int counter;
+int counter;                  // OK
+
+float value;
+int value;                    // Noncompliant
+
+void process(void);
+int process(void);            // Noncompliant
+
+int result;
+int result;                   // OK 
+
+double ratio;
+float ratio;                  // Noncompliant 
+
+void helper(void);
+void helper(void);            // OK 

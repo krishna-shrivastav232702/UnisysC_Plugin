@@ -89,7 +89,8 @@ public final class CheckList {
         PreferIfOverSwitchCheck.class,
         LocalStaticVariableCheck.class,
         NoLowercaseLSuffixCheck.class,
-        NoBitFieldsCheck.class
+        NoBitFieldsCheck.class,
+        ConsistentDeclarationTypeCheck.class
       ));
   }
 
