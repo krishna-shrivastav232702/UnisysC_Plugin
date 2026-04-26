@@ -93,8 +93,8 @@ public final class CheckList {
         ConsistentDeclarationTypeCheck.class,
         NonVoidFunctionMustReturnCheck.class,
         NoReturnFunctionShouldBeNoreturnCheck.class,
-        NoNestedSwitchLabelCheck.class
-      ));
+        NoNestedSwitchLabelCheck.class,
+        ForLoopExpressionCheck.class));
   }
 
 }

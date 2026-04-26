@@ -1,0 +1,51 @@
+<h2>Why is this an issue?</h2>
+
+<p>For loops in C are highly flexible, but this flexibility can lead to complex and error-prone code.When loop control
+    logic is mixed with business logic, the code becomes difficult to understand and maintain.
+</p>
+
+<p>
+    A well-structured for loop should clearly separate:
+</p>
+
+<ul>
+    <li>Initialization</li>
+    <li>Condition</li>
+    <li>Update</li>
+</ul>
+
+<p>Only loop control variables should appear in these expressions.</p>
+
+<h3>Common Problems</h3>
+<ul>
+    <li>Modifying loop counter inside the loop body</li>
+    <li>Updating variables inside the condition</li>
+    <li>Using external variables (pseudo-counters) to control loop</li>
+</ul>
+
+<h3>Noncompliant Code Example</h3>
+
+<pre>
+for (int i = 0; i &lt; 10; i++) {
+    i++; // Noncompliant
+}
+</pre>
+
+<pre>
+for (int i = 0; i++ &lt; 10; i++) { // Noncompliant
+}
+</pre>
+
+<pre>
+for (int i = 0, j = 0; i &lt; 10; i += j) { // Noncompliant
+    j = i + 1;
+}
+</pre>
+
+<h3>Compliant Code Example</h3>
+
+<pre>
+for (int i = 0; i &lt; 10; i++) {
+    doSomething(i);
+}
+</pre>
