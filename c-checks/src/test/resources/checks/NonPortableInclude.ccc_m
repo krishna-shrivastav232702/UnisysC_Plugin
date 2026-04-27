@@ -1,0 +1,11 @@
+#include "stdio.h"        // Noncompliant
+#include "utils/helper.h" // Noncompliant
+#include "config.h"       // Noncompliant
+#include "../common.h"    // Noncompliant
+
+#include <stdio.h>        // OK
+#include <stdlib.h>       // OK
+#include <math.h>         // OK
+#include <project/api.h>  // OK
+
+void dummy() {}
