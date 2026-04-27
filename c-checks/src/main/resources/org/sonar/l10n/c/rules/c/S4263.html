@@ -1,0 +1,37 @@
+<h2>Why is this an issue?</h2>
+<p>
+    C provides two forms of include directives with different search strategies:
+    <ul>
+        <li><code>#include &lt;header&gt;</code> - Searches system/standard include paths (portable)</li>
+        <li><code>#include "header"</code> - Searches current directory first, then system paths (non-portable)</li>
+    </ul>
+</p>
+<p>
+    Using quoted includes (`#include "header"`) relies on a non-portable search strategy that depends on:
+    <ul>
+        <li>The current working directory</li>
+        <li>Compiler-specific search paths</li>
+        <li>Build system configuration</li>
+    </ul>
+</p>
+<p>
+    This can cause code to behave differently across different platforms, development environments, or build configurations, making it less portable and maintainable.
+</p>
+<p>
+    <h3>Example:</h3>
+    <pre>
+    // Noncompliant 
+    #include "stdio.h"
+    #include "math.h"
+    #include "string.h"
+    
+    // Compliant - angle-bracket includes (portable search)
+    #include &lt;stdio.h&gt;
+    #include &lt;math.h&gt;
+    #include &lt;string.h&gt;
+    
+    // Quoted includes are acceptable for project-local headers
+    #include "my_local_header.h"  // OK 
+    #include "../lib/utils.h"     // OK 
+</pre>
+</p>

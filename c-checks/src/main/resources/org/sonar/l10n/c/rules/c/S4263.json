@@ -1,0 +1,23 @@
+{
+  "title": "Include directives should not rely on non-portable search strategy",
+  "type": "CODE_SMELL",
+  "code": {
+    "impacts": {
+      "MAINTAINABILITY": "MEDIUM"
+    },
+    "attribute": "COMPLETE"
+  },
+  "status": "ready",
+  "remediation": {
+    "func": "Constant/Issue",
+    "constantCost": "5min"
+  },
+  "tags": [
+    "pitfall"
+  ],
+  "defaultSeverity": "MAJOR",
+  "ruleSpecification": "RSPEC-4263",
+  "sqKey": "S4263",
+  "scope": "All",
+  "quickfix": "unknown"
+}
