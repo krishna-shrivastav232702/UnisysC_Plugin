@@ -40,11 +40,10 @@ public class FileMetrics {
       CGrammar.DEFAULT_XML_NAMESPACE_DIRECTIVE,
       CGrammar.VARIABLE_DECLARATION_STATEMENT,
       CGrammar.EXPRESSION_STATEMENT,
-      CGrammar.IF_STATEMENT,
+      CGrammar.CONTROL_STATEMENT,
       CGrammar.FOR_STATEMENT,
       CGrammar.WHILE_STATEMENT,
       CGrammar.DO_STATEMENT,
-      CGrammar.SWITCH_STATEMENT,
       CGrammar.JUMP_STATEMENT,
       CGrammar.RETURN_STATEMENT,
       CGrammar.EMPTY_STATEMENT);

@@ -27,13 +27,13 @@ public class SwitchStatementTest {
 
   @Test
   public void test() {
-    Assertions.assertThat(g.rule(CGrammar.CASE_LABEL))
-      .matches("case 0:")
-      .matches("default:");
+    Assertions.assertThat(g.rule(CGrammar.LABELED_STATEMENT))
+      .matches("case 0: break;")
+      .matches("default: break;");
 
-    Assertions.assertThat(g.rule(CGrammar.SWITCH_STATEMENT))
+    Assertions.assertThat(g.rule(CGrammar.CONTROL_STATEMENT))
       .matches("switch (e) { }")
-      .matches("switch (e) { case 0: }")
+      .matches("switch (e) { case 0: break;}")
       .matches("switch (e) { case 0: case 1: ; default: ; }");
   }
 

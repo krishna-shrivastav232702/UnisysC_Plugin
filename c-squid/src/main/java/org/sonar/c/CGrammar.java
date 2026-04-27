@@ -364,7 +364,6 @@ public enum CGrammar implements GrammarRuleKey {
          */
         // <editor-fold defaultstate="collapsed" desc="Statements">
         STATEMENT,
-        SWITCH_STATEMENT,
         IF_STATEMENT,
         DO_STATEMENT,
         WHILE_STATEMENT,
@@ -954,8 +953,6 @@ public enum CGrammar implements GrammarRuleKey {
                 // control and iteration statements
                 b.rule(IF_STATEMENT).is(IF, PARENTHESIZED_LIST_EXPR, SUB_STATEMENT, b.optional(ELSE, SUB_STATEMENT));
 
-                b.rule(SWITCH_STATEMENT).is(SWITCH, PARENTHESIZED_LIST_EXPR, LCURLYBRACE, b.zeroOrMore(CASE_ELEMENT),
-                                RCURLYBRACE);
                 b.rule(CASE_ELEMENT).is(b.oneOrMore(CASE_LABEL), b.zeroOrMore(DIRECTIVE));
                 b.rule(CASE_LABEL).is(b.firstOf(DEFAULT, b.sequence(CASE, LIST_EXPRESSION)), COLON);
 

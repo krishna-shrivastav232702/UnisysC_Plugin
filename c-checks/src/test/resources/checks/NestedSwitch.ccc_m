@@ -1,6 +1,5 @@
 void test(int x, int y, int z) {
-  switch (x) {         /* OK */
-
+  switch (x) {         // OK
     case 1:
       switch (y) {     // Noncompliant
         case 1:
@@ -13,7 +12,7 @@ void test(int x, int y, int z) {
       break;
   }
 
-  switch (z) {         /* OK */
+  switch (z) {         // OK
     case 1:
       break;
     default:

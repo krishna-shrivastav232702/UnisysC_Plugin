@@ -33,7 +33,7 @@ public class NestedSwitchCheck extends CCheck {
 
   @Override
   public List<AstNodeType> subscribedTo() {
-    return Collections.singletonList(CGrammar.SWITCH_STATEMENT);
+    return Collections.singletonList(CGrammar.CONTROL_STATEMENT);
   }
 
   @Override
