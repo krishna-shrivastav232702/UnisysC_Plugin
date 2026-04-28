@@ -96,8 +96,8 @@ public final class CheckList {
         NoNestedSwitchLabelCheck.class,
         ForLoopExpressionCheck.class,
         NoPostfixOperatorCheck.class,
-        NonPortableIncludeCheck.class
-      ));
+        NonPortableIncludeCheck.class,
+        EscapeCharacterCheck.class));
   }
 
 }

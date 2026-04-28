@@ -1,0 +1,32 @@
+void test() {
+
+  const char *a = "\n";          // OK
+  const char *b = "\t";          // OK
+  const char *c = "\\";          // OK
+  const char *d = "\x41";        // OK 
+  const char *e = "\123";        // OK 
+  const char *f = "\u00E9";      // OK 
+  const char *g = "\U00000041";  // OK 
+  const char *h = "\b\'\"";      // OK 
+  const char *h1 = "\a\f\r\v\?"; // OK
+
+  const char *i = "\k";          // Noncompliant
+  const char *j = "\z";          // Noncompliant
+  const char *k = "\m";          // Noncompliant
+
+  const char *l = "\xG1";        // Noncompliant 
+  const char *m = "\u12";        // Noncompliant 
+  const char *n = "\U123";       // Noncompliant 
+
+  const char *o = "\8";          // Noncompliant 
+  const char *p = "\9";          // Noncompliant 
+
+  const char *q = "\n\k";        // Noncompliant 
+
+  const char *r = "\ ";           // Noncompliant 
+
+  const char c1 = '\n';          // OK
+  const char c2 = '\x41';        // OK
+  const char c3 = '\k';          // Noncompliant
+  const char c4 = '\8';          // Noncompliant
+}

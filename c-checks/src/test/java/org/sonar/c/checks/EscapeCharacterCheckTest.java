@@ -17,16 +17,14 @@
 package org.sonar.c.checks;
 
 import java.io.File;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class NonPortableIncludeCheckTest {
-
-    NonPortableIncludeCheck check = new NonPortableIncludeCheck();
+public class EscapeCharacterCheckTest {
+    private EscapeCharacterCheck check = new EscapeCharacterCheck();
 
     @Test
     public void test() {
-        CVerifier.verify(
-                new File("src/test/resources/checks/NonPortableInclude.ccc_m"),
-                check);
+        CVerifier.verify(new File("src/test/resources/checks/EscapeCharacter.ccc_m"), check);
     }
+
 }

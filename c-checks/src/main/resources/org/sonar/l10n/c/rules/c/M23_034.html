@@ -1,0 +1,48 @@
+<h2>Why is this an issue?</h2>
+<p>
+    In character and string literals, a backslash introduces an escape sequence. If the
+    sequence that follows is not one of the language-defined escapes, the literal becomes
+    unclear, non-portable, and may not be interpreted as intended by the compiler.
+</p>
+
+<p>
+    Only defined escape sequences and universal character names should follow
+    <code>\</code> inside a non raw-string literal. Typical valid forms include:
+</p>
+
+<ul>
+    <li>simple escapes such as <code>\n</code>, <code>\t</code>, <code>\\</code>, <code>\"</code>, and <code>\'</code>
+    </li>
+    <li>octal escapes such as <code>\123</code></li>
+    <li>hexadecimal escapes such as <code>\x41</code></li>
+    <li>universal character names such as <code>\u00E9</code> and <code>\U00000041</code></li>
+</ul>
+
+<p>
+    Invalid sequences like <code>\k</code>, <code>\8</code>, or incomplete universal
+    character names can lead to parsing problems and make the code harder to understand
+    and maintain.
+</p>
+
+<pre>
+void test() {
+    const char *invalid = "\k";       /* Noncompliant */
+    const char *invalid2 = "\8";      /* Noncompliant */
+    const char *invalid3 = "\u12";    /* Noncompliant */
+}
+</pre>
+
+<h3>How to fix it</h3>
+<p>
+    Replace the invalid sequence with a defined escape sequence, a valid universal
+    character name, or the literal character that was actually intended.
+</p>
+
+<pre>
+void test() {
+    const char *lineBreak = "\n";         /* Compliant */
+    const char *letterA = "\x41";         /* Compliant */
+    const char *accented = "\u00E9";      /* Compliant */
+    const char *plainText = "k";          /* Compliant */
+}
+</pre>

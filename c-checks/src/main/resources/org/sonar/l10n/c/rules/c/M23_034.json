@@ -1,0 +1,24 @@
+{
+    "title": "Within character literals and non raw-string literals, \"\\\" shall only be used to form a defined escape sequence or universal character name",
+    "type": "BUG",
+    "code": {
+        "impacts": {
+            "RELIABILITY": "MEDIUM"
+        },
+        "attribute": "LOGICAL"
+    },
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "misra-c++2023",
+        "misra-required"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-M23_034",
+    "sqKey": "M23_034",
+    "scope": "Main",
+    "quickfix": "unknown"
+}
