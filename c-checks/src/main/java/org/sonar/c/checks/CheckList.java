@@ -98,7 +98,8 @@ public final class CheckList {
         NoPostfixOperatorCheck.class,
         NonPortableIncludeCheck.class,
         EscapeCharacterCheck.class,
-        TooManyFieldsInStructCheck.class
+        TooManyFieldsInStructCheck.class,
+        ArrayBracketPositionCheck.class
       ));
   }
 
