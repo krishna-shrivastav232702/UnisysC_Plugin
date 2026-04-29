@@ -1,0 +1,7 @@
+int value = 4;
+int result3 = *(&value); //Noncompliant
+int result4 = *&value; //Noncompliant
+
+int value = 4;
+int result3 = value;    // OK
+int result4 = value;    // OK

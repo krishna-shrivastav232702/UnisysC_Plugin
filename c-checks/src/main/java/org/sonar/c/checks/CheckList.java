@@ -100,7 +100,8 @@ public final class CheckList {
         EscapeCharacterCheck.class,
         TooManyFieldsInStructCheck.class,
         ArrayBracketPositionCheck.class,
-        SwitchNonCaseLabelCheck.class
+        SwitchNonCaseLabelCheck.class,
+        RedundantPointerOperatorCheck.class
       ));
   }
 
