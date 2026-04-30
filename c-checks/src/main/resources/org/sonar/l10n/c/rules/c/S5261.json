@@ -1,0 +1,23 @@
+{
+  "title": "\"else\" statements should be clearly matched with an \"if\"",
+  "type": "CODE_SMELL",
+  "code": {
+    "impacts": {
+      "READABILITY": "MEDIUM"
+    },
+    "attribute": "CLEAR"
+  },
+  "status": "ready",
+  "remediation": {
+    "func": "Constant/Issue",
+    "constantCost": "5min"
+  },
+  "tags": [
+    "confusing"
+  ],
+  "defaultSeverity": "Minor",
+  "ruleSpecification": "RSPEC-5261",
+  "sqKey": "S5261",
+  "scope": "All",
+  "quickfix": "unknown"
+}

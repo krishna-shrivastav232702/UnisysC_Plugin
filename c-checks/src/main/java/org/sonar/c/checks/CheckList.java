@@ -111,7 +111,8 @@ public final class CheckList {
         IdentifierLengthCheck.class,
         XorNotExponentiationCheck.class,
         IncludeHeaderNameCheck.class,
-        EscapeSequenceTerminationCheck.class
+        EscapeSequenceTerminationCheck.class,
+        ElseMatchedWithIfCheck.class
       ));
   }
 }

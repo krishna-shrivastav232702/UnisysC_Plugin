@@ -1,0 +1,38 @@
+void test() {
+    int x = 1;
+    int y = 1;
+    int result;
+
+    if (x > 0) {                     // OK
+        if (y > 0) {                 // OK
+            result = 1;
+        } else {                     // OK
+            result = 2;
+        }
+    }
+
+    if (x > 0) {                     // OK
+        result = 1;
+    } else {                         // OK
+        result = 2;
+    }
+
+    if (x > 0)                       // OK
+        if (y > 0)
+            result = 1;
+        else                         // Noncompliant
+            result = 2;
+
+    if (x > 0)                       // OK
+        result = 1;
+    else {                           // OK
+        result = 2;
+    }
+
+    if (x > 0) {                     // OK 
+        result = 1;
+    } else
+        if (y > 0) {                 // OK 
+            result = 2;
+        }
+}

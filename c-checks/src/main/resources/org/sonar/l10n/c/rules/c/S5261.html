@@ -1,0 +1,60 @@
+<h2>Why is this an issue?</h2>
+<p>
+    The "dangling else" problem occurs when an `else` statement's association with an `if` statement is ambiguous. This is particularly problematic when `if` statements are nested or when braces are omitted. The problem arises because C's grammar associates an `else` with the nearest unmatched `if`, which may not be the programmer's intent.
+</p>
+<p>
+    Ambiguous `else` associations lead to:
+    <ul>
+        <li>Logic errors and unexpected program behavior</li>
+        <li>Code that is difficult to understand and maintain</li>
+        <li>Bugs that are hard to detect and debug</li>
+        <li>Different interpretations by different programmers</li>
+    </ul>
+</p>
+<p>
+    <h3>Example:</h3>
+    <pre>
+    // Noncompliant - ambiguous else association
+    if (a > 0)
+        if (b > 0)
+            printf("Both positive\n");
+    else
+        printf("a is not positive\n");  // Which if does this else belong to?
+    
+    // Noncompliant - else ambiguity in complex conditions
+    if (condition1)
+        statement1();
+    else if (condition2)
+        statement2();
+    else if (condition3)
+        statement3();  // Unclear structure when braces are omitted
+    
+    // Compliant - clearly matched with braces
+    if (a > 0) {
+        if (b > 0) {
+            printf("Both positive\n");
+        } else {
+            printf("b is not positive\n");
+        }
+    } else {
+        printf("a is not positive\n");
+    }
+    
+    // Compliant - explicit braces clarify intent
+    if (condition1) {
+        statement1();
+    } else if (condition2) {
+        statement2();
+    } else if (condition3) {
+        statement3();
+    } else {
+        statement4();
+    }
+    
+    // Compliant - single statement with braces
+    if (x > 0)
+        y++;
+    else
+        y--;
+</pre>
+</p>
