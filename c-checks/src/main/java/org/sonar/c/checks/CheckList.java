@@ -108,7 +108,8 @@ public final class CheckList {
         ConstPointerLocalVarCheck.class,
         SingleLineBodyIndentationCheck.class,
         ConditionalsStartOnNewLineCheck.class,
-        RepeatedUnaryPrefixOperatorCheck.class
+        RepeatedUnaryPrefixOperatorCheck.class,
+        IdentifierLengthCheck.class
       ));
   }
 

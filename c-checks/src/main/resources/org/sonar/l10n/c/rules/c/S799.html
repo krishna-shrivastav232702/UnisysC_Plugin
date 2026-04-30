@@ -1,0 +1,45 @@
+<h2>Why is this an issue?</h2>
+<p>
+    Long identifiers (variable names, function names, etc.) reduce code readability and can cause portability issues. The C standard specifies that at least the first 31 characters of external identifiers and internal identifiers should be significant for most implementations.
+</p>
+<p>
+    Identifiers longer than 31 characters:
+    <ul>
+        <li>May be truncated by some compilers, causing name collisions</li>
+        <li>Reduce code readability on screens with limited width</li>
+        <li>Make line wrapping more likely</li>
+        <li>Can cause portability issues across different platforms</li>
+        <li>Are often unnecessarily verbose</li>
+    </ul>
+</p>
+<p>
+    <h3>Example:</h3>
+    <pre>
+    // Noncompliant - identifier too long
+    int this_is_a_very_long_variable_name_that_exceeds_31_characters = 0;
+    
+    void this_function_has_an_extremely_long_name_that_is_not_portable() {
+        // ...
+    }
+    
+    struct this_struct_name_is_way_too_long_and_should_be_shortened {
+        int value;
+    };
+    
+    // Compliant - identifiers within 31 character limit
+    int long_variable_name = 0;
+    
+    void long_function_name() {
+        // ...
+    }
+    
+    struct long_struct_name {
+        int value;
+    };
+    
+    // Compliant - clear but concise names
+    int total_employee_count = 0;
+    void calculate_salary() { }
+    struct employee_record { };
+</pre>
+</p>

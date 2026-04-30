@@ -1,0 +1,17 @@
+int short_name;                            // OK
+int exactly_thirty_one_chars_long;         // OK
+void normal_function(int a, int b) {       // OK
+    int result = a + b;                    // OK
+}
+
+int this_variable_name_is_way_too_long;    // Noncompliant
+int exactly_thirty_two_characters_long;    // Noncompliant
+
+void this_function_name_is_much_longer_than_thirty_one_characters() {  // Noncompliant
+    int valid_var = 1;                     // OK
+}
+
+struct this_struct_name_violates_the_rule_limit {  // Noncompliant
+    int acceptable_member;                 // OK
+    float this_member_variable_is_also_too_long;   // Noncompliant
+};
