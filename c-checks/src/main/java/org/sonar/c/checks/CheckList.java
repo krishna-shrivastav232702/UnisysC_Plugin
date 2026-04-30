@@ -102,7 +102,8 @@ public final class CheckList {
         ArrayBracketPositionCheck.class,
         SwitchNonCaseLabelCheck.class,
         RedundantPointerOperatorCheck.class,
-        ExplicitZeroComparisonCheck.class
+        ExplicitZeroComparisonCheck.class,
+        ConstPointerLocalVarCheck.class
       ));
   }
 

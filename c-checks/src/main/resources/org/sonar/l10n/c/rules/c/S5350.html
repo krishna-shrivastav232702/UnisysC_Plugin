@@ -1,0 +1,49 @@
+<h2>Why is this an issue?</h2>
+<p>
+    When a pointer or reference local variable is declared, and the object it points/refers to is never modified, the variable should be declared as `const`. This provides several benefits:
+    <ul>
+        <li>Documents intent: The code explicitly states the object will not be modified</li>
+        <li>Prevents accidental modification: Compiler errors if code tries to modify through this pointer/reference</li>
+        <li>Enables better code analysis and optimization</li>
+        <li>Improves code clarity and maintainability</li>
+    </ul>
+</p>
+<p>
+    <h3>Example:</h3>
+    <pre>
+    struct Point {
+        int x;
+        int y;
+    };
+    
+    void processPoint(struct Point *p) {
+        // Noncompliant - pointer never modifies the Point
+        struct Point *ptr = p;
+        printf("X: %d, Y: %d\n", ptr->x, ptr->y);
+    }
+    
+    void printValue(int *value) {
+        // Noncompliant - pointer only reads the value
+        int *num = value;
+        printf("Value: %d\n", *num);
+    }
+    
+    // Compliant - const pointer for read-only access
+    void processPoint_Fixed(struct Point *p) {
+        const struct Point *ptr = p;
+        printf("X: %d, Y: %d\n", ptr->x, ptr->y);
+    }
+    
+    void printValue_Fixed(int *value) {
+        const int *num = value;
+        printf("Value: %d\n", *num);
+    }
+    
+    // Compliant - pointer that modifies (no const needed)
+    void modifyPoint(struct Point *p) {
+        struct Point *ptr = p;
+        ptr->x = 10;  // Object is modified
+        ptr->y = 20;
+    }
+</pre>
+</p>
