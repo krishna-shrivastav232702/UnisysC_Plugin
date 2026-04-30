@@ -1,0 +1,23 @@
+{
+  "title": "Header file names should not contain invalid characters or sequences",
+  "type": "BUG",
+  "code": {
+    "impacts": {
+      "RELIABILITY": "MEDIUM"
+    },
+    "attribute": "LOGICAL"
+  },
+  "status": "ready",
+  "remediation": {
+    "func": "Constant/Issue",
+    "constantCost": "10min"
+  },
+  "tags": [
+    "pitfall"
+  ],
+  "defaultSeverity": "Major",
+  "ruleSpecification": "RSPEC-M23_208",
+  "sqKey": "M23_208",
+  "scope": "All",
+  "quickfix": "unknown"
+}
