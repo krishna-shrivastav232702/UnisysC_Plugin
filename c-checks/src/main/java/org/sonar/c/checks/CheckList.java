@@ -113,7 +113,8 @@ public final class CheckList {
         IncludeHeaderNameCheck.class,
         EscapeSequenceTerminationCheck.class,
         ElseMatchedWithIfCheck.class,
-        EnumBitFieldConsistencyCheck.class
+        EnumBitFieldConsistencyCheck.class,
+        FieldNamingConventionCheck.class
       ));
   }
 }

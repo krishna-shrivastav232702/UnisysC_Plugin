@@ -1,15 +1,9 @@
 {
   "title": "Field names should comply with a naming convention",
   "type": "CODE_SMELL",
-  "code": {
-    "impacts": {
-      "MAINTAINABILITY": "LOW"
-    },
-    "attribute": "IDENTIFIABLE"
-  },
-  "status": "ready",
+  "status": "READY",
   "remediation": {
-    "func": "Constant\/Issue",
+    "func": "Constant/Issue",
     "constantCost": "2min"
   },
   "tags": [
@@ -18,6 +12,14 @@
   "defaultSeverity": "Minor",
   "ruleSpecification": "RSPEC-116",
   "sqKey": "S116",
-  "scope": "All",
-  "quickfix": "unknown"
+  "scope": "Main",
+  "quickfix": "unknown",
+  "params": [
+    {
+      "key": "format",
+      "type": "STRING",
+      "defaultValue": "^[a-z][a-zA-Z0-9]*$",
+      "description": "Regular expression used to validate field names"
+    }
+  ]
 }

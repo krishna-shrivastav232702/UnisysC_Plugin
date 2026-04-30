@@ -1,0 +1,16 @@
+struct GoodStruct {
+    int myField;        // Compliant
+    int anotherField1;  // Compliant
+};
+
+struct BadStruct {
+    int my_field;       // Noncompliant
+    int Field;          // Noncompliant
+    int _hidden;        // Noncompliant
+    int field_2;        // Noncompliant
+};
+
+struct MixedStruct {
+    int validName;      // Compliant
+    int invalid_name;   // Noncompliant
+};
