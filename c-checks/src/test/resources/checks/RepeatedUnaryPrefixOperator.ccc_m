@@ -1,0 +1,24 @@
+void test_unary() {
+  int x = 10;
+  int y;
+  int *p = &x;
+  int **pp = &p;
+
+  y = !!x;                     // Noncompliant
+  y = ~~x;                     // Noncompliant
+  y = - -x;                    // Noncompliant
+  y = + +x;                    // Noncompliant
+
+  y = !x;                      // OK
+  y = ~x;                      // OK
+  y = -x;                      // OK
+  y = +x;                      // OK
+  
+  y = --x;                     // OK
+  y = ++x;                     // OK
+
+  y = !~x;                     // OK
+
+  y = **pp;                    // OK
+  y = *p;                      // OK
+}

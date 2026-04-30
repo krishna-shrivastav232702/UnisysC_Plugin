@@ -1,0 +1,51 @@
+<h2>Why is this an issue?</h2>
+<p>
+    Repeating unary prefix operators (like `!!`, `--`, `++`, `&&`, or `||`) is often confusing and may indicate a mistake. While some repeated operators might have intended effects, most repeated unary operators either:
+    <ul>
+        <li>Cancel each other out (e.g., `!!x` which converts to boolean, or `--x` which is a no-op)</li>
+        <li>Are unintended duplicates (e.g., `++x` typed twice)</li>
+        <li>Make code harder to understand</li>
+    </ul>
+</p>
+<p>
+    Using repeated unary operators reduces code clarity and can lead to bugs. Code should be explicit and easy to understand.
+</p>
+<p>
+    <h3>Example:</h3>
+    <pre>
+    int x = 5;
+    int y = 0;
+    
+    // Noncompliant - double negation (confusing intent)
+    if (!!x) {
+        printf("x is non-zero\n");
+    }
+    
+    // Noncompliant - repeated increment (likely a typo)
+    ++x;
+    ++x;  // Appears intentional but could be a copy-paste error
+    
+    // Noncompliant - double logical AND (confusing)
+    if (&& x > 0) {  // Syntax error, but conceptually wrong
+    }
+    
+    // Compliant - clear intent
+    if (x != 0) {
+        printf("x is non-zero\n");
+    }
+    
+    // Compliant - explicit increments
+    ++x;
+    ++x;
+    // Or if only one increment intended:
+    x += 2;
+    
+    // Compliant - single unary operator
+    if (x > 0) {
+        printf("x is positive\n");
+    }
+    
+    // Compliant - explicit boolean conversion when needed
+    bool b = (x != 0);
+</pre>
+</p>
