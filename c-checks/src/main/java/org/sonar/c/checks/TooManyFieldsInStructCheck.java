@@ -28,7 +28,7 @@ import org.sonar.check.RuleProperty;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
 
-@Rule(key = "1820")
+@Rule(key = "S1820")
 public class TooManyFieldsInStructCheck extends CCheck {
 
     private static final int DEFAULT = 20;

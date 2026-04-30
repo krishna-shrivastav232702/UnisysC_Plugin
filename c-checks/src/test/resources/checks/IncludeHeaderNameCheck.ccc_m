@@ -1,0 +1,12 @@
+#include "file.h"        // OK
+
+#include "fi'le.h"       // Noncompliant
+#include "path\\file"    // Noncompliant
+#include "file//name.h"  // Noncompliant
+#include "file/*name.h"  // Noncompliant
+
+#include "path/file.h"   // OK
+
+#include <stdio.h>       // OK
+#include <fi'le.h>       // Noncompliant
+#include <path\\file>    // Noncompliant

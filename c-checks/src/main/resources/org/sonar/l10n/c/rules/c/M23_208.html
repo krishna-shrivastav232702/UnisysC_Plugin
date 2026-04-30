@@ -1,0 +1,29 @@
+<h2>Why is this an issue?</h2>
+<p>
+Using certain characters inside a header file name can lead to implementation-defined behavior and reduce portability.
+</p>
+
+<p>
+The following characters and sequences must not appear in a header file name:
+</p>
+<ul>
+  <li><code>'</code> (single quote)</li>
+  <li><code>"</code> (double quote inside the name)</li>
+  <li><code>\</code> (backslash)</li>
+  <li><code>/*</code> (start of comment)</li>
+  <li><code>//</code> (line comment sequence)</li>
+</ul>
+
+<h3>Noncompliant code example</h3>
+<pre>
+#include "fi'le.h"      // Noncompliant
+#include "path\\file"   // Noncompliant
+#include "file/*name.h" // Noncompliant
+</pre>
+
+<h3>Compliant solution</h3>
+<pre>
+#include "file.h"       // OK
+#include "path/file.h"  // OK
+#include &lt;stdio.h&gt;      // OK
+</pre>
