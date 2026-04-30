@@ -103,7 +103,8 @@ public final class CheckList {
         SwitchNonCaseLabelCheck.class,
         RedundantPointerOperatorCheck.class,
         ExplicitZeroComparisonCheck.class,
-        ConstPointerLocalVarCheck.class
+        ConstPointerLocalVarCheck.class,
+        SingleLineBodyIndentationCheck.class
       ));
   }
 

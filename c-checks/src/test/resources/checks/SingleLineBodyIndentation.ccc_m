@@ -1,0 +1,33 @@
+void test() {
+    int x = 5;
+    int y = 0;
+    int result;
+
+    if (x > 0)
+        result = 1;            // OK 
+
+    if (x > 0) result = 1;    // Noncompliant 
+
+    if (x > 0) {               // OK 
+        result = 1;
+    }
+
+    while (x > 0)
+        x = x - 1;             // OK 
+
+    while (x > 0) x = x - 1;  // Noncompliant
+
+    for (y = 0; y < 5; y = y + 1)
+        result = y;            // OK
+
+    for (y = 0; y < 5; y = y + 1) result = y;  // Noncompliant 
+
+    if (x > 0) {               // OK 
+        result = 1;
+    } else
+        result = 0;            // OK 
+
+    if (x > 0) {                
+        result = 1;
+    } else result = 0;         // Noncompliant
+}

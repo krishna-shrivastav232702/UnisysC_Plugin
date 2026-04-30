@@ -1,0 +1,46 @@
+<h2>Why is this an issue?</h2>
+<p>
+    When a single statement is conditionally executed (after an `if`, `else`, `while`, `for`, etc.), it should be properly indented to clearly show the relationship between the condition and the statement. Proper indentation improves readability and prevents misunderstanding the code flow.
+</p>
+<p>
+    Even when braces are not required for a single statement, indentation is crucial because:
+    <ul>
+        <li>It visually clarifies which statement(s) are controlled by the condition</li>
+        <li>It prevents bugs when statements are later added</li>
+        <li>It improves consistency across the codebase</li>
+        <li>It makes code reviews easier and less error-prone</li>
+    </ul>
+</p>
+<p>
+    <h3>Example:</h3>
+    <pre>
+    // Noncompliant - single line not indented
+    if (condition)
+    printf("Statement executed\n");  // Not indented
+    
+    // Noncompliant - inconsistent indentation
+    while (x > 0)
+    x--;
+    printf("Done\n");  // Appears to be in loop but isn't
+    
+    // Compliant - proper indentation
+    if (condition)
+        printf("Statement executed\n");
+    
+    // Compliant - with braces (also good practice)
+    if (condition) {
+        printf("Statement executed\n");
+    }
+    
+    // Compliant - proper indentation in complex structures
+    for (int i = 0; i < n; i++)
+        process(i);
+    
+    // Best practice - use braces even for single statements
+    if (condition) {
+        doSomething();
+    } else {
+        doOtherThing();
+    }
+</pre>
+</p>

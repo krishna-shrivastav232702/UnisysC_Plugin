@@ -54,20 +54,13 @@ public class ConstPointerLocalVarCheck extends CCheck {
             return;
         }
 
-        // Step 1: Collect all local non-const pointer variable names and nodes
-        // A pointer declaration has POINTER as direct child of DECLARATOR
-        // and does NOT have "const" in its TYPE_SPECIFIER list
+       
         List<AstNode> nonConstPointers = collectNonConstLocalPointers(declList);
         if (nonConstPointers.isEmpty()) {
             return;
         }
-
-        // Step 2: Collect all pointer names that are written to in the body
-        // Either: *p = value  (write through dereference)
-        // Or:      p = value  (pointer itself reassigned)
         Set<String> writtenPointers = collectWrittenPointers(compoundStmt);
 
-        // Step 3: Flag any pointer that is never written to
         for (AstNode pointerIdentifier : nonConstPointers) {
             String name = pointerIdentifier.getTokenValue();
             if (name != null && !writtenPointers.contains(name)) {
@@ -81,37 +74,14 @@ public class ConstPointerLocalVarCheck extends CCheck {
         }
     }
 
-    /**
-     * Collects IDENTIFIER nodes of local pointer variables that are
-     * NOT already declared with const.
-     *
-     * A non-const local pointer looks like:
-     *   DECLARATION
-     *     ├── DECLARATION_SPECIFIERS
-     *     │     └── TYPE_SPECIFIER (int/float/etc — no const)
-     *     ├── INIT_DECLARATOR_LIST
-     *     │     └── INIT_DECLARATOR
-     *     │           └── DECLARATOR
-     *     │                 ├── POINTER         ← has POINTER child
-     *     │                 └── DIRECT_DECLARATOR
-     *     │                       └── IDENTIFIER
-     *     └── SEMICOLON
-     *
-     * A const pointer looks like:
-     *   DECLARATION_SPECIFIERS
-     *     ├── TYPE_SPECIFIER (const)
-     *     └── TYPE_SPECIFIER (int)
-     */
     private List<AstNode> collectNonConstLocalPointers(AstNode declList) {
         List<AstNode> result = new ArrayList<>();
 
         for (AstNode decl : declList.getChildren(CGrammar.DECLARATION)) {
-            // Skip if already const
             if (declarationHasConst(decl)) {
                 continue;
             }
 
-            // Look for pointer declarators
             AstNode initDeclList = decl.getFirstChild(CGrammar.INIT_DECLARATOR_LIST);
             if (initDeclList == null) {
                 continue;
@@ -123,7 +93,6 @@ public class ConstPointerLocalVarCheck extends CCheck {
                     continue;
                 }
 
-                // Must have POINTER as direct child to be a pointer variable
                 if (!declarator.hasDirectChildren(CGrammar.POINTER)) {
                     continue;
                 }
@@ -143,12 +112,6 @@ public class ConstPointerLocalVarCheck extends CCheck {
         return result;
     }
 
-    /**
-     * Returns true if the DECLARATION contains a "const" TYPE_SPECIFIER
-     * in its DECLARATION_SPECIFIERS.
-     *
-     * e.g. const int *p  →  DECLARATION_SPECIFIERS has TYPE_SPECIFIER(const)
-     */
     private boolean declarationHasConst(AstNode decl) {
         AstNode declSpecs = decl.getFirstChild(CGrammar.DECLARATION_SPECIFIERS);
         if (declSpecs == null) {
@@ -163,52 +126,26 @@ public class ConstPointerLocalVarCheck extends CCheck {
         return false;
     }
 
-    /**
-     * Scans the compound statement for any writes to pointer variables.
-     * Returns a set of pointer variable names that are written to.
-     *
-     * Two kinds of writes:
-     *
-     * Kind 1 — pointer reassignment: p = &y
-     *   ASSIGNMENT_EXPRESSION
-     *     ├── UNARY_EXPR → ... → IDENTIFIER(p)   ← left side, no dereference
-     *     ├── ASSIGNMENT_OPERATOR(=)
-     *     └── ASSIGNMENT_EXPRESSION (right side)
-     *
-     * Kind 2 — write through dereference: *p = 99
-     *   ASSIGNMENT_EXPRESSION
-     *     ├── UNARY_EXPR
-     *     │     ├── UNARY_OPERATOR(*)
-     *     │     └── CAST_EXPRESSION → ... → IDENTIFIER(p)
-     *     ├── ASSIGNMENT_OPERATOR(=)
-     *     └── ASSIGNMENT_EXPRESSION (right side)
-     */
     private Set<String> collectWrittenPointers(AstNode compoundStmt) {
         Set<String> written = new HashSet<>();
 
         for (AstNode assignExpr : compoundStmt.getDescendants(CGrammar.ASSIGNMENT_EXPRESSION)) {
-            // Must have an ASSIGNMENT_OPERATOR child to be a real assignment
             AstNode assignOp = assignExpr.getFirstChild(CGrammar.ASSIGNMENT_OPERATOR);
             if (assignOp == null) {
                 continue;
             }
 
-            // Left side is the first child
             AstNode leftSide = assignExpr.getFirstChild();
             if (leftSide == null || leftSide.is(CGrammar.ASSIGNMENT_OPERATOR)) {
                 continue;
             }
 
-            // Kind 2: dereference write — *p = value
-            // Left side is UNARY_EXPR with UNARY_OPERATOR(*) as first child
             String derefName = extractDereferencedPointerName(leftSide);
             if (derefName != null) {
                 written.add(derefName);
                 continue;
             }
 
-            // Kind 1: pointer reassignment — p = value
-            // Left side is a plain identifier (no dereference)
             String directName = extractDirectIdentifierName(leftSide);
             if (directName != null) {
                 written.add(directName);
@@ -218,16 +155,7 @@ public class ConstPointerLocalVarCheck extends CCheck {
         return written;
     }
 
-    /**
-     * If the node is a UNARY_EXPR with a dereference operator '*',
-     * returns the name of the dereferenced pointer identifier.
-     *
-     * *p = value  →  UNARY_EXPR
-     *                  ├── UNARY_OPERATOR(*)
-     *                  └── CAST_EXPRESSION → ... → IDENTIFIER(p)
-     */
     private String extractDereferencedPointerName(AstNode node) {
-        // Unwrap single-child wrappers to reach the UNARY_EXPR
         AstNode current = node;
         while (current != null
                 && current.getChildren().size() == 1) {
@@ -243,7 +171,6 @@ public class ConstPointerLocalVarCheck extends CCheck {
             return null;
         }
 
-        // The operand after the * operator
         AstNode operand = unaryOp.getNextSibling();
         if (operand == null) {
             return null;
@@ -252,16 +179,7 @@ public class ConstPointerLocalVarCheck extends CCheck {
         return extractIdentifierName(operand);
     }
 
-    /**
-     * Extracts a plain identifier name from a node, but only if there
-     * is NO dereference operator in the path — meaning it is a direct
-     * variable reference, not a dereference expression.
-     *
-     * p = value   →  returns "p"
-     * *p = value  →  returns null (handled by extractDereferencedPointerName)
-     */
     private String extractDirectIdentifierName(AstNode node) {
-        // If any UNARY_OPERATOR with '*' exists in subtree, it's a dereference
         for (AstNode uo : node.getDescendants(CGrammar.UNARY_OPERATOR)) {
             if ("*".equals(uo.getTokenValue())) {
                 return null;
@@ -269,10 +187,7 @@ public class ConstPointerLocalVarCheck extends CCheck {
         }
         return extractIdentifierName(node);
     }
-
-    /**
-     * Walks the subtree to find the first IDENTIFIER token value.
-     */
+    
     private String extractIdentifierName(AstNode node) {
         if (node.is(CGrammar.IDENTIFIER)) {
             return node.getTokenValue();
