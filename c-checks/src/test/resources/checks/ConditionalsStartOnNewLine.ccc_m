@@ -1,0 +1,44 @@
+void test_conditionals(int a, int b) {
+  int c;                      
+
+  if (a) {                     // OK
+    first();
+  }
+
+  c = 0; if (a) {              // Noncompliant
+    first();
+  }
+
+  if (a) {                     // OK
+    first();
+  } else if (b) {              // OK
+    second();
+  } else {
+    first();
+  }
+
+  first(); if (b) {            // Noncompliant
+    second();
+  }
+
+  switch (a) {                 // OK
+    case 1:
+      first();
+      break;
+  }
+
+  a = 2; switch (a) {          // Noncompliant
+    case 2:
+      second();
+      break;
+  }
+
+  if (a) {                     
+    first();
+  } if (b) {                   // Noncompliant
+    second();
+  }
+}
+
+void first() {}
+void second() {}

@@ -104,7 +104,8 @@ public final class CheckList {
         RedundantPointerOperatorCheck.class,
         ExplicitZeroComparisonCheck.class,
         ConstPointerLocalVarCheck.class,
-        SingleLineBodyIndentationCheck.class
+        SingleLineBodyIndentationCheck.class,
+        ConditionalsStartOnNewLineCheck.class
       ));
   }
 
