@@ -108,7 +108,8 @@ public final class CheckList {
         SingleLineBodyIndentationCheck.class,
         ConditionalsStartOnNewLineCheck.class,
         RepeatedUnaryPrefixOperatorCheck.class,
-        IdentifierLengthCheck.class
+        IdentifierLengthCheck.class,
+        XorNotExponentiationCheck.class
       ));
   }
 
