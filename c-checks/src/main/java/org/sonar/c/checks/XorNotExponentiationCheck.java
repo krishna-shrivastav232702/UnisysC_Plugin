@@ -1,0 +1,58 @@
+/*
+ * SonarQube Unisys C Plugin
+ * Copyright (C) 2010-2025 SonarSource Sàrl
+ * mailto:info AT sonarsource DOT com
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the Sonar Source-Available License Version 1, as published by SonarSource SA.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the Sonar Source-Available License for more details.
+ *
+ * You should have received a copy of the Sonar Source-Available License
+ * along with this program; if not, see https://sonarsource.com/license/ssal/
+ */
+package org.sonar.c.checks;
+
+import java.util.Collections;
+import java.util.List;
+
+import org.sonar.c.CCheck;
+import org.sonar.c.CGrammar;
+import org.sonar.check.Rule;
+
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.AstNodeType;
+
+@Rule(key = "S5381")
+public class XorNotExponentiationCheck extends CCheck {
+
+    @Override
+    public List<AstNodeType> subscribedTo() {
+        return Collections.singletonList(CGrammar.EXCLUSIVE_OR_EXPRESSION);
+    }
+
+    @Override
+    public void visitNode(AstNode xorExpr) {
+        List<AstNode> children = xorExpr.getChildren();
+        
+        for (int i = 1; i < children.size() - 1; i += 2) {
+            AstNode operator = children.get(i);
+            
+            if ("^".equals(operator.getTokenValue())) {
+                AstNode leftOperand = children.get(i - 1);
+                AstNode rightOperand = children.get(i + 1);
+
+                if (isBase10Literal(leftOperand) || isBase10Literal(rightOperand)) {
+                    addIssue("\"^\" is the bitwise XOR operator and should not be confused with exponentiation.", operator);
+                }
+            }
+        }
+    }
+
+    private boolean isBase10Literal(AstNode operand) {
+        return !operand.getDescendants(CGrammar.DECIMAL_CONSTANT).isEmpty();
+    }
+}

@@ -1,0 +1,41 @@
+<h2>Why is this an issue?</h2>
+<p>
+    The caret character `^` is the bitwise XOR (exclusive OR) operator in C, not the exponentiation operator. Developers coming from languages like Python, MATLAB, or Excel might mistake `^` for exponentiation and write code that doesn't behave as expected.
+</p>
+<p>
+    Using `^` when exponentiation is intended will:
+    <ul>
+        <li>Produce incorrect results (bitwise XOR instead of exponentiation)</li>
+        <li>Lead to subtle bugs that are hard to detect</li>
+        <li>Cause confusion and misunderstanding of code logic</li>
+        <li>Impact calculations and algorithms</li>
+    </ul>
+</p>
+<p>
+    In C, there is no built-in exponentiation operator. Use the `pow()` function from `<math.h>` instead.
+</p>
+<p>
+    <h3>Example:</h3>
+    <pre>
+    #include &lt;stdio.h&gt;
+    #include &lt;math.h&gt;
+    
+    // Noncompliant - using ^ thinking it's exponentiation
+    int result = 2 ^ 3;  // Bitwise XOR: 2 XOR 3 = 1 (binary: 010 XOR 011 = 001)
+    printf("2 ^ 3 = %d\n", result);  // Prints: 2 ^ 3 = 1 (WRONG!)
+    
+    // Noncompliant - confusing code
+    int square = x ^ 2;  // This is NOT x squared!
+    
+    // Compliant - use pow() for exponentiation
+    double result = pow(2, 3);  // Correct: 2^3 = 8
+    printf("2 ^ 3 = %f\n", result);  // Prints: 2 ^ 3 = 8.000000
+    
+    // Compliant - use pow() for calculations
+    double square = pow(x, 2);  // Correctly calculates x squared
+    
+    // Compliant - bitwise XOR when that's the intent
+    int xor_result = a ^ b;  // Clear intent: bitwise XOR
+    printf("a XOR b = %d\n", xor_result);
+</pre>
+</p>
