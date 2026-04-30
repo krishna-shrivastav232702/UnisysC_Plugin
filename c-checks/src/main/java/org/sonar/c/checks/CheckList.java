@@ -102,6 +102,8 @@ public final class CheckList {
         ArrayBracketPositionCheck.class,
         SwitchNonCaseLabelCheck.class,
         RedundantPointerOperatorCheck.class,
+        TooManyCaseCheck.class,
+        RedundantPointerOperatorCheck.class,
         ExplicitZeroComparisonCheck.class,
         ConstPointerLocalVarCheck.class,
         SingleLineBodyIndentationCheck.class,

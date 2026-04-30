@@ -1,0 +1,20 @@
+void test() {
+    int x = 0;
+    switch (x) {        // Noncompliant
+        case 0:
+          break;
+        case 1:
+          doSomething();
+        case 2:
+          break;
+        default:
+          break;
+    }
+
+    switch (x) {        // OK
+        case 0:
+          break;
+        default:
+          break;
+    }
+}
