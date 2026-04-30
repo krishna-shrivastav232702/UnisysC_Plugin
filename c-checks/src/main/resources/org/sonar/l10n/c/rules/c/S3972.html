@@ -1,0 +1,48 @@
+<h2>Why is this an issue?</h2>
+<p>
+    Conditional expressions and their operators should start on new lines to improve code readability and clarity. Placing conditional logic on the same line as other code can make expressions hard to follow and prone to misunderstanding.
+</p>
+<p>
+    Starting conditionals on new lines:
+    <ul>
+        <li>Improves visual separation and clarity</li>
+        <li>Makes code easier to scan and understand</li>
+        <li>Reduces line length, improving readability</li>
+        <li>Makes diffs and code reviews clearer</li>
+        <li>Follows consistent coding conventions</li>
+    </ul>
+</p>
+<p>
+    <h3>Example:</h3>
+    <pre>
+    // Noncompliant - conditional continues on same line
+    if (condition1 && condition2 &&
+        condition3) {
+        doSomething();
+    }
+    
+    // Noncompliant - multiple conditions crammed together
+    if (x > 0 && y < 10 && z == 5)
+        doSomething();
+    
+    // Compliant - conditional operators start on new lines
+    if (condition1 && condition2 &&
+        condition3) {
+        doSomething();
+    }
+    
+    // Compliant - clear separation with proper indentation
+    if (x > 0
+        && y < 10
+        && z == 5) {
+        doSomething();
+    }
+    
+    // Compliant - logical grouping with line breaks
+    if (isValid
+        && !isExpired
+        && hasPermission) {
+        execute();
+    }
+</pre>
+</p>
