@@ -20,11 +20,8 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
 import java.util.Collections;
 import java.util.List;
-
 import org.sonar.c.CCheck;
 import org.sonar.c.CGrammar;
-import org.sonar.c.CPunctuator;
-import org.sonar.c.checks.utils.Clazz;
 import org.sonar.check.Rule;
 
 @Rule(key = "S1186")
@@ -32,28 +29,28 @@ public class EmptyMethodCheck extends CCheck {
 
   @Override
   public List<AstNodeType> subscribedTo() {
-    return Collections.singletonList(CGrammar.CLASS_DEF);
+    return Collections.singletonList(CGrammar.FUNCTION_DEF);
   }
 
   @Override
   public void visitNode(AstNode astNode) {
-    for (AstNode function : Clazz.getFunctions(astNode)) {
-      AstNode block = function.getFirstChild(CGrammar.FUNCTION_COMMON).getFirstChild(CGrammar.BLOCK);
-
-      if (block != null && isEmptyBlock(block)) {
-        addIssue(
+    AstNode functionBody = astNode.getFirstChild(CGrammar.FUNCTION_BODY);
+    if (functionBody == null) {
+      return;
+    }
+    AstNode compoundStatement = functionBody.getFirstChild(CGrammar.COMPOUND_STATEMENT);
+    if (compoundStatement != null && isEmpty(compoundStatement)) {
+      addIssue(
           "Add a nested comment explaining why this method is empty, throw an NotSupportedException or complete the implementation.",
-          function);
-      }
+          astNode);
     }
   }
 
-  private static boolean isEmptyBlock(AstNode block) {
-    AstNode rightCurlyBrace = block.getFirstChild(CPunctuator.RCURLYBRACE);
-    return !block.getFirstChild(CGrammar.DIRECTIVES).hasChildren() && !hasComment(rightCurlyBrace);
+  private static boolean isEmpty(AstNode compoundStatement) {
+    AstNode declarationList = compoundStatement.getFirstChild(CGrammar.DECLARATION_LIST);
+    AstNode statementList = compoundStatement.getFirstChild(CGrammar.STATEMENT_LIST);
+    return (declarationList == null || !declarationList.hasChildren())
+        && (statementList == null || !statementList.hasChildren());
   }
 
-  private static boolean hasComment(AstNode node) {
-    return node.getToken().hasTrivia();
-  }
 }

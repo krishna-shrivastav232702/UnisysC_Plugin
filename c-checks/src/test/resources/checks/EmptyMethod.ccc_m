@@ -1,0 +1,5 @@
+void f() {    //Noncompliant
+}
+void foo(){   //OK
+    doSomething();   
+}
