@@ -18,197 +18,191 @@ package org.sonar.c.checks;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
-import com.sonar.sslr.api.Token;
 import java.text.MessageFormat;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Deque;
-import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import javax.annotation.Nullable;
-
+import java.util.Set;
 import org.sonar.c.CCheck;
 import org.sonar.c.CGrammar;
-import org.sonar.c.checks.utils.Function;
-import org.sonar.c.checks.utils.Preconditions;
 import org.sonar.check.Rule;
 
 @Rule(key = "S1172")
 public class UnusedFunctionParametersCheck extends CCheck {
 
-  private Deque<Boolean> classes = new ArrayDeque<>();
-
-  private static class Scope {
-    private final Scope outerScope;
-    private final AstNode functionDec;
-    private final Map<String, Integer> arguments;
-
-    public Scope(Scope outerScope, AstNode functionDec) {
-      this.outerScope = outerScope;
-      this.functionDec = functionDec;
-      this.arguments = new LinkedHashMap<>();
-    }
-
-    private void declare(AstNode astNode) {
-      Preconditions.checkState(astNode.is(CGrammar.IDENTIFIER));
-      String identifier = astNode.getTokenValue();
-      arguments.put(identifier, 0);
-    }
-
-    private void use(String value) {
-      Scope scope = this;
-      while (scope != null) {
-        Integer usage = scope.arguments.get(value);
-        if (usage != null) {
-          usage++;
-          scope.arguments.put(value, usage);
-          return;
-        }
-        scope = scope.outerScope;
-      }
-    }
-  }
-
-  private static final AstNodeType[] FUNCTION_NODES = { CGrammar.FUNCTION_DEF };
-  private Scope currentScope;
-
   @Override
   public List<AstNodeType> subscribedTo() {
-    List<AstNodeType> types = new ArrayList<>();
-    types.add(CGrammar.POSTFIX_EXPRESSION);
-    types.add(CGrammar.PARAMETERS);
-    types.add(CGrammar.CLASS_DEF);
-    Collections.addAll(types, FUNCTION_NODES);
-    return types;
+    return Collections.singletonList(CGrammar.FUNCTION_DEF);
   }
 
   @Override
-  public void visitFile(@Nullable AstNode astNode) {
-    currentScope = null;
-    classes.clear();
-  }
-
-  @Override
-  public void visitNode(AstNode astNode) {
-    if (astNode.is(CGrammar.CLASS_DEF)) {
-
-    } else if (astNode.is(FUNCTION_NODES)) {
-      // enter new scope
-      currentScope = new Scope(currentScope, astNode);
-
-    } else if (currentScope != null && astNode.is(CGrammar.PARAMETERS)
-        && astNode.getParent().is(CGrammar.FUNCTION_SIGNATURE)) {
-      declareInCurrentScope(Function.getParametersIdentifiers(currentScope.functionDec));
-
-    } else if (currentScope != null && astNode.is(CGrammar.POSTFIX_EXPRESSION)) {
-      AstNode postfixExprChild = astNode.getFirstChild();
-      // check if it is not a call to function with same name than the parameter
-      if (postfixExprChild.is(CGrammar.PRIMARY_EXPRESSION)
-          && postfixExprChild.getNextAstNode().isNot(CGrammar.ARGUMENTS)) {
-        currentScope.use(getPrimaryExpressionStringValue(postfixExprChild));
-      }
+  public void visitNode(AstNode functionDef) {
+    AstNode functionBody = functionDef.getFirstChild(CGrammar.FUNCTION_BODY);
+    if (functionBody == null || isExcluded(functionDef, functionBody)) {
+      return;
     }
-  }
 
-  @Override
-  public void leaveNode(AstNode astNode) {
-    if (astNode.is(FUNCTION_NODES) && isNotAbstract(astNode)) {
-      // leave scope
-      if (!isExcluded(astNode)) {
-        reportUnusedArgument();
-      }
-      currentScope = currentScope.outerScope;
-    } else if (astNode.is(CGrammar.CLASS_DEF)) {
-      classes.pop();
+    List<AstNode> parameterIdentifiers = getParameterIdentifiers(functionDef);
+    if (parameterIdentifiers.isEmpty()) {
+      return;
     }
-  }
 
-  private void reportUnusedArgument() {
-    int nbUnusedArgs = 0;
-    StringBuilder formatBuilder = new StringBuilder("Remove the unused function {0} \"");
+    Set<String> usedIdentifiers = getUsedIdentifiers(functionBody);
+    List<String> unusedParameters = new ArrayList<>();
 
-    for (Map.Entry<String, Integer> entry : currentScope.arguments.entrySet()) {
-      if (entry.getValue() == 0) {
-        formatBuilder.append(entry.getKey()).append(", ");
-        nbUnusedArgs++;
+    for (AstNode parameterIdentifier : parameterIdentifiers) {
+      String parameterName = parameterIdentifier.getTokenValue();
+      if (!usedIdentifiers.contains(parameterName)) {
+        unusedParameters.add(parameterName);
       }
     }
 
-    if (nbUnusedArgs > 0) {
-      formatBuilder.replace(formatBuilder.length() - 2, formatBuilder.length(), "\".");
-      String message = MessageFormat.format(formatBuilder.toString(), nbUnusedArgs > 1 ? "parameters" : "parameter");
-      addIssue(message, currentScope.functionDec);
+    if (!unusedParameters.isEmpty()) {
+      addIssue(buildMessage(unusedParameters), functionDef);
     }
   }
 
-  private boolean isExcluded(AstNode functionDec) {
-    AstNode directives = functionDec
-        .getFirstChild(CGrammar.FUNCTION_COMMON)
-        .getFirstChild(CGrammar.BLOCK)
-        .getFirstChild(CGrammar.DIRECTIVES);
-
-    return isExcludedFunctionDeclaration(functionDec) || isEmpty(directives)
-        || isInClassImplementingInterface();
-  }
-
-  private boolean isInClassImplementingInterface() {
-    return !classes.isEmpty() && classes.peek();
-  }
-
-  private static boolean isEmpty(AstNode directives) {
-    return directives.getNumberOfChildren() == 0;
-  }
-
-  private void declareInCurrentScope(List<AstNode> identifiers) {
-    for (AstNode identifier : identifiers) {
-      currentScope.declare(identifier);
+  private static List<AstNode> getParameterIdentifiers(AstNode functionDef) {
+    List<AstNode> identifiers = new ArrayList<>();
+    AstNode declarator = functionDef.getFirstChild(CGrammar.DECLARATOR);
+    if (declarator == null) {
+      return identifiers;
     }
-  }
 
-  private static boolean isExcludedFunctionDeclaration(AstNode functionDec) {
-    return functionDec.is(CGrammar.FUNCTION_DEF) && (Function.isOverriding(functionDec) || isEventHandler(functionDec));
-  }
+    AstNode parameterTypeList = declarator.getFirstDescendant(CGrammar.PARAMETER_TYPE_LIST);
+    if (parameterTypeList == null) {
+      return identifiers;
+    }
 
-  private static boolean isEventHandler(AstNode functionDec) {
-    String functionName = functionDec.getFirstChild(CGrammar.FUNCTION_NAME).getTokenValue();
-
-    if (functionName.toLowerCase(Locale.ENGLISH).contains("handle") || startsWithOnPreposition(functionName)) {
-      AstNode parameters = functionDec
-          .getFirstChild(CGrammar.FUNCTION_COMMON)
-          .getFirstChild(CGrammar.FUNCTION_SIGNATURE)
-          .getFirstChild(CGrammar.PARAMETERS);
-
-      if (parameters != null) {
-        AstNode firstParameter = parameters.getFirstChild(CGrammar.PARAMETER);
-
-        if (firstParameter != null && firstParameter.getFirstChild(CGrammar.TYPED_IDENTIFIER) != null) {
-          AstNode firstParameterType = firstParameter
-              .getFirstChild(CGrammar.TYPED_IDENTIFIER)
-              .getFirstChild(CGrammar.TYPE_EXPR);
-          return firstParameterType != null && firstParameterType.getLastToken().getValue().endsWith("Event");
-        }
+    for (AstNode parameterDeclaration : parameterTypeList.getDescendants(CGrammar.PARAMETER_DECLARATION)) {
+      AstNode parameterDeclarator = parameterDeclaration.getFirstChild(CGrammar.DECLARATOR);
+      AstNode parameterIdentifier = parameterDeclarator == null ? null : getDeclaredIdentifier(parameterDeclarator);
+      if (parameterIdentifier != null) {
+        identifiers.add(parameterIdentifier);
       }
     }
-    return false;
+
+    return identifiers;
+  }
+
+  private static Set<String> getUsedIdentifiers(AstNode functionBody) {
+    Set<String> usedIdentifiers = new LinkedHashSet<>();
+
+    for (AstNode identifier : functionBody.getDescendants(CGrammar.IDENTIFIER)) {
+      if (!isDeclarationIdentifier(identifier)) {
+        usedIdentifiers.add(identifier.getTokenValue());
+      }
+    }
+
+    return usedIdentifiers;
+  }
+
+  private static boolean isDeclarationIdentifier(AstNode identifier) {
+    AstNode parent = identifier.getParent();
+    return parent != null
+        && parent.is(CGrammar.DIRECT_DECLARATOR)
+        && parent.getParent() != null
+        && parent.getParent().is(CGrammar.DECLARATOR);
+  }
+
+  private static AstNode getDeclaredIdentifier(AstNode declarator) {
+    AstNode directDeclarator = declarator.getFirstChild(CGrammar.DIRECT_DECLARATOR);
+    if (directDeclarator == null) {
+      return null;
+    }
+
+    AstNode identifier = directDeclarator.getFirstChild(CGrammar.IDENTIFIER);
+    if (identifier != null) {
+      return identifier;
+    }
+
+    AstNode nestedDeclarator = directDeclarator.getFirstChild(CGrammar.DECLARATOR);
+    return nestedDeclarator == null ? null : getDeclaredIdentifier(nestedDeclarator);
+  }
+
+  private static boolean isExcluded(AstNode functionDef, AstNode functionBody) {
+    return isEmptyFunction(functionBody)
+        || isEventHandler(functionDef)
+        || isVoidFunctionTerminatedByExit(functionDef, functionBody);
+  }
+
+  private static boolean isEmptyFunction(AstNode functionBody) {
+    return functionBody.getDescendants(CGrammar.STATEMENT).isEmpty();
+  }
+
+  private static boolean isEventHandler(AstNode functionDef) {
+    String functionName = getFunctionName(functionDef);
+    if (functionName == null) {
+      return false;
+    }
+
+    String lowerCaseName = functionName.toLowerCase(Locale.ENGLISH);
+    return lowerCaseName.contains("handle") || startsWithOnPreposition(functionName);
   }
 
   private static boolean startsWithOnPreposition(String name) {
-    return name.startsWith("on") && (name.length() == 2 || name.substring(2, 3).matches("[A-Z]"));
+    return name.startsWith("on")
+        && (name.length() == 2 || Character.isUpperCase(name.charAt(2)));
   }
 
-  private static boolean isNotAbstract(AstNode functionDef) {
-    return functionDef.getFirstChild(CGrammar.FUNCTION_COMMON).getLastChild().is(CGrammar.BLOCK);
-  }
-
-  private static String getPrimaryExpressionStringValue(AstNode postfixExpr) {
-    StringBuilder builder = new StringBuilder();
-    for (Token t : postfixExpr.getTokens()) {
-      builder.append(t.getValue());
+  private static boolean isVoidFunctionTerminatedByExit(AstNode functionDef, AstNode functionBody) {
+    if (!isVoidFunction(functionDef)) {
+      return false;
     }
-    return builder.toString();
+
+    for (AstNode postfixExpression : functionBody.getDescendants(CGrammar.POSTFIX_EXPRESSION)) {
+      AstNode calledIdentifier = getCalledIdentifier(postfixExpression);
+      if (calledIdentifier != null) {
+        String functionName = calledIdentifier.getTokenValue();
+        if ("exit".equals(functionName) || "abort".equals(functionName)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
+  private static AstNode getCalledIdentifier(AstNode postfixExpression) {
+    AstNode current = postfixExpression;
+    while (current.getFirstChild(CGrammar.POSTFIX_EXPRESSION) != null) {
+      current = current.getFirstChild(CGrammar.POSTFIX_EXPRESSION);
+    }
+    return current.getFirstDescendant(CGrammar.IDENTIFIER);
+  }
+
+  private static boolean isVoidFunction(AstNode functionDef) {
+    AstNode declarationSpecifiers = functionDef.getFirstChild(CGrammar.DECLARATION_SPECIFIERS);
+    if (declarationSpecifiers == null) {
+      return false;
+    }
+
+    for (AstNode typeSpecifier : declarationSpecifiers.getChildren(CGrammar.TYPE_SPECIFIER)) {
+      if ("void".equalsIgnoreCase(typeSpecifier.getTokenValue())) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  private static String getFunctionName(AstNode functionDef) {
+    AstNode declarator = functionDef.getFirstChild(CGrammar.DECLARATOR);
+    if (declarator == null) {
+      return null;
+    }
+
+    AstNode functionIdentifier = getDeclaredIdentifier(declarator);
+    return functionIdentifier == null ? null : functionIdentifier.getTokenValue();
+  }
+
+  private static String buildMessage(List<String> unusedParameters) {
+    String parameterKind = unusedParameters.size() > 1 ? "parameters" : "parameter";
+    return MessageFormat.format(
+        "Remove the unused function {0} \"{1}\".",
+        parameterKind,
+        String.join(", ", unusedParameters));
+  }
 }
