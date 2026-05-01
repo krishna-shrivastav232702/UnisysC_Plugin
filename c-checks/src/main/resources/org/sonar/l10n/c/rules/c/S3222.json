@@ -16,8 +16,8 @@
     "convention"
   ],
   "defaultSeverity": "Minor",
-  "ruleSpecification": "RSPEC-120",
-  "sqKey": "S120",
+  "ruleSpecification": "RSPEC-3222",
+  "sqKey": "S3222",
   "scope": "All",
   "quickfix": "unknown"
 }

@@ -1,0 +1,7 @@
+void func() {
+    exit:  // Noncompliant
+    doCleanup();
+
+    EXIT:  // OK
+    doCleanup();
+}

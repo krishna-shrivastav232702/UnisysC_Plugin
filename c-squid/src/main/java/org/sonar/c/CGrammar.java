@@ -137,8 +137,6 @@ public enum CGrammar implements GrammarRuleKey {
         DIRECT_ABSTRACT_DECLARATOR,
         DIRECT_ABSTRACT_DECLARATOR_SUFFIX,
         ARRAY_ABSTRACT_SUFFIX,
-        LABEL,
-        LABEL_NAME,
         COMPOUND_STATEMENT,
         CAST_EXPRESSION,
         CONSTANT_EXPRESSION,
@@ -1001,7 +999,7 @@ public enum CGrammar implements GrammarRuleKey {
                                 b.sequence(LBRAKET, ASSIGNMENT_EXPRESSION, RBRAKET)));
                 b.rule(ATTRIBUTE_EXPR).is(IDENTIFIER, b.zeroOrMore(PROPERTY_OPERATOR));
 
-                b.rule(IMPORT_DIRECTIVE).is(IMPORT, LABEL, b.optional(DOT, STAR));
+                b.rule(IMPORT_DIRECTIVE).is(IMPORT, b.optional(DOT, STAR));
 
                 b.rule(INCLUDE_DIRECTIVE).is(HASH, INCLUDE, SPACING_NO_LB, NEXT_NOT_LB,
                                 b.firstOf(STRING, b.sequence(LT, b.regexp("[^>\\r\\n]++"), GT)));
@@ -1152,9 +1150,6 @@ public enum CGrammar implements GrammarRuleKey {
 
                 b.rule(INTERFACE_DEF).is(INTERFACE, CLASS_NAME, b.optional(EXTENDS_LIST), BLOCK);
                 b.rule(EXTENDS_LIST).is(EXTENDS, TYPE_EXPRESSION_LIST);
-
-                b.rule(LABEL).is(LABEL_NAME, COLON, STATEMENT);
-                b.rule(LABEL_NAME).is(IDENTIFIER);
 
                 b.rule(NAMESPACE_DEF).is(NAMESPACE, NAMESPACE_BINDING, EOS);
                 b.rule(NAMESPACE_BINDING).is(IDENTIFIER, b.optional(NAMESPACE_INITIALISATION));

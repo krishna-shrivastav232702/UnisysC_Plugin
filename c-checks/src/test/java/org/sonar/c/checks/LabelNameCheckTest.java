@@ -18,23 +18,15 @@ package org.sonar.c.checks;
 
 import java.io.File;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
-import org.sonar.c.checks.LabelNameCheck;
 
 public class LabelNameCheckTest {
 
   private LabelNameCheck check = new LabelNameCheck();
-  @Ignore
+
   @Test
-  public void defaults() {
+  public void test() {
     CVerifier.verify(new File("src/test/resources/checks/LabelName.ccc_m"), check);
-  }
-  @Ignore
-  @Test
-  public void custom() {
-    check.format = "^[a-z]+(\\.[A-Z][a-z0-9]*)*$";
-    CVerifier.verify(new File("src/test/resources/checks/LabelName-custom.ccc_m"), check);
   }
 
 }

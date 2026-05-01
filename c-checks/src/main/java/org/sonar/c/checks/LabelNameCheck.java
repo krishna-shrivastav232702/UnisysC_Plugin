@@ -30,10 +30,10 @@ import org.sonar.c.CGrammar;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 
-@Rule(key = "S120")
+@Rule(key = "S3222")
 public class LabelNameCheck extends CCheck {
 
-  private static final String DEFAULT = "^[a-z][a-z0-9_]*$";
+  private static final String DEFAULT = "^[A-Z][A-Z0-9_]*$";
   private Pattern pattern = null;
 
   @RuleProperty(
@@ -44,7 +44,7 @@ public class LabelNameCheck extends CCheck {
 
   @Override
   public List<AstNodeType> subscribedTo() {
-    return Collections.singletonList(CGrammar.LABEL);
+    return Collections.singletonList(CGrammar.LABELED_STATEMENT);
   }
 
   @Override
@@ -56,7 +56,7 @@ public class LabelNameCheck extends CCheck {
 
   @Override
   public void visitNode(AstNode astNode) {
-    AstNode nameNode = astNode.getFirstChild(CGrammar.LABEL_NAME);
+    AstNode nameNode = astNode.getFirstChild(CGrammar.IDENTIFIER);
     if (nameNode != null) {
       String labelIdentifier = nameNode.getTokenValue();
       if (!pattern.matcher(labelIdentifier).matches()) {
