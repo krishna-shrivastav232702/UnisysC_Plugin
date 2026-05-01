@@ -24,16 +24,14 @@ just need to remove it.</p>
 <h3>Code examples</h3>
 <h4>Noncompliant code example</h4>
 <pre data-diff-id="1" data-diff-type="noncompliant">
-public function numberOfMinutes(hours:int):int
-{
-  var seconds:int = 0;  // Noncompliant - seconds is unused
+int numberOfMinutes(int hours) {
+  int seconds = 0; // Noncompliant
   return hours * 60;
 }
 </pre>
 <h4>Compliant solution</h4>
 <pre data-diff-id="1" data-diff-type="compliant">
-public function numberOfMinutes(hours:int):int
-{
+int numberOfMinutes(int hours) {
   return hours * 60;
 }
 </pre>

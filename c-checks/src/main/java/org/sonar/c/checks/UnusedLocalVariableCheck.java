@@ -23,11 +23,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nullable;
 
 import org.sonar.c.CCheck;
 import org.sonar.c.CGrammar;
-import org.sonar.c.checks.utils.Variable;
 import org.sonar.check.Rule;
 
 @Rule(key = "S1481")
@@ -77,29 +75,40 @@ public class UnusedLocalVariableCheck extends CCheck {
   @Override
   public List<AstNodeType> subscribedTo() {
     return Arrays.asList(
-        CGrammar.FUNCTION_DEF,
-        CGrammar.VARIABLE_DECLARATION_STATEMENT);
-  }
-
-  @Override
-  public void visitFile(@Nullable AstNode astNode) {
-    currentScope = null;
+        CGrammar.COMPOUND_STATEMENT,
+        CGrammar.DECLARATION,
+        CGrammar.IDENTIFIER
+    );
   }
 
   @Override
   public void visitNode(AstNode astNode) {
-    if (astNode.is(CGrammar.FUNCTION_DEF)) {
+    if (astNode.is(CGrammar.COMPOUND_STATEMENT)) {
       currentScope = new Scope(currentScope);
-    } else if (currentScope != null && astNode.is(CGrammar.VARIABLE_DECLARATION_STATEMENT)) {
-      for (AstNode varIdentifier : Variable.getDeclaredIdentifiers(astNode)) {
-        currentScope.declare(varIdentifier);
+    } 
+    else if (currentScope != null && astNode.is(CGrammar.DECLARATION)) {
+      List<AstNode> descantants = astNode.getDescendants(CGrammar.IDENTIFIER);
+      
+      for (AstNode id : descantants) {
+        if (isWithinDeclarator(id)) {
+          currentScope.declare(id);
+        }
+      }
+    } 
+    else if (currentScope != null && astNode.is(CGrammar.IDENTIFIER)) {
+      if (!isWithinDeclarator(astNode)) {
+        currentScope.use(astNode);
       }
     }
   }
 
+  private boolean isWithinDeclarator(AstNode identifier) {
+    return identifier.getParent().is(CGrammar.DIRECT_DECLARATOR) && identifier.getParent().getParent().is(CGrammar.DECLARATOR);
+  }
+
   @Override
   public void leaveNode(AstNode astNode) {
-    if (astNode.is(CGrammar.FUNCTION_DEF)) {
+    if (astNode.is(CGrammar.COMPOUND_STATEMENT) && currentScope != null) {
       reportUnusedVariable();
       currentScope = currentScope.outerScope;
     }
