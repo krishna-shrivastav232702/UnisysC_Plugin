@@ -1,0 +1,23 @@
+{
+  "title": "Logical operators should not be confused with bitwise operators",
+  "type": "CODE_SMELL",
+  "code": {
+    "impacts": {
+      "MAINTAINABILITY": "HIGH"
+    },
+    "attribute": "CLEAR"
+  },
+  "status": "ready",
+  "remediation": {
+    "func": "Constant/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "pitfall"
+  ],
+  "defaultSeverity": "CRITICAL",
+  "ruleSpecification": "RSPEC-5263",
+  "sqKey": "S5263",
+  "scope": "All",
+  "quickfix": "unknown"
+}

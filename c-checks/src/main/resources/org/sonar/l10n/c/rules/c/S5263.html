@@ -1,0 +1,62 @@
+<h2>Why is this an issue?</h2>
+<p>
+    C provides both logical and bitwise operators, which have similar symbols but very different behaviors:
+    <ul>
+        <li><code>&amp;&amp;</code> (logical AND) vs. <code>&amp;</code> (bitwise AND)</li>
+        <li><code>||</code> (logical OR) vs. <code>|</code> (bitwise OR)</li>
+        <li><code>!</code> (logical NOT) vs. <code>~</code> (bitwise NOT)</li>
+    </ul>
+</p>
+<p>
+    Using the wrong operator can lead to:
+    <ul>
+        <li>Unexpected behavior in conditional logic</li>
+        <li>Incorrect boolean results</li>
+        <li>Logic errors that are difficult to detect</li>
+        <li>Different results when boolean result is expected vs. integer result</li>
+    </ul>
+</p>
+<p>
+    Use logical operators (`&amp;&amp;`, `||`, `!`) for boolean conditions and control flow. Use bitwise operators (`&amp;`, `|`, `~`) only when bit manipulation is explicitly intended.
+</p>
+<p>
+    <h3>Example:</h3>
+    <pre>
+    int a = 5;   // binary: 0101
+    int b = 3;   // binary: 0011
+    
+    // Noncompliant - using bitwise AND in boolean context
+    if (a & b) {  // Bitwise AND: 0101 & 0011 = 0001 (1)
+        printf("Condition true\n");  // Result is 1, acts as true
+    }
+    
+    // Noncompliant - confusion between logical and bitwise
+    if (a | b) {  // Bitwise OR: 0101 | 0011 = 0111 (7)
+        printf("Condition true\n");  // Result is 7, acts as true
+    }
+    
+    // Noncompliant - bitwise operation in boolean expression
+    if ((x & 0xFF) && (y & 0xFF)) {  // Confusing mix
+        printf("Both have lower byte set\n");
+    }
+    
+    // Compliant - using logical AND for boolean logic
+    if (a &amp;&amp; b) {  // Logical AND: true if both are non-zero
+        printf("Both a and b are non-zero\n");
+    }
+    
+    // Compliant - using logical OR for boolean logic
+    if (a || b) {  // Logical OR: true if either is non-zero
+        printf("Either a or b is non-zero\n");
+    }
+    
+    // Compliant - clear intent with bitwise operators
+    int result = a &amp; b;  // Bitwise AND - explicit bit manipulation
+    printf("Bitwise AND result: %d\n", result);
+    
+    // Compliant - checking specific bits
+    if ((flags & MASK) != 0) {  // Check if specific bits are set
+        printf("Flag is set\n");
+    }
+</pre>
+</p>

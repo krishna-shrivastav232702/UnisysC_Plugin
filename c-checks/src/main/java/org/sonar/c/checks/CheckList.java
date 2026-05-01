@@ -114,7 +114,8 @@ public final class CheckList {
         ElseMatchedWithIfCheck.class,
         EnumBitFieldConsistencyCheck.class,
         FieldNamingConventionCheck.class,
-        UnusedFunctionCheck.class
+        UnusedFunctionCheck.class,
+        NoBitwiseInBooleanContextCheck.class
       ));
   }
 }
